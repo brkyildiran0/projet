@@ -6,3 +6,5 @@ CS102 ProJET! (Group Project)
 Yüksel Berkay Erdem - 21801863
 Deniz Berkant Demirörs - 21902356
 Celal Berke Can - 21702886  
+
+Tryout for a pull request!

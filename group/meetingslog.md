@@ -3,24 +3,11 @@
 Below is a record of our project group meetings. This page will be submitted together with the rest of the repository, in partial fulfillment of the CS102 course requirements.
 
 ****
-### Meeting ~ (date, duration)
+### Meeting ~ (27/04/2020, 1hrs)
 ****
-**Present:** x, y, z...   _**Absent:**_  a, b.
+**Present:** Everyone   _**Absent:**_  none
 
 **Discussion:** 
-We reviewed progress. Member1 & member2 reported back, explaining that they had discovered rst and demonstrated some useful examples. Member3 had slept and has not yet completed his task, but promised to do so this week! We decided we need to do this, that, and the other, and divided the work between us. Next meeting planned for (date).
+We reviewed progress. We decided to make work distrubition among us so that we can finish implementing the code as soon as possible. The next meeting will be at 28/04/2020
 
-**ToDo:** x & y will do this by ???, z & a will do that by ???, etc.
-
-****
-### Meeting ~ (date, duration)
-****
-This week I helped abc brainstorm ideas for...
-
-****
-### Meeting ~ (date, duration)
-****
-blah, blah, blah...
-
-****
-****
+**ToDo:** All group members will work on How Android Works and Android Desing Concepts by 28/04/2020 (the day after this meeting)

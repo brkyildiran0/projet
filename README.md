@@ -25,7 +25,7 @@ The information and code in this repository are submitted in partial fulfillment
 - [Celal Berke Can] (group/member2_log.md)
 - [Deniz Berkant Demirörs] (group/member3_log.md)
 - [Yüksel Berkay Erdem] (group/member4_log.md)
-- [Amir Yek] (group/member5_log.md)
+- [Amir Aliyev] (group/member5_log.md)
 
 ****
 **Instructor:** David Davenport   **TA:**  Atakan Serbes

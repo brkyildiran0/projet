@@ -19,3 +19,7 @@ This week;
   ***29-30 April***
   -Android studio studies: User Interaction and Android Widgets
   -Fully planned UI design sketches on paper (10 pgs)
+  ***2 May***
+  -Work distrubuted with members: Main page layout
+  -Android studio studies: Material Design on progress...
+  

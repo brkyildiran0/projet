@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/profile_icon_on_toolbar"
+        android:icon="@drawable/ic_person"
+        android:title="Profile Page Button on AppBar"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/notification_icon_on_toolbar"
+        android:icon="@drawable/ic_notifications"
+        android:title="Notifications Button on AppBar"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/help_button_on_toolbar"
+        android:title="Help"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/setting_button_on_toolbar"
+        android:title="Settings"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/logout_button_on_toolbar"
+        android:title="Logout"
+        app:showAsAction="never"/>
+
+</menu>

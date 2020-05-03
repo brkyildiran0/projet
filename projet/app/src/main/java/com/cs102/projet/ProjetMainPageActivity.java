@@ -13,12 +13,27 @@ import android.widget.Button;
 
 public class ProjetMainPageActivity extends AppCompatActivity
 {
+    // Will be deleted ***********************
+    private Button buttonGecici;
+    // Will be deleted ***********************
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.projet_main_page);
 
+        // Will be deleted ***********************
+
+        buttonGecici = findViewById(R.id.buttonGecici);
+        buttonGecici.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent deneme = new Intent(ProjetMainPageActivity.this, ProjectPageActivity.class);
+                startActivity(deneme);
+            }
+        });
+
+        // Will be deleted ***********************
     }
 
     //TODO: onCreateOptionsMenu is the method for the AppBar(Toolbar), it will be added to the required pages on followings days as they are produced.

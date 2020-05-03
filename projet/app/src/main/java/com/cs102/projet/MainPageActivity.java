@@ -11,10 +11,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-public class ProjetMainPageActivity extends AppCompatActivity
+public class MainPageActivity extends AppCompatActivity
 {
     // Will be deleted ***********************
     private Button buttonGecici;
+    private Button goToDeniz;
     // Will be deleted ***********************
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -28,8 +29,18 @@ public class ProjetMainPageActivity extends AppCompatActivity
         buttonGecici.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent deneme = new Intent(ProjetMainPageActivity.this, ProjectPageActivity.class);
+                Intent deneme = new Intent(MainPageActivity.this, ProjectPageActivity.class);
                 startActivity(deneme);
+            }
+        });
+
+        goToDeniz = findViewById(R.id.goToDeniz);
+        goToDeniz.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                startActivity(new Intent(MainPageActivity.this, CreateProjectActivity.class));
             }
         });
 

@@ -1,4 +1,4 @@
-package com.cs102.projet;
+package com.cs102.projet.loginpage;
 
 import android.content.ContentValues;
 import android.content.Context;

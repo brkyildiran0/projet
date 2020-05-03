@@ -10,10 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ProjectPageActivity"></activity>
-        <activity android:name=".ProjetMainPageActivity" />
-        <activity android:name=".RegisterActivity" />
+        <activity android:name=".MainPageActivity" />
+        <activity android:name=".loginpage.RegisterActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name=".loginpage.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

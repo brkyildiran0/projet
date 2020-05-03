@@ -19,10 +19,9 @@ public class CreateProjectActivity extends AppCompatActivity {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
 
-        // adding fragments to project create activity page
-
-        ft.add(R.id.members_fragment, new MembersFragment());
-        ft.add(R.id.tasks_fragment, new TasksFragment());
+        // adding fragments to project to create activity page
+        ft.add(R.id.MembersLayout, new MembersFragment());
+        ft.add(R.id.TasksLayout, new TasksFragment());
 
         // fragmentları çalıştırma
         ft.commit();

@@ -1,5 +1,6 @@
 package com.cs102.projet.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.cs102.projet.AddMemberActivity;
 import com.cs102.projet.R;
 
 public class MembersFragment extends Fragment {
@@ -32,7 +34,8 @@ public class MembersFragment extends Fragment {
         AddMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent gecIntent = new Intent(getContext(), AddMemberActivity.class);
+                startActivity(gecIntent);
             }
         });
 

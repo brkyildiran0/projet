@@ -8,43 +8,15 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
-public class MainPageActivity extends AppCompatActivity
+public class NotificationsActivity extends AppCompatActivity
 {
-    // Will be deleted ***********************
-    private Button buttonGecici;
-    private Button goToDeniz;
-    // Will be deleted ***********************
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.projet_main_page);
-
-        // Will be deleted ***********************
-
-        buttonGecici = findViewById(R.id.buttonGecici);
-        buttonGecici.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent deneme = new Intent(MainPageActivity.this, ProjectPageActivity.class);
-                startActivity(deneme);
-            }
-        });
-
-        goToDeniz = findViewById(R.id.goToDeniz);
-        goToDeniz.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                startActivity(new Intent(MainPageActivity.this, CreateProjectActivity.class));
-            }
-        });
-
-        // Will be deleted ***********************
+        setContentView(R.layout.activity_notifications);
     }
 
     //TODO: onCreateOptionsMenu is the method for the AppBar(Toolbar), it will be added to the required pages on followings days as they are produced.
@@ -66,12 +38,11 @@ public class MainPageActivity extends AppCompatActivity
         switch (item.getItemId())
         {
             case R.id.profile_icon_on_toolbar:
-                Intent goToProfile = new Intent(MainPageActivity.this, ProfilePageActivity.class);
-                startActivity(goToProfile);
+                Intent profileGit = new Intent(NotificationsActivity.this, ProfilePageActivity.class);
+                startActivity(profileGit);
                 return true;
             case R.id.notification_icon_on_toolbar:
-                Intent goToNotifications = new Intent(MainPageActivity.this, NotificationsActivity.class);
-                startActivity(goToNotifications);
+                //should stay empty...
                 return true;
             case R.id.help_button_on_toolbar:
                 //write down lines to switch to the help page

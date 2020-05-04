@@ -23,3 +23,10 @@ This week;
   -Work distrubuted with members: Main page layout
   -Android studio studies: Material Design on progress...
   
+  ### ~ 3 May 2020 - 10 May 2020 ~
+  This week;
+  ***04-05 May***
+    -Coded some activities(pages) on our project.
+    -Fixed bugs with all group members.
+    -Started to learn & implement the FireBase to our project.
+  

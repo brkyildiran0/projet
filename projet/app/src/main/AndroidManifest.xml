@@ -9,13 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ProjectPageActivity"/>
+        <activity android:name=".NotificationsActivity"></activity>
+        <activity android:name=".ProfilePageActivity" />
+        <activity android:name=".ProjectPageActivity" />
         <activity android:name=".MainPageActivity" />
-        <activity android:name=".CreateProjectActivity"/>
-        <activity android:name=".AddMemberActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".AddTaskActivity"/>
-
+        <activity android:name=".CreateProjectActivity" />
+        <activity
+            android:name=".AddMemberActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".AddTaskActivity" />
         <activity android:name=".loginpage.RegisterActivity" />
         <activity
             android:name=".loginpage.MainActivity"
@@ -26,7 +28,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

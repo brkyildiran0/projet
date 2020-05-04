@@ -21,7 +21,7 @@ public class CreateProjectActivity extends AppCompatActivity {
 
         // adding fragments to project to create activity page
         ft.add(R.id.MembersLayout, new MembersFragment());
-        ft.add(R.id.TasksLayout, new TasksFragment());
+        //ft.add(R.id.TasksLayout, new TasksFragment());
 
         // fragmentları çalıştırma
         ft.commit();

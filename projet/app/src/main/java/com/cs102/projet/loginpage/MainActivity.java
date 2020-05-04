@@ -1,4 +1,4 @@
-package com.cs102.projet;
+package com.cs102.projet.loginpage;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.cs102.projet.MainPageActivity;
+import com.cs102.projet.R;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -42,7 +45,7 @@ public class MainActivity extends AppCompatActivity
                 String userName = userNameText.getText().toString().trim();
                 String password = passwordText.getText().toString().trim();
                 if (databaseHelper.isLoginValid(userName, password)){
-                    Intent intent = new Intent(MainActivity.this,ProjetMainPageActivity.class);
+                    Intent intent = new Intent(MainActivity.this, MainPageActivity.class);
                     startActivity(intent);
                     Toast.makeText(MainActivity.this,"login successful",Toast.LENGTH_SHORT).show();
                 }else
@@ -62,7 +65,7 @@ public class MainActivity extends AppCompatActivity
         });
     }
     private void goNextPage(){
-        Intent intent = new Intent(MainActivity.this,RegisterActivity.class);
+        Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
         startActivity(intent);
     }
 }

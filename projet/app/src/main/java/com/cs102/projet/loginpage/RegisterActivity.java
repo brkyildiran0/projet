@@ -1,4 +1,4 @@
-package com.cs102.projet;
+package com.cs102.projet.loginpage;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.cs102.projet.R;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -71,7 +73,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void goLoginPage(){
-        Intent intent = new Intent(RegisterActivity.this,MainActivity.class);
+        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
         startActivity(intent);
     }
 }

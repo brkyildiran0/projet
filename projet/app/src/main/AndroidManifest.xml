@@ -18,7 +18,6 @@
             android:name=".AddMemberActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".AddTaskActivity" />
-        <activity android:name=".loginpage.RegisterActivity" />
         <activity
             android:name=".loginpage.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">

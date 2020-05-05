@@ -21,7 +21,7 @@ public class MainPageActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.projet_main_page);
+        setContentView(R.layout.activity_main_page);
 
         // Will be deleted ***********************
 

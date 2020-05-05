@@ -15,57 +15,23 @@ import com.cs102.projet.R;
 
 public class MainActivity extends AppCompatActivity
 {
-    Button signUpButton, loginButton;
-    EditText userNameText;
-    EditText passwordText;
-    DatabaseHelper databaseHelper;
+    Button loginButton;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        // database...
-        databaseHelper = new DatabaseHelper(this);
-
-        //Button's id..
-        signUpButton = (Button)findViewById(R.id.signUpButton);
-        loginButton = (Button)findViewById(R.id.loginButton);
-
-        // EditText's id...
-        userNameText = (EditText)findViewById(R.id.userName) ;
-        passwordText = (EditText)findViewById(R.id.password) ;
-
-
-        // Click Listener For Buttons...
-        loginButton.setOnClickListener(new View.OnClickListener() {
+        loginButton = findViewById(R.id.loginButton);
+        loginButton.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                String userName = userNameText.getText().toString().trim();
-                String password = passwordText.getText().toString().trim();
-                if (databaseHelper.isLoginValid(userName, password)){
-                    Intent intent = new Intent(MainActivity.this, MainPageActivity.class);
-                    startActivity(intent);
-                    Toast.makeText(MainActivity.this,"login successful",Toast.LENGTH_SHORT).show();
-                }else
-                    Toast.makeText(MainActivity.this,"Invalid", Toast.LENGTH_SHORT).show();
+            public void onClick(View v)
+            {
+                startActivity(new Intent(MainActivity.this, MainPageActivity.class));
             }
         });
 
-        signUpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String userName = userNameText.getText().toString().trim();
-                String password = passwordText.getText().toString().trim();
-
-                goNextPage();
-
-            }
-        });
-    }
-    private void goNextPage(){
-        Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
-        startActivity(intent);
     }
 }

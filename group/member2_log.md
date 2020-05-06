@@ -10,7 +10,8 @@ This week I start the learn how to design with android studio. Start create logi
 ### ~ 27 April - 3 May 2020  ~
 This week I completed login-register android app with using SQLite database. Thats helps me to understand and do practice with SQLite statements and commands. If We not choose google based sing in we have ready login-register code. 
 
-### ~ date ~
+
+### ~ 4 May - 10 May~
 blah, blah, blah...
 
 ****

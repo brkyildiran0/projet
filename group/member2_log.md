@@ -9,9 +9,9 @@ On this page I will keep a weekly record of what I have done for the CS102 group
 This week I start the learn how to design with android studio. Start create login-regisgter desing. Instead of using drag and drop (mostly ConstraintLayout) style ı use LinearLayout with writing xml code to learn more. Also started to learn SQLite. 
 ### ~ 27 April - 3 May 2020  ~
 This week I completed login-register android app with using SQLite database. Thats helps me to understand and do practice with SQLite statements and commands. If We not choose google based sing in we have ready login-register code. 
-
+At the end of week we decided to use Firebase instead of any SQL based database systems and ı create Firebase account, start to discover it.
 
 ### ~ 4 May - 10 May~
-blah, blah, blah...
+4 May -> I compeleted the login-register part of the app using Firebase Authentication.
 
 ****

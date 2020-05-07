@@ -13,7 +13,7 @@ We reviewed progress. We decided to make work distrubition among us so that we c
 **ToDo:** All group members will work on How Android Works and Android Desing Concepts by 28/04/2020 (the day after this meeting)
 
 ****
-### Meeting ~ (02/05/2020, 1hrs)
+### Meeting ~ (02/05/2020, 2-3hrs)
 ****
 **Present:** Ömer Burak Yıldıran, Celal Berke Can, Yüksel Berkay Erdem, Deniz Berkant Demirörs   _**Absent:**_  Amir Aliyev
 
@@ -23,7 +23,7 @@ Each of us started to code with the purpose to create the project today, we have
 **ToDo:** Layouts are being created, implementation of database in still on progress.
 
 ****
-### Meeting ~ (05/05/2020, 1hrs)
+### Meeting ~ (05/05/2020, 2-3hrs)
 ****
 **Present:** Ömer Burak Yıldıran, Celal Berke Can, Yüksel Berkay Erdem, Deniz Berkant Demirörs   _**Absent:**_  Amir Aliyev
 
@@ -31,3 +31,13 @@ Each of us started to code with the purpose to create the project today, we have
 All layouts has been created, toolbar buttons adjusted and the major bug at page changing has fixed.
 
 **ToDo:** All members will focus on learning FireBase to get ready & implement the actual Java code to the program.
+
+****
+### Meeting ~ (06/05/2020, 3-4hrs)
+****
+**Present:** Ömer Burak Yıldıran, Celal Berke Can, Yüksel Berkay Erdem, Deniz Berkant Demirörs   _**Absent:**_  Amir Aliyev
+
+**Discussion:** 
+All members learnt how to use and implement firebase database system. Discussed some parts on which needed adjustments/thinking.
+
+**ToDo:** All members will start coding the java part of the layouts to make it interactable.

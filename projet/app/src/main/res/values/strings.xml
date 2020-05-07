@@ -7,5 +7,17 @@
     <string name="sign_up">Sign Up</string>
     <string name="forget_password">Forget Password?</string>
     <string name="Password"></string>
+    <string name="create_new_projet">Create New ProJet</string>
+    <string name="projet_name">ProJet Name:</string>
+    <string name="projet_description">ProJet Description:</string>
+    <string name="due_date">Due Date:</string>
+    <string name="projet_name_x">ProJet Name...</string>
+    <string name="create_new_projet_x">Create New ProJet</string>
+    <string name="projet_members">ProJet Members:</string>
+    <string name="add_members">Add Members</string>
+    <string name="due_hour">Due Hour:</string>
+    <string name="due_time">Due Time...</string>
+    <string name="due_date_x">Due Date...</string>
+    <string name="description">Description...</string>
 
 </resources>

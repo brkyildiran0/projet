@@ -11,17 +11,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".NotificationsActivity"/>
         <activity android:name=".ProfilePageActivity" />
         <activity android:name=".ProjectPageActivity" />
         <activity android:name=".MainPageActivity" />
-        <activity android:name=".CreateProjectActivity" />
-        <activity
-            android:name=".AddMemberActivity"
+
+        <activity android:name=".CreateProjectActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".AddMemberActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".AddTaskActivity" />
-        <activity
-            android:name=".loginpage.MainActivity"
+        <activity android:name=".AddTaskActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity android:name=".loginpage.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -2,6 +2,8 @@ package com.cs102.projet;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,31 +13,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.cs102.projet.fragments.FragmentMainPageProject;
+
 public class MainPageActivity extends AppCompatActivity
 {
-    // Will be deleted ***********************
-    private Button buttonGecici;
-    private Button goToDeniz;
-    // Will be deleted ***********************
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.projet_main_page);
+        setContentView(R.layout.activity_main_page);
 
-        // Will be deleted ***********************
+        Button buttonCreateNewProjet = findViewById(R.id.buttonCreateNewProjet);
 
-        buttonGecici = findViewById(R.id.buttonGecici);
-        buttonGecici.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent deneme = new Intent(MainPageActivity.this, ProjectPageActivity.class);
-                startActivity(deneme);
-            }
-        });
-
-        goToDeniz = findViewById(R.id.goToDeniz);
-        goToDeniz.setOnClickListener(new View.OnClickListener()
+        buttonCreateNewProjet.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
@@ -44,10 +35,18 @@ public class MainPageActivity extends AppCompatActivity
             }
         });
 
-        // Will be deleted ***********************
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        FragmentMainPageProject deneme1 = new FragmentMainPageProject("DG", "07/05/2020");
+        FragmentMainPageProject deneme2 = new FragmentMainPageProject("Yaptım mı yoksa?", "19/05/2020");
+
+        ft.add(R.id.fragmentContainer, deneme1);
+        ft.add(R.id.fragmentContainer, deneme2);
+        ft.add(R.id.fragmentContainer, new FragmentMainPageProject("Burak", "15/04/2020"));
+
+        ft.commit();
     }
 
-    //TODO: onCreateOptionsMenu is the method for the AppBar(Toolbar), it will be added to the required pages on followings days as they are produced.
     //Method for the AppBar Buttons & Icons
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -58,7 +57,6 @@ public class MainPageActivity extends AppCompatActivity
         return true;
     }
 
-    //TODO: onOptionsItemSelected is the method for the AppBar buttons' onClick methods, it will be added to the required pages on followings days as they are produced.
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item)
     {

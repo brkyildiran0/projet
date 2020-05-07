@@ -2,6 +2,8 @@ package com.cs102.projet;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.cs102.projet.fragments.FragmentCreatePageMembers;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -50,6 +53,20 @@ public class CreateProjectActivity extends AppCompatActivity
         {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+
+        //adding Members Fragment
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        ft.add(R.id.membersLayout, new FragmentCreatePageMembers("Yüksel Berkay Erdem"));
+        ft.add(R.id.membersLayout, new FragmentCreatePageMembers("Burak"));
+        ft.add(R.id.membersLayout, new FragmentCreatePageMembers("Berke"));
+        ft.add(R.id.membersLayout, new FragmentCreatePageMembers("Deniz"));
+        ft.add(R.id.membersLayout, new FragmentCreatePageMembers("Eylül"));
+        ft.add(R.id.membersLayout, new FragmentCreatePageMembers("İlayda"));
+        ft.add(R.id.membersLayout, new FragmentCreatePageMembers("David"));
+        ft.add(R.id.membersLayout, new FragmentCreatePageMembers("Irmak"));
+        ft.commit();
 
         //on click listener of Create New Projet button
         buttonCreateNewProjet.setOnClickListener(new View.OnClickListener()
@@ -115,11 +132,5 @@ public class CreateProjectActivity extends AppCompatActivity
 
 
         });
-
-        //TODO Add members-tasks fragments here and commit() them
-        //***
-        //***
-
-
     }
 }

@@ -12,11 +12,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.cs102.projet.fragments.FragmentMainPageProject;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainPageActivity extends AppCompatActivity
 {
+    FirebaseAuth myFirebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -25,6 +28,20 @@ public class MainPageActivity extends AppCompatActivity
         setContentView(R.layout.activity_main_page);
 
         Button buttonCreateNewProjet = findViewById(R.id.buttonCreateNewProjet);
+        myFirebaseAuth = FirebaseAuth.getInstance();
+
+        // Checks whether the user logged in or not.. if not logged in sends users to login page..
+        if (myFirebaseAuth.getCurrentUser() == null){
+            // if User not logged go to login activity
+            Intent intent = new Intent(MainPageActivity.this, LoginActivity.class);
+            startActivity(intent);
+        }
+        else{
+            Toast.makeText(MainPageActivity.this, "Welcome", Toast.LENGTH_SHORT).show();
+        }
+
+
+
 
         buttonCreateNewProjet.setOnClickListener(new View.OnClickListener()
         {
@@ -82,9 +99,10 @@ public class MainPageActivity extends AppCompatActivity
                 //...
                 return true;
             case R.id.logout_button_on_toolbar:
-                //write down lines to logout the user
-                //...
-                //...
+                myFirebaseAuth.signOut();
+
+                Intent intentLogout = new Intent(MainPageActivity.this, LoginActivity.class);
+                startActivity(intentLogout);
             default:
                 return super.onOptionsItemSelected(item);
         }

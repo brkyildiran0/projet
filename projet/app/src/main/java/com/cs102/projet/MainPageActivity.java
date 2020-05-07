@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.cs102.projet.fragments.FragmentMainPageProject;
+import com.cs102.projet.loginpage.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainPageActivity extends AppCompatActivity
@@ -31,17 +32,12 @@ public class MainPageActivity extends AppCompatActivity
         myFirebaseAuth = FirebaseAuth.getInstance();
 
         // Checks whether the user logged in or not.. if not logged in sends users to login page..
-        if (myFirebaseAuth.getCurrentUser() == null){
+        if (myFirebaseAuth.getCurrentUser() == null)
+        {
             // if User not logged go to login activity
             Intent intent = new Intent(MainPageActivity.this, LoginActivity.class);
             startActivity(intent);
         }
-        else{
-            Toast.makeText(MainPageActivity.this, "Welcome", Toast.LENGTH_SHORT).show();
-        }
-
-
-
 
         buttonCreateNewProjet.setOnClickListener(new View.OnClickListener()
         {

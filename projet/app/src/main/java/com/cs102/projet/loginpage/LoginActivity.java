@@ -1,4 +1,4 @@
-package com.cs102.projet;
+package com.cs102.projet.loginpage;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.cs102.projet.MainPageActivity;
+import com.cs102.projet.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -35,13 +37,13 @@ public class LoginActivity extends AppCompatActivity
         setContentView(R.layout.activity_login);
 
         //EditText's id..
-        email = (EditText)findViewById(R.id.email);
-        password = (EditText)findViewById(R.id.password);
+        email = findViewById(R.id.email);
+        password = findViewById(R.id.password);
 
         //Button's id..
-        loginButton = (Button)findViewById(R.id.loginButton);
-        forgetPasswordButton = (Button)findViewById(R.id.forgetPasswordButton);
-        singUpButton = (Button)findViewById(R.id.signUpButton);
+        loginButton = findViewById(R.id.loginButton);
+        forgetPasswordButton = findViewById(R.id.forgetPasswordButton);
+        singUpButton = findViewById(R.id.signUpButton);
 
         // Firebase Auth..
         myFirebaseAuth = FirebaseAuth.getInstance();
@@ -76,9 +78,6 @@ public class LoginActivity extends AppCompatActivity
                     password.setError("Please enter password");
                     password.requestFocus();
                 }
-                else if (emailOut.isEmpty() && passwordOut.isEmpty()){
-                    Toast.makeText(LoginActivity.this, "Please enter Email and Password", Toast.LENGTH_SHORT).show();
-                }
                 else {
                     myFirebaseAuth.signInWithEmailAndPassword(emailOut, passwordOut).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -95,32 +94,19 @@ public class LoginActivity extends AppCompatActivity
                         }
                     });
                 }
+
+                finish();
             }
         });
 
-
-        // Forget PassWord Button..
-
-        forgetPasswordButton.setOnClickListener(new View.OnClickListener() {
+        //Forget button on click
+        forgetPasswordButton.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                String emailOut = email.getText().toString().trim();
-                myFirebaseAuth.sendPasswordResetEmail(emailOut).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-
-                        if (task.isSuccessful()){
-                            Toast.makeText(LoginActivity.this, "Check your mail", Toast.LENGTH_LONG).show();
-                        }
-                        else{
-                            Toast.makeText(LoginActivity.this, "Fail to send you email!", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-
+            public void onClick(View v)
+            {
+                startActivity(new Intent(getApplicationContext(), ForgetPasswordActivity.class));
             }
         });
-
-
     }
 }

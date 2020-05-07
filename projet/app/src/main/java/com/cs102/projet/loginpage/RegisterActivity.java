@@ -1,4 +1,4 @@
-package com.cs102.projet;
+package com.cs102.projet.loginpage;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.cs102.projet.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -23,7 +24,6 @@ public class RegisterActivity extends AppCompatActivity {
     EditText emailInput;
     EditText passwordInput;
     EditText passwordCheck;
-
     Button createUserButton;
 
 
@@ -36,7 +36,6 @@ public class RegisterActivity extends AppCompatActivity {
         userNameInput = (EditText)findViewById(R.id.userNameInput);
         emailInput = (EditText)findViewById(R.id.emailInput);
         passwordInput = (EditText)findViewById(R.id.passwordInput);
-        passwordCheck = (EditText)findViewById(R.id.passwordCheck);
 
         //Buttons's id..
         createUserButton = (Button)findViewById(R.id.createUser);

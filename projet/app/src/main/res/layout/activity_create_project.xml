@@ -37,7 +37,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
-        android:text="ProJet Explanation:"
+        android:text="ProJet Description:"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ProjetName" />
@@ -55,7 +55,7 @@
         app:layout_constraintTop_toBottomOf="@+id/ProJetExplanation" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/editTextProjetName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -72,7 +72,7 @@
         app:layout_constraintTop_toBottomOf="@+id/NewProjetCreateText" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/editTextProjetDesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="14dp"
@@ -81,15 +81,15 @@
         android:layout_marginEnd="28dp"
         android:layout_marginRight="28dp"
         android:ems="10"
-        android:hint="Explanation..."
+        android:hint="Description..."
         android:inputType="textPersonName"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ProJetExplanation"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextProjetName" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/editTextProjetDueDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -103,7 +103,7 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/DueDate"
-        app:layout_constraintTop_toBottomOf="@+id/editText2" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextProjetDesc" />
 
     <TextView
         android:id="@+id/DueTime"
@@ -112,13 +112,13 @@
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="36dp"
-        android:text="DueTime:"
+        android:text="Due Hour:"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/DueDate" />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/editTextDueHour"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="17dp"
@@ -132,7 +132,7 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/DueTime"
-        app:layout_constraintTop_toBottomOf="@+id/editText3" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextProjetDueDate" />
 
     <TextView
         android:id="@+id/Members"
@@ -144,7 +144,7 @@
         android:text="Members"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText4" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextDueHour" />
 
     <TextView
         android:id="@+id/Tasks"
@@ -159,10 +159,10 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/Members"
-        app:layout_constraintTop_toBottomOf="@+id/editText4" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextDueHour" />
 
     <Button
-        android:id="@+id/NewProJetButton"
+        android:id="@+id/buttonCreateNewProjet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="88dp"

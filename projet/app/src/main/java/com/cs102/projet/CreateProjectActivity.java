@@ -2,8 +2,6 @@ package com.cs102.projet;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,11 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.cs102.projet.fragments.MembersFragment;
-import com.cs102.projet.fragments.TasksFragment;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -61,46 +56,56 @@ public class CreateProjectActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                //TODO might want to get rid of the Strings below and directly init them is .put() methods for code clarity
                 //these string will be sent to server
                 String projetName = editTextProjetName.getText().toString();
                 String projetDesc = editTextProjetDesc.getText().toString();
                 String projetDueDate = editTextProjetDueDate.getText().toString();
                 String projetDueHour = editTextProjetDueHour.getText().toString();
 
-                //TODO Add if-else methods here to avoid null-empty info on any of the 4 values that has been taken.
-                //Hash-map to store and send the above data to server
-                Map<String, String> projetInfo = new HashMap<>();
-                projetInfo.put("projet_name", projetName);
-                projetInfo.put("projet_desc", projetDesc);
-                projetInfo.put("projet_due_date", projetDueDate);
-                projetInfo.put("projet_due_hour", projetDueHour);
+                //checks whether user filled all the required info or not
+                if (projetName.equals("") || projetDesc.equals("") || projetDueDate.equals("") || projetDueHour.equals(""))
+                {
+                    Toast.makeText(CreateProjectActivity.this, "Please fill all fields!", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    //Hash-map to store and send the above data to server
+                    Map<String, String> projetInfo = new HashMap<>();
+                    projetInfo.put("projet_name", projetName);
+                    projetInfo.put("projet_desc", projetDesc);
+                    projetInfo.put("projet_due_date", projetDueDate);
+                    projetInfo.put("projet_due_hour", projetDueHour);
 
-                //TODO find out a way to check whether a projet with desired name already exists.
+                    //TODO find out a way to check whether a projet with desired name already exists.
 
-                //Adding hash-map to database
-                database.collection("ProJets").document(projetName)
-                        .set(projetInfo)
-                        .addOnSuccessListener(new OnSuccessListener<Void>()
-                        {
-                            @Override
-                            public void onSuccess(Void aVoid)
+                    //Adding hash-map to database
+                    database.collection("ProJets").document(projetName)
+                            .set(projetInfo)
+                            .addOnSuccessListener(new OnSuccessListener<Void>()
                             {
-                                Toast.makeText(CreateProjectActivity.this, "ProJet successfully created!", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener()
-                        {
-                            @Override
-                            public void onFailure(@NonNull Exception e)
+                                @Override
+                                public void onSuccess(Void aVoid)
+                                {
+                                    Toast.makeText(CreateProjectActivity.this, "ProJet successfully created!", Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener()
                             {
-                                Toast.makeText(CreateProjectActivity.this, "Error. Can't create ProJet.", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                //closing the creation page, and removing it from backstack
-                finish();
-                startActivity(new Intent(CreateProjectActivity.this, MainPageActivity.class));
+                                @Override
+                                public void onFailure(@NonNull Exception e)
+                                {
+                                    Toast.makeText(CreateProjectActivity.this, "Error. Can't create ProJet.", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                    //closing the creation page, and removing it from backstack
+                    finish();
+                    startActivity(new Intent(CreateProjectActivity.this, MainPageActivity.class));
+                }
             }
+
+            //Adding the projet to main page scroll view
+
+
         });
 
         //TODO Add members-tasks fragments here and commit() them

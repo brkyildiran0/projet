@@ -3,14 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/dialog_holo_light_frame"
+    android:longClickable="false">
 
     <View
         android:id="@+id/colorStick_fr"
-        android:layout_width="20dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="5dp"
-        android:background="@color/colorAccent"
+        android:layout_width="7dp"
+        android:layout_height="111dp"
+        android:background="@android:color/holo_red_light"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,7 +40,7 @@
         android:layout_marginRight="343dp"
         android:text="Date : "
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.714"
         app:layout_constraintStart_toEndOf="@+id/colorStick_fr"
         app:layout_constraintTop_toBottomOf="@+id/projetName_fr" />
 
@@ -85,14 +87,10 @@
         app:layout_constraintStart_toEndOf="@+id/progressBar_fr"
         app:layout_constraintTop_toBottomOf="@+id/projetName_fr" />
 
-    <View
-        android:id="@+id/gecisCizgi_fr"
-        android:layout_width="409dp"
-        android:layout_height="5dp"
-        android:layout_marginTop="110dp"
-        android:background="@color/colorPrimaryDark"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="top" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

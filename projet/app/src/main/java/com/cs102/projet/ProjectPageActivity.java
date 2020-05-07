@@ -32,7 +32,6 @@ public class ProjectPageActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item)
     {
-        //TODO: edit the following comments as other pages gets created.
         switch (item.getItemId())
         {
             case R.id.addNewMember:

@@ -33,15 +33,7 @@ public class ProfilePageActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_page);
-
-        //Components initializing
-
-
-        //Firebase Initializing
-
     }
-
-
 
     //Method for the AppBar Buttons & Icons
     @Override

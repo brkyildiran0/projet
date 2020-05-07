@@ -2,12 +2,16 @@ package com.cs102.projet;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
+import com.cs102.projet.fragments.FragmentNotifications;
 
 public class NotificationsActivity extends AppCompatActivity
 {
@@ -17,6 +21,18 @@ public class NotificationsActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
+
+        //adding notifications fragment
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        ft.add(R.id.notificationsFragmentContainer, new FragmentNotifications("finish", "CS 102 Projesi"));
+        ft.add(R.id.notificationsFragmentContainer, new FragmentNotifications("finish", "Ahmet'in Doğum Günü"));
+        ft.add(R.id.notificationsFragmentContainer, new FragmentNotifications("remain", "CS 102 Projesi", "9"));
+        ft.add(R.id.notificationsFragmentContainer, new FragmentNotifications("added", "Bitirelim şu işi!"));
+        ft.add(R.id.notificationsFragmentContainer, new FragmentNotifications("remain", "Coding", "1"));
+
+        ft.commit();
     }
 
     //TODO: onCreateOptionsMenu is the method for the AppBar(Toolbar), it will be added to the required pages on followings days as they are produced.
@@ -38,6 +54,7 @@ public class NotificationsActivity extends AppCompatActivity
         switch (item.getItemId())
         {
             case R.id.profile_icon_on_toolbar:
+                finish();
                 Intent profileGit = new Intent(NotificationsActivity.this, ProfilePageActivity.class);
                 startActivity(profileGit);
                 return true;

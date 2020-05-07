@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/colorStick_fr"
+        android:layout_width="20dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/colorAccent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/projetName_fr"
+        android:layout_width="368dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="7dp"
+        android:text="TextView"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/colorStick_fr"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/date_fr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="343dp"
+        android:layout_marginRight="343dp"
+        android:text="Date : "
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/colorStick_fr"
+        app:layout_constraintTop_toBottomOf="@+id/projetName_fr" />
+
+    <TextView
+        android:id="@+id/setDate_fr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="262dp"
+        android:layout_marginRight="262dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/date_fr"
+        app:layout_constraintTop_toBottomOf="@+id/projetName_fr" />
+
+    <ProgressBar
+        android:id="@+id/progressBar_fr"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="228dp"
+        android:layout_height="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="151dp"
+        android:layout_marginRight="151dp"
+        android:progress="56"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/colorStick_fr"
+        app:layout_constraintTop_toBottomOf="@+id/date_fr" />
+
+    <TextView
+        android:id="@+id/progressText_fr"
+        android:layout_width="78dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="37dp"
+        android:layout_marginEnd="47dp"
+        android:layout_marginRight="47dp"
+        android:text="%56"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/progressBar_fr"
+        app:layout_constraintTop_toBottomOf="@+id/projetName_fr" />
+
+    <View
+        android:id="@+id/gecisCizgi_fr"
+        android:layout_width="409dp"
+        android:layout_height="5dp"
+        android:layout_marginTop="110dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

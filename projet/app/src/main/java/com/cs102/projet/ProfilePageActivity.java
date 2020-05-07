@@ -2,23 +2,47 @@ package com.cs102.projet;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProfilePageActivity extends AppCompatActivity
 {
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_page);
+
+        //Components initializing
+
+
+        //Firebase Initializing
+
     }
 
-    //TODO: onCreateOptionsMenu is the method for the AppBar(Toolbar), it will be added to the required pages on followings days as they are produced.
+
+
     //Method for the AppBar Buttons & Icons
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -29,7 +53,6 @@ public class ProfilePageActivity extends AppCompatActivity
         return true;
     }
 
-    //TODO: onOptionsItemSelected is the method for the AppBar buttons' onClick methods, it will be added to the required pages on followings days as they are produced.
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item)
     {
@@ -40,6 +63,7 @@ public class ProfilePageActivity extends AppCompatActivity
                 //should stay as empty
                 return true;
             case R.id.notification_icon_on_toolbar:
+                finish();
                 Intent goToNotifications = new Intent(ProfilePageActivity.this, NotificationsActivity.class);
                 startActivity(goToNotifications);
                 return true;

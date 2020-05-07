@@ -18,7 +18,7 @@
         <activity android:name=".MainPageActivity" />
 
         <activity android:name=".CreateProjectActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".AddMemberActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".AddTaskActivity"

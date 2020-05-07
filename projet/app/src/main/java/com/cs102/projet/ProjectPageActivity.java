@@ -3,6 +3,7 @@ package com.cs102.projet;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,7 +18,6 @@ public class ProjectPageActivity extends AppCompatActivity
         setContentView(R.layout.activity_project_page);
     }
 
-    //TODO: onCreateOptionsMenu is the method for the AppBar(Toolbar), it will be added to the required pages on followings days as they are produced.
     //Method for the AppBar Buttons & Icons
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -28,7 +28,6 @@ public class ProjectPageActivity extends AppCompatActivity
         return true;
     }
 
-    //TODO: onOptionsItemSelected is the method for the AppBar buttons' onClick methods, it will be added to the required pages on followings days as they are produced.
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item)
     {
@@ -36,14 +35,12 @@ public class ProjectPageActivity extends AppCompatActivity
         switch (item.getItemId())
         {
             case R.id.profile_icon_on_toolbar:
-                //write down lines to switch to the profile page
-                //...
-                //...
+                Intent goToProfile = new Intent(ProjectPageActivity.this, ProfilePageActivity.class);
+                startActivity(goToProfile);
                 return true;
             case R.id.notification_icon_on_toolbar:
-                //write down lines to switch to the notifications page/pop-up
-                //...
-                //...
+                Intent goToNotifications = new Intent(ProjectPageActivity.this, NotificationsActivity.class);
+                startActivity(goToNotifications);
                 return true;
             case R.id.help_button_on_toolbar:
                 //write down lines to switch to the help page

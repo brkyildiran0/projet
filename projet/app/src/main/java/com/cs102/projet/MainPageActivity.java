@@ -45,31 +45,8 @@ public class MainPageActivity extends AppCompatActivity
         ft.add(R.id.fragmentContainer, new FragmentMainPageProject("Burak", "15/04/2020"));
 
         ft.commit();
-
-
-        // Will be deleted ***********************
-
-        //buttonGecici = findViewById(R.id.buttonGecici);
-        //buttonGecici.setOnClickListener(new View.OnClickListener() {
-            //@Override
-            //public void onClick(View v) {
-            //    Intent deneme = new Intent(MainPageActivity.this, ProjectPageActivity.class);
-            //    startActivity(deneme);
-           // }
-       ////goToDeniz = findViewById(R.id.goToDeniz);
-        //goToDeniz.setOnClickListener(new View.OnClickListener()
-       // {
-        //    @Override
-        //    public void onClick(View v)
-        //    {
-         //       startActivity(new Intent(MainPageActivity.this, CreateProjectActivity.class));
-       //     }
-       // });
-
-        // Will be deleted ***********************
     }
 
-    //TODO: onCreateOptionsMenu is the method for the AppBar(Toolbar), it will be added to the required pages on followings days as they are produced.
     //Method for the AppBar Buttons & Icons
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -80,7 +57,6 @@ public class MainPageActivity extends AppCompatActivity
         return true;
     }
 
-    //TODO: onOptionsItemSelected is the method for the AppBar buttons' onClick methods, it will be added to the required pages on followings days as they are produced.
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item)
     {

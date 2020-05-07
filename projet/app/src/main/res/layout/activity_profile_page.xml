@@ -60,7 +60,7 @@
         android:id="@+id/profileCurrentTasks"
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        android:layout_marginBottom="170dp"
+        android:layout_marginBottom="188dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -116,53 +116,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profileCurrentTasks" />
 
-    <Button
-        android:id="@+id/firebaseTryout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginLeft="28dp"
-        android:text="Send Data!"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputToFirebase" />
-
-    <EditText
-        android:id="@+id/inputToFirebase"
-        android:layout_width="144dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="36dp"
-        android:ems="10"
-        android:hint="input..."
-        android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonChangePhoto" />
-
     <TextView
-        android:id="@+id/recievedData"
+        android:id="@+id/textView13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="128dp"
-        android:text="Received Data"
-        android:textAllCaps="false"
-        android:textColor="#E91E63"
-        android:textSize="14sp"
-        android:textStyle="bold|italic"
-        app:layout_constraintStart_toEndOf="@+id/inputToFirebase"
-        app:layout_constraintTop_toBottomOf="@+id/textMailAdress" />
-
-    <Button
-        android:id="@+id/buttonRecieve"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginLeft="60dp"
-        android:layout_marginTop="11dp"
-        android:text="receive data"
-        app:layout_constraintStart_toEndOf="@+id/firebaseTryout"
-        app:layout_constraintTop_toBottomOf="@+id/recievedData" />
+        android:layout_marginTop="258dp"
+        android:text="Current Tasks"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

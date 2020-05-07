@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -61,6 +62,7 @@ public class CreateProjectActivity extends AppCompatActivity
                 String projetDesc = editTextProjetDesc.getText().toString();
                 String projetDueDate = editTextProjetDueDate.getText().toString();
                 String projetDueHour = editTextProjetDueHour.getText().toString();
+                boolean projetIsComplete = false;
 
                 //checks whether user filled all the required info or not
                 if (projetName.equals("") || projetDesc.equals("") || projetDueDate.equals("") || projetDueHour.equals(""))
@@ -97,6 +99,12 @@ public class CreateProjectActivity extends AppCompatActivity
                                     Toast.makeText(CreateProjectActivity.this, "Error. Can't create ProJet.", Toast.LENGTH_SHORT).show();
                                 }
                             });
+
+                    //Adding the required boolean value to be able to finish a project in the future
+                    Map<String, Boolean> isFinished = new HashMap<>();
+                    isFinished.put("projet_is_complete", false);
+                    database.collection("ProJets").document(projetName).set(isFinished, SetOptions.merge());
+
                     //closing the creation page, and removing it from backstack
                     finish();
                     startActivity(new Intent(CreateProjectActivity.this, MainPageActivity.class));

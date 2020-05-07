@@ -38,6 +38,7 @@ public class NotificationsActivity extends AppCompatActivity
         switch (item.getItemId())
         {
             case R.id.profile_icon_on_toolbar:
+                finish();
                 Intent profileGit = new Intent(NotificationsActivity.this, ProfilePageActivity.class);
                 startActivity(profileGit);
                 return true;

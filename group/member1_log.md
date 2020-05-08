@@ -30,7 +30,11 @@ This week;
     -Fixed bugs with all group members.
     -Started to learn & implement the FireBase to our project.
   ***06-07 May***
-    -Polished all current layouts & made significant changes on them.
+    -Polished all current layouts & made significant changes on them with Berkay Erdem (member_3)
     -Created New Projet, Add Tasks, Add Members pages are completed in all ways (good to go, usable)
     -Created the tree diagram for our program to access/add/modify data from the firebase database with Celal Berke Can (member_2)
+  ***08 May***
+    -Fixed and cleaned create new projet page, now fully functional
+    -Replaced add members and add tasks buttons with the ones at toolbar (i.e. another new toolbar design)
+    -Auth based user creation at database is now functional and good to go.
   

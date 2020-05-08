@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,12 +22,20 @@ import com.google.firebase.auth.FirebaseAuth;
 public class MainPageActivity extends AppCompatActivity
 {
     FirebaseAuth myFirebaseAuth;
+    String currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
+
+        //Declaring the current user
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null)
+        {
+            currentUser= (String) bundle.get("currentUser");
+        }
 
         Button buttonCreateNewProjet = findViewById(R.id.buttonCreateNewProjet);
         myFirebaseAuth = FirebaseAuth.getInstance();

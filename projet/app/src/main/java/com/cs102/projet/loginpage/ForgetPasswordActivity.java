@@ -61,7 +61,7 @@ public class ForgetPasswordActivity extends AppCompatActivity
                     });
 
                     finish();
-                    startActivity( new Intent(ForgetPasswordActivity.this, LoginActivity.class));
+                    startActivity(new Intent(ForgetPasswordActivity.this, LoginActivity.class));
                 }
                 else
                     Toast.makeText(ForgetPasswordActivity.this, "Please enter your mail address.", Toast.LENGTH_SHORT).show();

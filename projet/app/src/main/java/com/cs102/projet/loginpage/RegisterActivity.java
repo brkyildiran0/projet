@@ -22,7 +22,10 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -78,14 +81,19 @@ public class RegisterActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful())
                             {
+                                //Creating the registered user at database
                                 Map<String, String> mailNameAdder = new HashMap<>();
                                 mailNameAdder.put("user_email", emailInput.getText().toString());
                                 mailNameAdder.put("user_name_surname", userNameInput.getText().toString());
 
-                                //Creating the registered user at database
                                 database.collection("Users").document(emailInput.getText().toString()).set(mailNameAdder);
 
                                 DocumentReference createdUser = database.collection("Users").document(emailInput.getText().toString());
+
+                                Map<String, Object> projetsAdder = new HashMap<>();
+                                projetsAdder.put("user_current_projets", new ArrayList<>());
+                                createdUser.update(projetsAdder);
+                                createdUser.update("user_projet_counter", 0);
 
                                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                                 startActivity(intent);

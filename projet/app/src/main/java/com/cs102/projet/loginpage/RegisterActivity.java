@@ -12,9 +12,18 @@ import android.widget.Toast;
 
 import com.cs102.projet.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -26,6 +35,8 @@ public class RegisterActivity extends AppCompatActivity {
     EditText passwordCheck;
     Button createUserButton;
 
+    FirebaseFirestore database;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,62 +44,55 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         //EditTexts's id..
-        userNameInput = (EditText)findViewById(R.id.userNameInput);
-        emailInput = (EditText)findViewById(R.id.emailInput);
-        passwordInput = (EditText)findViewById(R.id.passwordInput);
+        userNameInput = findViewById(R.id.userNameInput);
+        emailInput = findViewById(R.id.emailInput);
+        passwordInput = findViewById(R.id.passwordInput);
 
         //Buttons's id..
-        createUserButton = (Button)findViewById(R.id.createUser);
+        createUserButton = findViewById(R.id.createUser);
 
         //Firebase Auth...
-
         myFirebaseAuth = FirebaseAuth.getInstance();
+
+        //Firebase Initializing
+        database = FirebaseFirestore.getInstance();
+
 
         // Start to write ClickListeners...
 
         createUserButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String userNameOut = userNameInput.getText().toString().trim();
                 String emailOut = emailInput.getText().toString().trim();
                 String passwordOut = passwordInput.getText().toString().trim();
-                String passwordCheckOut = passwordCheck.getText().toString().trim();
 
-                if (emailOut.isEmpty()){
-                    emailInput.setError("Please enter email");
-                    emailInput.requestFocus();
+                if (emailOut.isEmpty() || passwordOut.isEmpty())
+                {
+                    emailInput.setError("Please fill in all gaps");
                 }
-                else if (passwordOut.isEmpty()){
-                    passwordInput.setError("Please enter password");
-                    passwordInput.requestFocus();
-                }
-//                else if (emailOut.isEmpty() && passwordOut.isEmpty()){
-//                    emailInput.setError("Please enter email");
-//                    emailInput.requestFocus();
-//                    passwordInput.setError("Please enter password");
-//                    passwordInput.requestFocus();
-//                }
-                else {
-
+                else
+                {
                     //Firebase part..
-
-                    myFirebaseAuth.createUserWithEmailAndPassword(emailOut, passwordOut).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                    myFirebaseAuth.createUserWithEmailAndPassword(emailOut, passwordOut).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>(){
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()){
+                            if (task.isSuccessful())
+                            {
+                                Map<String, String> mailNameAdder = new HashMap<>();
+                                mailNameAdder.put("user_email", emailInput.getText().toString());
+                                mailNameAdder.put("user_name_surname", userNameInput.getText().toString());
 
-                                // ----------
+                                //Creating the registered user at database
+                                database.collection("Users").document(emailInput.getText().toString()).set(mailNameAdder);
 
-
-
-                                // ----------
-
+                                DocumentReference createdUser = database.collection("Users").document(emailInput.getText().toString());
 
                                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 Toast.makeText(RegisterActivity.this,"Register successful", Toast.LENGTH_SHORT).show();
                             }
-                            else{
+                            else
+                            {
                                 Toast.makeText(RegisterActivity.this,"Register unsuccessful, try again", Toast.LENGTH_SHORT).show();
 
                             }

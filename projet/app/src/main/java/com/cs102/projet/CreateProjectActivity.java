@@ -2,8 +2,6 @@ package com.cs102.projet;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.cs102.projet.fragments.FragmentCreatePageMembers;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -29,7 +26,6 @@ public class CreateProjectActivity extends AppCompatActivity
     private EditText editTextProjetDesc;
     private EditText editTextProjetDueDate;
     private EditText editTextProjetDueHour;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -54,21 +50,7 @@ public class CreateProjectActivity extends AppCompatActivity
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
-        //adding Members Fragment
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-
-        ft.add(R.id.membersLayout, new FragmentCreatePageMembers("Yüksel Berkay Erdem"));
-        ft.add(R.id.membersLayout, new FragmentCreatePageMembers("Burak"));
-        ft.add(R.id.membersLayout, new FragmentCreatePageMembers("Berke"));
-        ft.add(R.id.membersLayout, new FragmentCreatePageMembers("Deniz"));
-        ft.add(R.id.membersLayout, new FragmentCreatePageMembers("Eylül"));
-        ft.add(R.id.membersLayout, new FragmentCreatePageMembers("İlayda"));
-        ft.add(R.id.membersLayout, new FragmentCreatePageMembers("David"));
-        ft.add(R.id.membersLayout, new FragmentCreatePageMembers("Irmak"));
-        ft.commit();
-
-        //on click listener of Create New Projet button
+        //on click listener of Create New ProJet button
         buttonCreateNewProjet.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -79,7 +61,6 @@ public class CreateProjectActivity extends AppCompatActivity
                 String projetDesc = editTextProjetDesc.getText().toString();
                 String projetDueDate = editTextProjetDueDate.getText().toString();
                 String projetDueHour = editTextProjetDueHour.getText().toString();
-                boolean projetIsComplete = false;
 
                 //checks whether user filled all the required info or not
                 if (projetName.equals("") || projetDesc.equals("") || projetDueDate.equals("") || projetDueHour.equals(""))
@@ -122,15 +103,17 @@ public class CreateProjectActivity extends AppCompatActivity
                     isFinished.put("projet_is_complete", false);
                     database.collection("ProJets").document(projetName).set(isFinished, SetOptions.merge());
 
+                    //Adding the required int value to be able to counter how many members are there in given ProJet
+                    Map<String, Integer> memberCounter = new HashMap<>();
+                    memberCounter.put("projet_member_counter", 1);
+                    database.collection("ProJets").document(projetName).set(memberCounter, SetOptions.merge());
+
                     //closing the creation page, and removing it from backstack
                     finish();
                     startActivity(new Intent(CreateProjectActivity.this, MainPageActivity.class));
                 }
             }
-
-            //Adding the projet to main page scroll view
-
-
         });
     }
+
 }

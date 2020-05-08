@@ -12,26 +12,33 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".NotificationsActivity"/>
+        <activity android:name=".loginpage.RegisterActivity" />
+        <activity android:name=".NotificationsActivity" />
         <activity android:name=".ProfilePageActivity" />
         <activity android:name=".ProjectPageActivity" />
-        <activity android:name=".MainPageActivity" />
 
-        <activity android:name=".CreateProjectActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".AddMemberActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".AddTaskActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
-        <activity android:name=".loginpage.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".MainPageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".loginpage.ForgetPasswordActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".CreateProjectActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AddMemberActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AddTaskActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".loginpage.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

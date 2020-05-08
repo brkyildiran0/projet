@@ -18,12 +18,13 @@ public class ProjectPageActivity extends AppCompatActivity
         setContentView(R.layout.activity_project_page);
     }
 
+
     //Method for the AppBar Buttons & Icons
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.appbar_menu, menu);
+        inflater.inflate(R.menu.create_new_projet_menu, menu);
 
         return true;
     }
@@ -31,31 +32,17 @@ public class ProjectPageActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item)
     {
-        //TODO: edit the following comments as other pages gets created.
         switch (item.getItemId())
         {
-            case R.id.profile_icon_on_toolbar:
-                Intent goToProfile = new Intent(ProjectPageActivity.this, ProfilePageActivity.class);
-                startActivity(goToProfile);
+            case R.id.addNewMember:
+                startActivity(new Intent(getApplicationContext(), AddMemberActivity.class));
                 return true;
-            case R.id.notification_icon_on_toolbar:
-                Intent goToNotifications = new Intent(ProjectPageActivity.this, NotificationsActivity.class);
-                startActivity(goToNotifications);
+            case R.id.addNewTask:
+                startActivity(new Intent(getApplicationContext(), AddTaskActivity.class));
                 return true;
-            case R.id.help_button_on_toolbar:
-                //write down lines to switch to the help page
-                //...
-                //...
+            case R.id.leaveProjet:
+                //TODO will be handled later
                 return true;
-            case R.id.setting_button_on_toolbar:
-                //write down lines to switch to the settings page
-                //...
-                //...
-                return true;
-            case R.id.logout_button_on_toolbar:
-                //write down lines to logout the user
-                //...
-                //...
             default:
                 return super.onOptionsItemSelected(item);
         }

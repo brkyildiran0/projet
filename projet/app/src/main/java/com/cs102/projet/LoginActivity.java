@@ -74,10 +74,9 @@ public class LoginActivity extends AppCompatActivity
                             if (task.isSuccessful())
                             {
                                 Toast.makeText(LoginActivity.this, "Logged In ", Toast.LENGTH_SHORT).show();
-                                finish();
                                 Intent intent = new Intent(LoginActivity.this, ProjetMainPageActivity.class);
-                                intent.putExtra("currentUserEmail", email.getText().toString());
                                 startActivity(intent);
+                                finish();
                             }
                             else
                             {

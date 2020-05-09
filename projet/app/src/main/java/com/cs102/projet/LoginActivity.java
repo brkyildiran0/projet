@@ -1,4 +1,4 @@
-package com.cs102.projet.loginpage;
+package com.cs102.projet;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,8 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.cs102.projet.MainPageActivity;
-import com.cs102.projet.R;
+import com.cs102.projet.activities.ProjetMainPageActivity;
+import com.cs102.projet.loginpage.ForgetPasswordActivity;
+import com.cs102.projet.loginpage.RegisterActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -72,7 +73,7 @@ public class LoginActivity extends AppCompatActivity
                             {
                                 Toast.makeText(LoginActivity.this, "Logged In ", Toast.LENGTH_SHORT).show();
                                 finish();
-                                Intent intent = new Intent(LoginActivity.this, MainPageActivity.class);
+                                Intent intent = new Intent(LoginActivity.this, ProjetMainPageActivity.class);
                                 intent.putExtra("currentUserEmail", email.getText().toString());
                                 startActivity(intent);
                             }

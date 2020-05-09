@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.cs102.projet.MainPageActivity;
 import com.cs102.projet.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -112,7 +111,7 @@ public class CreateProjectActivity extends AppCompatActivity
 
                     //closing the creation page, and removing it from backstack
                     finish();
-                    startActivity(new Intent(CreateProjectActivity.this, MainPageActivity.class));
+                    startActivity(new Intent(CreateProjectActivity.this, ProjetMainPageActivity.class));
                 }
             }
         });

@@ -1,4 +1,4 @@
-package com.cs102.projet;
+package com.cs102.projet.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,7 +7,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,20 +14,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.cs102.projet.activities.CreateProjectActivity;
-import com.cs102.projet.activities.NotificationsActivity;
-import com.cs102.projet.activities.ProfilePageActivity;
+import com.cs102.projet.R;
 import com.cs102.projet.fragments.FragmentMainPageProject;
-import com.cs102.projet.loginpage.LoginActivity;
+import com.cs102.projet.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.annotations.Nullable;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 
-public class MainPageActivity extends AppCompatActivity
+public class ProjetMainPageActivity extends AppCompatActivity
 {
     String currentUserMail;
     Bundle extras;
@@ -71,7 +63,7 @@ public class MainPageActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                startActivity(new Intent(MainPageActivity.this, CreateProjectActivity.class));
+                startActivity(new Intent(ProjetMainPageActivity.this, CreateProjectActivity.class));
             }
         });
     }
@@ -93,11 +85,11 @@ public class MainPageActivity extends AppCompatActivity
         switch (item.getItemId())
         {
             case R.id.profile_icon_on_toolbar:
-                Intent goToProfile = new Intent(MainPageActivity.this, ProfilePageActivity.class);
+                Intent goToProfile = new Intent(ProjetMainPageActivity.this, ProfilePageActivity.class);
                 startActivity(goToProfile);
                 return true;
             case R.id.notification_icon_on_toolbar:
-                Intent goToNotifications = new Intent(MainPageActivity.this, NotificationsActivity.class);
+                Intent goToNotifications = new Intent(ProjetMainPageActivity.this, NotificationsActivity.class);
                 startActivity(goToNotifications);
                 return true;
             case R.id.help_button_on_toolbar:
@@ -113,7 +105,7 @@ public class MainPageActivity extends AppCompatActivity
             case R.id.logout_button_on_toolbar:
                 myFirebaseAuth.signOut();
                 Toast.makeText(this, "Signed out.", Toast.LENGTH_SHORT).show();
-                Intent intentLogout = new Intent(MainPageActivity.this, LoginActivity.class);
+                Intent intentLogout = new Intent(ProjetMainPageActivity.this, LoginActivity.class);
                 startActivity(intentLogout);
                 finishAffinity();
             default:

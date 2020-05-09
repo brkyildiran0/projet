@@ -11,12 +11,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.cs102.projet.activities.AddTaskActivity;
+import com.cs102.projet.activities.AddMemberActivity;
 import com.cs102.projet.R;
 
-public class TasksFragment extends Fragment {
+public class FragmentMembers extends Fragment {
 
-    private Button AddTaskButton;
+    // Buttons on Members Fragment
+    private Button AddMember;
 
     @Nullable
     @Override
@@ -25,15 +26,15 @@ public class TasksFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.members_fragment,container,false);
 
         // Adding Buttons to Fragment
-        AddTaskButton = rootView.findViewById(R.id.AddTaskButton);
+        AddMember = rootView.findViewById(R.id.AddMember);
 
         // Setting Button Activity
 
         // TO DO
-        AddTaskButton.setOnClickListener(new View.OnClickListener() {
+        AddMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent gecIntent = new Intent(getContext(), AddTaskActivity.class);
+                Intent gecIntent = new Intent(getContext(), AddMemberActivity.class);
                 startActivity(gecIntent);
             }
         });

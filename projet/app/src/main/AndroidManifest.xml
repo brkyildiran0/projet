@@ -16,7 +16,7 @@
         <activity android:name=".activities.NotificationsActivity" />
         <activity android:name=".activities.ProfilePageActivity" />
         <activity android:name=".activities.ProjectPageActivity" />
-        <activity android:name=".MainPageActivity"/>
+        <activity android:name=".activities.ProjetMainPageActivity"/>
 
         <activity android:name=".loginpage.ForgetPasswordActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
@@ -29,7 +29,7 @@
         <activity
             android:name=".activities.AddTaskActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".loginpage.LoginActivity"
+        <activity android:name=".LoginActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:clearTaskOnLaunch="true">
             <intent-filter>

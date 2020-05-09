@@ -70,6 +70,7 @@ public class RegisterActivity extends AppCompatActivity
                 {
                     Toast.makeText(RegisterActivity.this, "Fill all gaps!", Toast.LENGTH_SHORT).show();
                 }
+
                 //After input handling, user creating at firebase auth center
                 else
                 {

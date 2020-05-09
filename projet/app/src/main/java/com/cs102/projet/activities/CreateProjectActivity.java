@@ -120,7 +120,7 @@ public class CreateProjectActivity extends AppCompatActivity
                     //Creating users & tasks collection inside of the projet document and initializing them with currentUser's data
                     Map<String, DocumentReference> userInit = new HashMap<>();
                     userInit.put("user_reference", database.collection("Users").document(currentUserMail));
-                    projetReference.collection("ProJet members").document("desired user name, will be adjusted").set(userInit, SetOptions.merge());
+                    projetReference.collection("Members").document("desired user name, will be adjusted").set(userInit, SetOptions.merge());
 
                     //closing the creation page, and removing it from backstack
                     startActivity(new Intent(CreateProjectActivity.this, ProjetMainPageActivity.class));

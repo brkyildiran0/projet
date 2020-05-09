@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,9 +21,18 @@ import com.cs102.projet.activities.ProfilePageActivity;
 import com.cs102.projet.fragments.FragmentMainPageProject;
 import com.cs102.projet.loginpage.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.annotations.Nullable;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 public class MainPageActivity extends AppCompatActivity
 {
+    String currentUserMail;
+    Bundle extras;
+    FirebaseFirestore database;
     FirebaseAuth myFirebaseAuth;
 
     @Override
@@ -31,18 +41,14 @@ public class MainPageActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
 
+        //View & more initialize
+        extras = getIntent().getExtras();
         Button buttonCreateNewProjet = findViewById(R.id.buttonCreateNewProjet);
+        currentUserMail = extras.getString("currentUserEmail");
+
+        //Firebase initialize
+        database = FirebaseFirestore.getInstance();
         myFirebaseAuth = FirebaseAuth.getInstance();
-
-        buttonCreateNewProjet.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                startActivity(new Intent(MainPageActivity.this, CreateProjectActivity.class));
-            }
-        });
-
 
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -52,8 +58,22 @@ public class MainPageActivity extends AppCompatActivity
         ft.add(R.id.fragmentContainer, deneme1);
         ft.add(R.id.fragmentContainer, deneme2);
         ft.add(R.id.fragmentContainer, new FragmentMainPageProject("Burak", "15/04/2020"));
+        ft.add(R.id.fragmentContainer, new FragmentMainPageProject("Burak", "15/04/2020"));
+        ft.add(R.id.fragmentContainer, new FragmentMainPageProject("Burak", "15/04/2020"));
+        ft.add(R.id.fragmentContainer, new FragmentMainPageProject("Burak", "15/04/2020"));
+        ft.add(R.id.fragmentContainer, new FragmentMainPageProject("Burak", "15/04/2020"));
 
         ft.commit();
+
+        //CreateNewProJetButton onClick
+        buttonCreateNewProjet.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                startActivity(new Intent(MainPageActivity.this, CreateProjectActivity.class));
+            }
+        });
     }
 
     //Method for the AppBar Buttons & Icons

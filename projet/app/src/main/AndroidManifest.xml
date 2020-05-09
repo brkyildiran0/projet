@@ -30,7 +30,8 @@
             android:name=".activities.AddTaskActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".loginpage.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:clearTaskOnLaunch="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

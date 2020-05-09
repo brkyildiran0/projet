@@ -100,4 +100,14 @@ public class MainPageActivity extends AppCompatActivity
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    /**
+     * This assigns the back button to work as home button, so the program wont ask for
+     * login again, when the program is closed by pressing back button on the main page.
+     */
+    @Override
+    public void onBackPressed()
+    {
+        moveTaskToBack(true);
+    }
 }

@@ -1,8 +1,10 @@
-package com.cs102.projet;
+package com.cs102.projet.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.cs102.projet.R;
 
 public class AddTaskActivity extends AppCompatActivity
 {

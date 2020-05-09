@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.cs102.projet.ProfilePageActivity;
+import com.cs102.projet.activities.ProfilePageActivity;
 import com.cs102.projet.R;
 
 public class FragmentMainPageProject extends Fragment {

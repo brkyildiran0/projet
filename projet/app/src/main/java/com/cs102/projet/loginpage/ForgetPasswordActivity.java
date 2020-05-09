@@ -19,7 +19,6 @@ public class ForgetPasswordActivity extends AppCompatActivity
 {
     private Button resetPass;
     private EditText editTextEmail;
-
     FirebaseAuth myFirebaseAuth;
 
     @Override
@@ -28,14 +27,14 @@ public class ForgetPasswordActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forget_password);
 
-        //initialize
+        //View initialize
         resetPass = findViewById(R.id.buttonSend);
         editTextEmail = findViewById(R.id.editTextEmail);
 
-        // Firebase Auth..
+        //Firebase auth initialize
         myFirebaseAuth = FirebaseAuth.getInstance();
 
-        // Forget PassWord Button..
+        //Reset Password onClick
         resetPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,20 +51,18 @@ public class ForgetPasswordActivity extends AppCompatActivity
 
                             if (task.isSuccessful())
                             {
-                                Toast.makeText(getApplicationContext(), "Check your mail", Toast.LENGTH_LONG).show();
-                            } else
+                                Toast.makeText(getApplicationContext(), "Recovery mail sent!", Toast.LENGTH_LONG).show();
+                                finish();
+                            }
+                            else
                             {
-                                Toast.makeText(getApplicationContext(), "Fail to send you email!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "Error, can't send mail.", Toast.LENGTH_LONG).show();
                             }
                         }
                     });
-
-                    finish();
-                    startActivity(new Intent(ForgetPasswordActivity.this, LoginActivity.class));
                 }
                 else
                     Toast.makeText(ForgetPasswordActivity.this, "Please enter your mail address.", Toast.LENGTH_SHORT).show();
-
             }
         });
     }

@@ -1,4 +1,4 @@
-package com.cs102.projet;
+package com.cs102.projet.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.cs102.projet.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -110,7 +111,7 @@ public class CreateProjectActivity extends AppCompatActivity
 
                     //closing the creation page, and removing it from backstack
                     finish();
-                    startActivity(new Intent(CreateProjectActivity.this, MainPageActivity.class));
+                    startActivity(new Intent(CreateProjectActivity.this, ProjetMainPageActivity.class));
                 }
             }
         });

@@ -1,4 +1,4 @@
-package com.cs102.projet;
+package com.cs102.projet.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.cs102.projet.R;
 import com.cs102.projet.fragments.FragmentNotifications;
 
 public class NotificationsActivity extends AppCompatActivity

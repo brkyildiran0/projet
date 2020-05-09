@@ -21,11 +21,8 @@ import com.google.firebase.auth.FirebaseAuth;
 public class LoginActivity extends AppCompatActivity
 {
     FirebaseAuth myFirebaseAuth;
-
-    // EditText's id..
     EditText email;
     EditText password;
-
     Button loginButton;
     Button forgetPasswordButton;
     Button singUpButton;
@@ -36,25 +33,20 @@ public class LoginActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        //EditText's id..
+        //View initialize
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
-
-        //Button's id..
         loginButton = findViewById(R.id.loginButton);
         forgetPasswordButton = findViewById(R.id.forgetPasswordButton);
         singUpButton = findViewById(R.id.signUpButton);
 
-        // Firebase Auth..
+        //Firebase auth initialize
         myFirebaseAuth = FirebaseAuth.getInstance();
 
+        // Check user already signed in or not..
+        //TODO ????
 
-        // Check user already sign in or not..
-
-
-        // Button's ClickListeners..
-
-        // Sing Up Button Sends to register activity..
+        //SignUpButton onClick
         singUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,44 +55,40 @@ public class LoginActivity extends AppCompatActivity
             }
         });
 
-        // Login Button..
+        //LoginButton onClick
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String emailOut = email.getText().toString().trim();
-                String passwordOut = password.getText().toString().trim();
 
-                if (emailOut.isEmpty()){
-                    email.setError("Please enter email");
-                    email.requestFocus();
-                }
-                else if (passwordOut.isEmpty()){
-                    password.setError("Please enter password");
-                    password.requestFocus();
-                }
-                else {
+                if (!email.getText().toString().equals("") && !password.getText().toString().equals(""))
+                {
+                    String emailOut = email.getText().toString().trim();
+                    String passwordOut = password.getText().toString().trim();
+
                     myFirebaseAuth.signInWithEmailAndPassword(emailOut, passwordOut).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()){
+                            if (task.isSuccessful())
+                            {
                                 Toast.makeText(LoginActivity.this, "Logged In ", Toast.LENGTH_SHORT).show();
+                                finish();
                                 Intent intent = new Intent(LoginActivity.this, MainPageActivity.class);
                                 intent.putExtra("currentUser", email.getText().toString());
                                 startActivity(intent);
                             }
-                            else{
-                                Toast.makeText(LoginActivity.this, "Login Fail, Try Again", Toast.LENGTH_LONG).show();
-
+                            else
+                            {
+                                Toast.makeText(LoginActivity.this, "Wrong mail or password!", Toast.LENGTH_LONG).show();
                             }
                         }
                     });
                 }
-
-                finish();
+                else
+                    Toast.makeText(LoginActivity.this, "Please enter mail & password", Toast.LENGTH_SHORT).show();
             }
         });
 
-        //Forget button on click
+        //ForgetPasswordButton onClick
         forgetPasswordButton.setOnClickListener(new View.OnClickListener()
         {
             @Override

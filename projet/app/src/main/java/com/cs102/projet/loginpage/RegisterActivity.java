@@ -79,6 +79,7 @@ public class RegisterActivity extends AppCompatActivity
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful())
                             {
+                                //TODO this is useless, replace with FirebaseAuth methods.
                                 //Creating the registered user at database
                                 Map<String, String> mailNameAdder = new HashMap<>();
                                 mailNameAdder.put("user_email", emailInput.getText().toString());
@@ -90,16 +91,13 @@ public class RegisterActivity extends AppCompatActivity
                                 createdUser.update(projetsAdder);
                                 createdUser.update("user_projet_counter", 0);
 
-                                //Sending user back to the login screen and finish()ing register activity
-                                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                                startActivity(intent);
+                                //Sending user back to the login screen by finish()ing register activity
                                 finish();
                                 Toast.makeText(RegisterActivity.this,"Register successful", Toast.LENGTH_SHORT).show();
                             }
                             else
                             {
                                 Toast.makeText(RegisterActivity.this,"Register unsuccessful!", Toast.LENGTH_SHORT).show();
-
                             }
                         }
                     });

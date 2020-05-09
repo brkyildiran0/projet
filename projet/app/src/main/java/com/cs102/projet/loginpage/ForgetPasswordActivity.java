@@ -52,7 +52,6 @@ public class ForgetPasswordActivity extends AppCompatActivity
                             if (task.isSuccessful())
                             {
                                 Toast.makeText(getApplicationContext(), "Recovery mail sent!", Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(ForgetPasswordActivity.this, LoginActivity.class));
                                 finish();
                             }
                             else

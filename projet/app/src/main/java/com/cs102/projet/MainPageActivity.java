@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.cs102.projet.activities.CreateProjectActivity;
 import com.cs102.projet.activities.NotificationsActivity;
@@ -23,7 +24,6 @@ import com.google.firebase.auth.FirebaseAuth;
 public class MainPageActivity extends AppCompatActivity
 {
     FirebaseAuth myFirebaseAuth;
-    String currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -34,14 +34,6 @@ public class MainPageActivity extends AppCompatActivity
         Button buttonCreateNewProjet = findViewById(R.id.buttonCreateNewProjet);
         myFirebaseAuth = FirebaseAuth.getInstance();
 
-        // Checks whether the user logged in or not.. if not logged in sends users to login page..
-        if (myFirebaseAuth.getCurrentUser() == null)
-        {
-            // if User not logged go to login activity
-            Intent intent = new Intent(MainPageActivity.this, LoginActivity.class);
-            startActivity(intent);
-        }
-
         buttonCreateNewProjet.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -51,12 +43,6 @@ public class MainPageActivity extends AppCompatActivity
             }
         });
 
-        //Declaring the current user
-        Bundle bundle = getIntent().getExtras();
-        if(bundle != null)
-        {
-            currentUser = (String) bundle.get("currentUser");
-        }
 
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -106,9 +92,10 @@ public class MainPageActivity extends AppCompatActivity
                 return true;
             case R.id.logout_button_on_toolbar:
                 myFirebaseAuth.signOut();
-
+                Toast.makeText(this, "Signed out.", Toast.LENGTH_SHORT).show();
                 Intent intentLogout = new Intent(MainPageActivity.this, LoginActivity.class);
                 startActivity(intentLogout);
+                finishAffinity();
             default:
                 return super.onOptionsItemSelected(item);
         }

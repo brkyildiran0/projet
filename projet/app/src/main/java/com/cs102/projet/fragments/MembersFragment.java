@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.cs102.projet.AddMemberActivity;
+import com.cs102.projet.activities.AddMemberActivity;
 import com.cs102.projet.R;
 
 public class MembersFragment extends Fragment {

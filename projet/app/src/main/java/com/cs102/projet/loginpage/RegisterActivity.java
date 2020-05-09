@@ -28,51 +28,49 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RegisterActivity extends AppCompatActivity {
-
+public class RegisterActivity extends AppCompatActivity
+{
+    FirebaseFirestore database;
     FirebaseAuth myFirebaseAuth;
-
     EditText userNameInput;
     EditText emailInput;
     EditText passwordInput;
-    EditText passwordCheck;
     Button createUserButton;
 
-    FirebaseFirestore database;
-
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        //EditTexts's id..
+        //View initialize
         userNameInput = findViewById(R.id.userNameInput);
         emailInput = findViewById(R.id.emailInput);
         passwordInput = findViewById(R.id.passwordInput);
-
-        //Buttons's id..
         createUserButton = findViewById(R.id.createUser);
 
-        //Firebase Auth...
+        //Firebase Auth & Database Initialize
         myFirebaseAuth = FirebaseAuth.getInstance();
-
-        //Firebase Initializing
         database = FirebaseFirestore.getInstance();
 
-
-        // Start to write ClickListeners...
-
+        //CreateUseButton onClick
         createUserButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String emailOut = emailInput.getText().toString().trim();
                 String passwordOut = passwordInput.getText().toString().trim();
 
-                if (emailOut.isEmpty() || passwordOut.isEmpty())
+                //Handling Empty Input
+                if (emailInput.getText().toString().isEmpty())
+                    emailInput.setError("Please enter your e-mail!");
+                else if (passwordInput.getText().toString().isEmpty())
+                    passwordInput.setError("Please enter your password");
+                else if (emailInput.getText().toString().isEmpty() && passwordInput.getText().toString().isEmpty())
                 {
-                    emailInput.setError("Please fill in all gaps");
+                    Toast.makeText(RegisterActivity.this, "Fill all gaps!", Toast.LENGTH_SHORT).show();
                 }
+                //After input handling, user creating at firebase auth center
                 else
                 {
                     //Firebase part..
@@ -85,23 +83,22 @@ public class RegisterActivity extends AppCompatActivity {
                                 Map<String, String> mailNameAdder = new HashMap<>();
                                 mailNameAdder.put("user_email", emailInput.getText().toString());
                                 mailNameAdder.put("user_name_surname", userNameInput.getText().toString());
-
                                 database.collection("Users").document(emailInput.getText().toString()).set(mailNameAdder);
-
                                 DocumentReference createdUser = database.collection("Users").document(emailInput.getText().toString());
-
                                 Map<String, Object> projetsAdder = new HashMap<>();
                                 projetsAdder.put("user_current_projets", new ArrayList<>());
                                 createdUser.update(projetsAdder);
                                 createdUser.update("user_projet_counter", 0);
 
+                                //Sending user back to the login screen and finish()ing register activity
                                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                                 startActivity(intent);
+                                finish();
                                 Toast.makeText(RegisterActivity.this,"Register successful", Toast.LENGTH_SHORT).show();
                             }
                             else
                             {
-                                Toast.makeText(RegisterActivity.this,"Register unsuccessful, try again", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegisterActivity.this,"Register unsuccessful!", Toast.LENGTH_SHORT).show();
 
                             }
                         }
@@ -109,8 +106,5 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-
     }
 }

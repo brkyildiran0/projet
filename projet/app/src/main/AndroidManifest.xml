@@ -13,9 +13,9 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".loginpage.RegisterActivity" />
-        <activity android:name=".NotificationsActivity" />
-        <activity android:name=".ProfilePageActivity" />
-        <activity android:name=".ProjectPageActivity" />
+        <activity android:name=".activities.NotificationsActivity" />
+        <activity android:name=".activities.ProfilePageActivity" />
+        <activity android:name=".activities.ProjectPageActivity" />
 
         <activity android:name=".MainPageActivity">
             <intent-filter>
@@ -28,13 +28,13 @@
         <activity android:name=".loginpage.ForgetPasswordActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".CreateProjectActivity"
+            android:name=".activities.CreateProjectActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".AddMemberActivity"
+            android:name=".activities.AddMemberActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".AddTaskActivity"
+            android:name=".activities.AddTaskActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".loginpage.LoginActivity"

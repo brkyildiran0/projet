@@ -7,14 +7,15 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
+import com.cs102.projet.activities.CreateProjectActivity;
+import com.cs102.projet.activities.NotificationsActivity;
+import com.cs102.projet.activities.ProfilePageActivity;
 import com.cs102.projet.fragments.FragmentMainPageProject;
 import com.cs102.projet.loginpage.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,13 +30,6 @@ public class MainPageActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
-
-        //Declaring the current user
-        Bundle bundle = getIntent().getExtras();
-        if(bundle != null)
-        {
-            currentUser= (String) bundle.get("currentUser");
-        }
 
         Button buttonCreateNewProjet = findViewById(R.id.buttonCreateNewProjet);
         myFirebaseAuth = FirebaseAuth.getInstance();
@@ -56,6 +50,13 @@ public class MainPageActivity extends AppCompatActivity
                 startActivity(new Intent(MainPageActivity.this, CreateProjectActivity.class));
             }
         });
+
+        //Declaring the current user
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null)
+        {
+            currentUser = (String) bundle.get("currentUser");
+        }
 
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();

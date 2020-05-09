@@ -5,17 +5,21 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.cs102.projet.R;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
@@ -114,9 +118,9 @@ public class CreateProjectActivity extends AppCompatActivity
                     projetReference.set(isFinished, SetOptions.merge());
 
                     //Creating users & tasks collection inside of the projet document and initializing them with currentUser's data
-                    Map<String, DocumentReference> creatorUserInit = new HashMap<>();
-                    creatorUserInit.put("creator_user", database.collection("Users").document(currentUserMail));
-                    projetReference.collection("ProJet members").document("Creator").set(creatorUserInit, SetOptions.merge());
+                    Map<String, DocumentReference> userInit = new HashMap<>();
+                    userInit.put("user_reference", database.collection("Users").document(currentUserMail));
+                    projetReference.collection("ProJet members").document("desired user name, will be adjusted").set(userInit, SetOptions.merge());
 
                     //closing the creation page, and removing it from backstack
                     startActivity(new Intent(CreateProjectActivity.this, ProjetMainPageActivity.class));

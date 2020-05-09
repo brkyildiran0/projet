@@ -79,17 +79,13 @@ public class RegisterActivity extends AppCompatActivity
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful())
                             {
-                                //TODO this is useless, replace with FirebaseAuth methods.
-                                //Creating the registered user at database
+                                //Creating the registered user at database with mail address and name&surname
                                 Map<String, String> mailNameAdder = new HashMap<>();
                                 mailNameAdder.put("user_email", emailInput.getText().toString());
                                 mailNameAdder.put("user_name_surname", userNameInput.getText().toString());
                                 database.collection("Users").document(emailInput.getText().toString()).set(mailNameAdder);
-                                DocumentReference createdUser = database.collection("Users").document(emailInput.getText().toString());
-                                Map<String, Object> projetsAdder = new HashMap<>();
-                                projetsAdder.put("user_current_projets", new ArrayList<>());
-                                createdUser.update(projetsAdder);
-                                createdUser.update("user_projet_counter", 0);
+
+                                //TODO create a collection of Current Projets and manage that one. Do not mess with arrays, they are complicated in firestore.
 
                                 //Sending user back to the login screen by finish()ing register activity
                                 finish();

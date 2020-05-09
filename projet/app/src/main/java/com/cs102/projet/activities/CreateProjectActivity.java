@@ -13,26 +13,42 @@ import android.widget.Toast;
 import com.cs102.projet.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class CreateProjectActivity extends AppCompatActivity
 {
     FirebaseFirestore database;
+    FirebaseAuth myFirebaseAuth;
+    FirebaseUser currentUser;
 
     private EditText editTextProjetName;
     private EditText editTextProjetDesc;
     private EditText editTextProjetDueDate;
     private EditText editTextProjetDueHour;
+    String currentUserMail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_project);
+
+        //Firebase Initializing
+        database = FirebaseFirestore.getInstance();
+        myFirebaseAuth = FirebaseAuth.getInstance();
+        currentUser = myFirebaseAuth.getCurrentUser();
+
+        //Getting current logged in user's mail address
+        assert currentUser != null;
+        currentUserMail = currentUser.getEmail();
 
         //connecting views to code
         Button buttonCreateNewProjet = findViewById(R.id.buttonCreateNewProjet);
@@ -41,15 +57,7 @@ public class CreateProjectActivity extends AppCompatActivity
         editTextProjetDueDate = findViewById(R.id.editTextProjetDueDate);
         editTextProjetDueHour = findViewById(R.id.editTextDueHour);
 
-        //Firebase Initializing
-        try
-        {
-            database = FirebaseFirestore.getInstance();
-        }
-        catch (Exception e)
-        {
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
+
 
         //on click listener of Create New ProJet button
         buttonCreateNewProjet.setOnClickListener(new View.OnClickListener()
@@ -70,14 +78,14 @@ public class CreateProjectActivity extends AppCompatActivity
                 }
                 else
                 {
+                    //TODO find out a way to check whether a projet with desired name already exists.
+
                     //Hash-map to store and send the above data to server
                     Map<String, String> projetInfo = new HashMap<>();
                     projetInfo.put("projet_name", projetName);
                     projetInfo.put("projet_desc", projetDesc);
                     projetInfo.put("projet_due_date", projetDueDate);
                     projetInfo.put("projet_due_hour", projetDueHour);
-
-                    //TODO find out a way to check whether a projet with desired name already exists.
 
                     //Adding hash-map to database
                     database.collection("ProJets").document(projetName)
@@ -109,9 +117,13 @@ public class CreateProjectActivity extends AppCompatActivity
                     memberCounter.put("projet_member_counter", 1);
                     database.collection("ProJets").document(projetName).set(memberCounter, SetOptions.merge());
 
+                    //Creating users & tasks collection inside of the projet document
+                    DocumentReference userRef = database.collection("Users").document(currentUserMail);
+                    database.collection("Projets").document(projetName).collection("ProJet Members").document(currentUserMail).update("member_ref", userRef);
+
                     //closing the creation page, and removing it from backstack
-                    finish();
                     startActivity(new Intent(CreateProjectActivity.this, ProjetMainPageActivity.class));
+                    finish();
                 }
             }
         });

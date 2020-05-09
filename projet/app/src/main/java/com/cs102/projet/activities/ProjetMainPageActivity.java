@@ -18,14 +18,21 @@ import com.cs102.projet.R;
 import com.cs102.projet.fragments.FragmentMainPageProject;
 import com.cs102.projet.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
 
 public class ProjetMainPageActivity extends AppCompatActivity
 {
     String currentUserMail;
-    Bundle extras;
     FirebaseFirestore database;
     FirebaseAuth myFirebaseAuth;
+    FirebaseUser currentUser;
+    DocumentReference userReference;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -33,20 +40,26 @@ public class ProjetMainPageActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
 
-        //View & more initialize
-        extras = getIntent().getExtras();
-        Button buttonCreateNewProjet = findViewById(R.id.buttonCreateNewProjet);
-        currentUserMail = extras.getString("currentUserEmail");
-
         //Firebase initialize
         database = FirebaseFirestore.getInstance();
         myFirebaseAuth = FirebaseAuth.getInstance();
+        currentUser = myFirebaseAuth.getCurrentUser();
+
+        //View & more initialize
+        Button buttonCreateNewProjet = findViewById(R.id.buttonCreateNewProjet);
+
+        //Getting current logged in user's mail address
+        currentUserMail = currentUser.getEmail();
+
+        //TODO Checking current user's projets and if there are any, adding them to page using fragments
 
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         FragmentMainPageProject deneme1 = new FragmentMainPageProject("DG", "07/05/2020");
         FragmentMainPageProject deneme2 = new FragmentMainPageProject("Yaptım mı yoksa?", "19/05/2020");
 
+        //TODO here some bug causes creating of 7(amount of added fragments here) empty fragments to the main screen,
+        //TODO hopefully it will be fixed when I call all projets from the firestore each time
         ft.add(R.id.fragmentContainer, deneme1);
         ft.add(R.id.fragmentContainer, deneme2);
         ft.add(R.id.fragmentContainer, new FragmentMainPageProject("Burak", "15/04/2020"));
@@ -63,7 +76,9 @@ public class ProjetMainPageActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                startActivity(new Intent(ProjetMainPageActivity.this, CreateProjectActivity.class));
+                Intent intent = new Intent(ProjetMainPageActivity.this, CreateProjectActivity.class);
+                intent.putExtra("currentUserEmail", currentUserMail);
+                startActivity(intent);
             }
         });
     }

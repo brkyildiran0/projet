@@ -19,6 +19,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
+import org.w3c.dom.Document;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,8 +59,6 @@ public class CreateProjectActivity extends AppCompatActivity
         editTextProjetDueDate = findViewById(R.id.editTextProjetDueDate);
         editTextProjetDueHour = findViewById(R.id.editTextDueHour);
 
-
-
         //on click listener of Create New ProJet button
         buttonCreateNewProjet.setOnClickListener(new View.OnClickListener()
         {
@@ -80,14 +80,12 @@ public class CreateProjectActivity extends AppCompatActivity
                 {
                     //TODO find out a way to check whether a projet with desired name already exists.
 
-                    //Hash-map to store and send the above data to server
+                    //Adding the essential parts of a projet and creating it at ProJets collection
                     Map<String, String> projetInfo = new HashMap<>();
                     projetInfo.put("projet_name", projetName);
                     projetInfo.put("projet_desc", projetDesc);
                     projetInfo.put("projet_due_date", projetDueDate);
                     projetInfo.put("projet_due_hour", projetDueHour);
-
-                    //Adding hash-map to database
                     database.collection("ProJets").document(projetName)
                             .set(projetInfo)
                             .addOnSuccessListener(new OnSuccessListener<Void>()
@@ -107,19 +105,18 @@ public class CreateProjectActivity extends AppCompatActivity
                                 }
                             });
 
+                    //Creating a DocumentReference for current projet to make code cleaner
+                    DocumentReference projetReference = database.collection("ProJets").document(projetName);
+
                     //Adding the required boolean value to be able to finish a project in the future
                     Map<String, Boolean> isFinished = new HashMap<>();
                     isFinished.put("projet_is_complete", false);
-                    database.collection("ProJets").document(projetName).set(isFinished, SetOptions.merge());
+                    projetReference.set(isFinished, SetOptions.merge());
 
-                    //Adding the required int value to be able to counter how many members are there in given ProJet
-                    Map<String, Integer> memberCounter = new HashMap<>();
-                    memberCounter.put("projet_member_counter", 1);
-                    database.collection("ProJets").document(projetName).set(memberCounter, SetOptions.merge());
-
-                    //Creating users & tasks collection inside of the projet document
-                    DocumentReference userRef = database.collection("Users").document(currentUserMail);
-                    database.collection("Projets").document(projetName).collection("ProJet Members").document(currentUserMail).update("member_ref", userRef);
+                    //Creating users & tasks collection inside of the projet document and initializing them with currentUser's data
+                    Map<String, DocumentReference> creatorUserInit = new HashMap<>();
+                    creatorUserInit.put("creator_user", database.collection("Users").document(currentUserMail));
+                    projetReference.collection("ProJet members").document("Creator").set(creatorUserInit, SetOptions.merge());
 
                     //closing the creation page, and removing it from backstack
                     startActivity(new Intent(CreateProjectActivity.this, ProjetMainPageActivity.class));

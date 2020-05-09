@@ -31,8 +31,6 @@ public class ProjetMainPageActivity extends AppCompatActivity
     FirebaseFirestore database;
     FirebaseAuth myFirebaseAuth;
     FirebaseUser currentUser;
-    DocumentReference userReference;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -55,17 +53,7 @@ public class ProjetMainPageActivity extends AppCompatActivity
 
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        FragmentMainPageProject deneme1 = new FragmentMainPageProject("DG", "07/05/2020");
-        FragmentMainPageProject deneme2 = new FragmentMainPageProject("Yaptım mı yoksa?", "19/05/2020");
 
-        //TODO here some bug causes creating of 7(amount of added fragments here) empty fragments to the main screen,
-        //TODO hopefully it will be fixed when I call all projets from the firestore each time
-        ft.add(R.id.fragmentContainer, deneme1);
-        ft.add(R.id.fragmentContainer, deneme2);
-        ft.add(R.id.fragmentContainer, new FragmentMainPageProject("Burak", "15/04/2020"));
-        ft.add(R.id.fragmentContainer, new FragmentMainPageProject("Burak", "15/04/2020"));
-        ft.add(R.id.fragmentContainer, new FragmentMainPageProject("Burak", "15/04/2020"));
-        ft.add(R.id.fragmentContainer, new FragmentMainPageProject("Burak", "15/04/2020"));
         ft.add(R.id.fragmentContainer, new FragmentMainPageProject("Burak", "15/04/2020"));
 
         ft.commit();

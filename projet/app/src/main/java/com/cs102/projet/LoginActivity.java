@@ -28,6 +28,8 @@ public class LoginActivity extends AppCompatActivity
     Button forgetPasswordButton;
     Button singUpButton;
 
+    //OnCreate Method
+    //Deneme
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

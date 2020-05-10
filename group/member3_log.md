@@ -9,7 +9,7 @@ On this page I will keep a weekly record of what I have done for the CS102 group
 This week i learned recursion, had brainstorm for our project and learned some stuff at android studio
 
 ### ~ 11.5.2020 ~
-This week learned some firebase, worked for projects some pages and implemented it. 
+This week learned some firebase, worked for projects some pages and implemented it. Now working on recycler view to see if we can implement it into our project and creating some activities for newer users to learn how to use the app.
 
 ### ~ date ~
 blah, blah, blah...

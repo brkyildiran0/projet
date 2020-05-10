@@ -120,7 +120,20 @@ public class CreateProjectActivity extends AppCompatActivity
                     //Creating users & tasks collection inside of the projet document and initializing them with currentUser's data
                     Map<String, DocumentReference> userInit = new HashMap<>();
                     userInit.put("user_reference", database.collection("Users").document(currentUserMail));
-                    projetReference.collection("Members").document("desired user name, will be adjusted").set(userInit, SetOptions.merge());
+                    projetReference.collection("Members").document("desired user mail address here").set(userInit, SetOptions.merge());
+
+                    //Creating tasks collection of projet TODO find a way to add task due date&hour AND using them properly to send notifications
+                    Map<String, String> taskMap = new HashMap<>();
+                    taskMap.put("task_description", "Task description goes here");
+                    projetReference.collection("Tasks").document("Task name here").set(taskMap, SetOptions.merge());
+
+                    //DocRef for creator of user, to improve code clarity
+                    DocumentReference creatorUser = database.collection("Users").document(currentUserMail);
+
+                    //Adding the projet reference to the creator of projet's current projets document
+                    Map<String, DocumentReference> userProjetUpdate = new HashMap<>();
+                    userProjetUpdate.put("projet_reference", projetReference);
+                    creatorUser.collection("Current ProJets").document(projetName).set(userProjetUpdate, SetOptions.merge());
 
                     //closing the creation page, and removing it from backstack
                     startActivity(new Intent(CreateProjectActivity.this, ProjetMainPageActivity.class));

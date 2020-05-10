@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +22,6 @@ import com.cs102.projet.R;
 import com.cs102.projet.classes.ProJet;
 import com.cs102.projet.fragments.FragmentMainPageProject;
 import com.cs102.projet.LoginActivity;
-import com.firebase.client.core.SnapshotHolder;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -66,6 +66,7 @@ public class ProjetMainPageActivity extends AppCompatActivity
 
         //View & more initialize
         Button buttonCreateNewProjet = findViewById(R.id.buttonCreateNewProjet);
+        ImageButton buttonRecycle = findViewById(R.id.buttonRecycle);
 
         //Getting current logged in user's mail address
         currentUserMail = currentUser.getEmail();
@@ -74,7 +75,6 @@ public class ProjetMainPageActivity extends AppCompatActivity
         CollectionReference userCurrentProjets = database.collection("Users").document(currentUserMail).collection("Current ProJets");
 
         //Checking user's Current ProJets folder, if there are any adding them to a List
-
         userCurrentProjets.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
                 {
@@ -91,7 +91,6 @@ public class ProjetMainPageActivity extends AppCompatActivity
                             for (QueryDocumentSnapshot document : task.getResult())
                             {
                                 ft.add(R.id.fragmentContainer, new FragmentMainPageProject(document.getId(), "12/03/2020"));
-                                Log.d("alabiliom mu", document.getId());
                             }
                         }
                         else
@@ -103,7 +102,6 @@ public class ProjetMainPageActivity extends AppCompatActivity
                     }
                 });
 
-
         //CreateNewProJetButton onClick
         buttonCreateNewProjet.setOnClickListener(new View.OnClickListener()
         {
@@ -113,6 +111,17 @@ public class ProjetMainPageActivity extends AppCompatActivity
                 Intent intent = new Intent(ProjetMainPageActivity.this, CreateProjectActivity.class);
                 intent.putExtra("currentUserEmail", currentUserMail);
                 startActivity(intent);
+            }
+        });
+
+        //Recycle onClick
+        buttonRecycle.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                startActivity(new Intent(getApplicationContext(), ProjetMainPageActivity.class));
+                finish();
             }
         });
     }

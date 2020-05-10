@@ -4,26 +4,47 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cs102.projet.R;
+import com.cs102.projet.classes.ProJet;
 import com.cs102.projet.fragments.FragmentMainPageProject;
 import com.cs102.projet.LoginActivity;
+import com.firebase.client.core.SnapshotHolder;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.annotations.Nullable;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
+
+import io.opencensus.metrics.export.Summary;
 
 public class ProjetMainPageActivity extends AppCompatActivity
 {
@@ -49,14 +70,39 @@ public class ProjetMainPageActivity extends AppCompatActivity
         //Getting current logged in user's mail address
         currentUserMail = currentUser.getEmail();
 
-        //TODO Checking current user's projets and if there are any, adding them to page using fragments
+        //Setting a reference to user's Current Projets folder
+        CollectionReference userCurrentProjets = database.collection("Users").document(currentUserMail).collection("Current ProJets");
 
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
+        //Checking user's Current ProJets folder, if there are any adding them to a List
 
-        ft.add(R.id.fragmentContainer, new FragmentMainPageProject("Burak", "15/04/2020"));
+        userCurrentProjets.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+                {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task)
+                    {
+                        FragmentManager fm = getSupportFragmentManager();
+                        FragmentTransaction ft = fm.beginTransaction();
 
-        ft.commit();
+                        if (task.isSuccessful())
+                        {
+                            //Declaring an arraylist to hold current projet names
+
+                            for (QueryDocumentSnapshot document : task.getResult())
+                            {
+                                ft.add(R.id.fragmentContainer, new FragmentMainPageProject(document.getId(), "12/03/2020"));
+                                Log.d("alabiliom mu", document.getId());
+                            }
+                        }
+                        else
+                        {
+                            Log.e("DenemeError", "olmadi");
+                        }
+
+                        ft.commit();
+                    }
+                });
+
 
         //CreateNewProJetButton onClick
         buttonCreateNewProjet.setOnClickListener(new View.OnClickListener()
@@ -125,4 +171,5 @@ public class ProjetMainPageActivity extends AppCompatActivity
     {
         moveTaskToBack(true);
     }
+
 }

@@ -13,11 +13,18 @@ import com.cs102.projet.R;
 
 public class ProjectPageActivity extends AppCompatActivity
 {
+    private String projetName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_page);
+
+        //Getting info from fragment Handling nullPointerException for incoming intent extra
+        Bundle extras = getIntent().getExtras();
+        assert extras != null;
+        projetName = extras.getString("projetName");
     }
 
 

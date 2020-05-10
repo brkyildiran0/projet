@@ -130,10 +130,17 @@ public class CreateProjectActivity extends AppCompatActivity
                     //DocRef for creator of user, to improve code clarity
                     DocumentReference creatorUser = database.collection("Users").document(currentUserMail);
 
-                    //Adding the projet reference to the creator of projet's current projets document
-                    Map<String, DocumentReference> userProjetUpdate = new HashMap<>();
-                    userProjetUpdate.put("projet_reference", projetReference);
-                    creatorUser.collection("Current ProJets").document(projetName).set(userProjetUpdate, SetOptions.merge());
+                    //Adding the projet reference and other properties of it to the creator of projet's current projets document
+                    Map<String, DocumentReference> userProjetUpdate1 = new HashMap<>();
+                    userProjetUpdate1.put("projet_reference", projetReference);
+                    creatorUser.collection("Current ProJets").document(projetName).set(userProjetUpdate1, SetOptions.merge());
+
+                    Map<String, String> userProjetUpdate2 = new HashMap<>();
+                    userProjetUpdate2.put("projet_name", projetName);
+                    userProjetUpdate2.put("projet_desc", projetDesc);
+                    userProjetUpdate2.put("projet_due_date", projetDueDate);
+                    userProjetUpdate2.put("projet_due_hour", projetDueHour);
+                    creatorUser.collection("Current ProJets").document(projetName).set(userProjetUpdate2, SetOptions.merge());
 
                     //closing the creation page, and removing it from backstack
                     startActivity(new Intent(CreateProjectActivity.this, ProjetMainPageActivity.class));

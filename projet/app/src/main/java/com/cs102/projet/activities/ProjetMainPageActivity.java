@@ -81,21 +81,23 @@ public class ProjetMainPageActivity extends AppCompatActivity
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task)
                     {
+                        //Initializing the fragment managers here to display each projet user owns
                         FragmentManager fm = getSupportFragmentManager();
                         FragmentTransaction ft = fm.beginTransaction();
 
+                        //Processing the projet info and inserting the info to fragment and displaying it
                         if (task.isSuccessful())
                         {
-                            //Declaring an arraylist to hold current projet names
-
                             for (QueryDocumentSnapshot document : task.getResult())
                             {
-                                ft.add(R.id.fragmentContainer, new FragmentMainPageProject(document.getId(), "12/03/2020"));
+                                //Getting the projet refence to use it at getting projet duedate
+                                DocumentReference projetReference = database.collection("ProJets").document(document.getId());
+                                ft.add(R.id.fragmentContainer, new FragmentMainPageProject(document.getId(), document.getString("projet_due_date")));
                             }
                         }
                         else
                         {
-                            Log.e("DenemeError", "olmadi");
+                            Log.e("Error", "Could not retrieve ProJet info.");
                         }
 
                         ft.commit();

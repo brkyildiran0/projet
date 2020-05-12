@@ -41,3 +41,35 @@ All layouts has been created, toolbar buttons adjusted and the major bug at page
 All members learnt how to use and implement firebase database system. Discussed some parts on which needed adjustments/thinking.
 
 **ToDo:** All members will start coding the java part of the layouts to make it interactable.
+
+****
+### Meeting ~ (07/05/2020, 3-4hrs)
+****
+**Present:** Ömer Burak Yıldıran, Celal Berke Can, Yüksel Berkay Erdem, Deniz Berkant Demirörs   _**Absent:**_  Amir Aliyev
+
+**Discussion:** 
+Firebase is now active on the login page, and the logged user can access some properties at the firebase.
+
+**ToDo:** Will make a detailed design & implementation of the main page of the program, ProJetMainPage
+
+****
+### Meeting ~ (09/05/2020, 4-5hrs)
+****
+**Present:** Ömer Burak Yıldıran, Celal Berke Can, Yüksel Berkay Erdem, Deniz Berkant Demirörs   _**Absent:**_  Amir Aliyev
+
+**Discussion:** 
+Adjusted and added a bunch of new properties to a ProJet at the code & Firebase Database.
+
+**ToDo:** Will find a way to update page contents in real-time from database (without requiring to restart the entire page(activity)
+
+****
+### Meeting ~ (11/05/2020, 2-3hrs)
+****
+**Present:** Ömer Burak Yıldıran, Celal Berke Can, Yüksel Berkay Erdem, Deniz Berkant Demirörs   _**Absent:**_  Amir Aliyev
+
+**Discussion:** 
+Now main page works correctly, lists all the ProJets a user has, and can refresh the page. Implementation of the actual page of a ProJet continues, made significant differences on the UI of it and planning to apply the planned changes as soon as possible
+
+**ToDo:** Real-time data update is now active, but still struggling to implement it to the ProJet page, will fix this as soon as possible as well.
+
+

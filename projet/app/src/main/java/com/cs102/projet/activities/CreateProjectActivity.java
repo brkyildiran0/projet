@@ -40,6 +40,7 @@ public class CreateProjectActivity extends AppCompatActivity
     private EditText editTextProjetDueDate;
     private EditText editTextProjetDueHour;
     String currentUserMail;
+    String userRealName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -70,7 +71,7 @@ public class CreateProjectActivity extends AppCompatActivity
             public void onClick(View v)
             {
                 //these string will be sent to server
-                String projetName = editTextProjetName.getText().toString();
+                final String projetName = editTextProjetName.getText().toString();
                 String projetDesc = editTextProjetDesc.getText().toString();
                 String projetDueDate = editTextProjetDueDate.getText().toString();
                 String projetDueHour = editTextProjetDueHour.getText().toString();
@@ -120,7 +121,23 @@ public class CreateProjectActivity extends AppCompatActivity
                     //Creating users & tasks collection inside of the projet document and initializing them with currentUser's data
                     Map<String, DocumentReference> userInit = new HashMap<>();
                     userInit.put("user_reference", database.collection("Users").document(currentUserMail));
-                    projetReference.collection("Members").document("desired user mail address here").set(userInit, SetOptions.merge());
+                    projetReference.collection("Members").document(currentUserMail).set(userInit, SetOptions.merge());
+
+                    //Adding real name attribute to the user
+                    database.collection("Users").document(currentUserMail).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
+                    {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot)
+                        {
+                            userRealName = documentSnapshot.getString("user_name");
+                            assert userRealName != null;
+                            Log.d("User's real name is:", userRealName);
+
+                            Map<String, String> userInit2 = new HashMap<>();
+                            userInit2.put("user_name", userRealName);
+                            database.collection("ProJets").document(projetName).collection("Members").document(currentUserMail).set(userInit2, SetOptions.merge());
+                        }
+                    });
 
                     //Creating tasks collection of projet TODO find a way to add task due date&hour AND using them properly to send notifications
                     Map<String, String> taskMap = new HashMap<>();

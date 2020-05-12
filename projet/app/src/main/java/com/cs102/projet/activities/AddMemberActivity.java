@@ -4,19 +4,26 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cs102.projet.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.Source;
 
@@ -27,6 +34,11 @@ import java.util.Map;
 public class AddMemberActivity extends AppCompatActivity
 {
     private String projetName;
+    private String projetDescription;
+    private String projetDueDate;
+    private String projetDueHour;
+    private String addedUserName;
+    private String addedUserMail;
     private Button buttonAddMember;
     private Button buttonDone;
     private EditText editTextEmail;
@@ -46,16 +58,22 @@ public class AddMemberActivity extends AppCompatActivity
         myFirebaseAuth = FirebaseAuth.getInstance();
         currentUser = myFirebaseAuth.getCurrentUser();
 
+        //Bundle initialize
+        Bundle extras = getIntent().getExtras();
+        assert extras != null;
+
         //initializing views
         buttonAddMember = findViewById(R.id.buttonAddMembers);
         buttonDone = findViewById(R.id.buttonDone);
         editTextEmail = findViewById(R.id.editTextEmail);
-        Bundle extras = getIntent().getExtras();
-        assert extras != null;
+
         projetName = extras.getString("projetName");
+        projetDescription = extras.getString("projetDesc");
+        projetDueDate = extras.getString("projetDueDate");
+        projetDueHour = extras.getString("projetDueHour");
 
 
-        //AddMember button listener, adds members' emails to an ArrayList, which will be sent to Create New ProJet page
+        //AddMember button listener, adds members' directly to ProJet/Members root and Members/"addedMemberName" root
         buttonAddMember.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -63,27 +81,62 @@ public class AddMemberActivity extends AppCompatActivity
             {
                 if ( !editTextEmail.getText().toString().equals("") )
                 {
-                    //DocumentReference of added member for code clarity
-                    String inputMailAdress = editTextEmail.getText().toString();
-                    DocumentReference addedMember = database.collection("Users").document(inputMailAdress);
+                    //Checking whether such user with given email exists and continuing accordingly.
+                    Query myQuery = database.collection("Users").whereEqualTo("user_email", editTextEmail.getText().toString());
+                    myQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+                    {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task)
+                        {
+                            if(task.isSuccessful())
+                            {
+                                for (QueryDocumentSnapshot document : task.getResult())
+                                {
+                                    //Now we are certain that such user exists, therefore getting needed values.
+                                    addedUserName = document.getString("user_name");
+                                    addedUserMail = document.getString("user_email");
 
-                    //Creation of new member and its email init in the projet members collection
-                    Map<String, String> map = new HashMap<>();
-                    map.put("user_email", editTextEmail.getText().toString());
-                    database.collection("ProJets").document(projetName).collection("Members").document(inputMailAdress).set(map, SetOptions.merge());
+                                    //ProJet root update
+                                    Map<String, String> userInitializer = new HashMap<>();
+                                    userInitializer.put("user_name", addedUserName);
+                                    database.collection("ProJets").document(projetName).collection("Members").document(addedUserMail).set(userInitializer, SetOptions.merge());
 
-                    Map<String, String> nameAdder = new HashMap<>();
-                    nameAdder.put("user_name", addedMember.get().getResult().getString("user_name"));
-                    database.collection("ProJets").document(projetName).collection("Members").document(inputMailAdress).set(nameAdder, SetOptions.merge());
+                                    //Users root update
+                                    Map<String, String> user = new HashMap<>();
+                                    user.put("projet_desc", projetDescription);
+                                    user.put("projet_due_date", projetDueDate);
+                                    user.put("projet_due_hour", projetDueHour);
+                                    user.put("projet_name", projetName);
+                                    database.collection("Users").document(addedUserMail).collection("Current ProJets").document(projetName).set(user, SetOptions.merge());
 
-                    Toast.makeText(AddMemberActivity.this, "Member Added!", Toast.LENGTH_LONG).show();
-                    editTextEmail.setText("");
+                                    //Inform app and clear the text input
+                                    Toast.makeText(AddMemberActivity.this, "Member Added!", Toast.LENGTH_LONG).show();
+                                    editTextEmail.setText("");
+                                }
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener()
+                    {
+                        @Override
+                        public void onFailure(@NonNull Exception e)
+                        {
+                            Log.d("Error", "Could not do the query");
+                        }
+                    });
                 }
+                //Empty input case
                 else
                     Toast.makeText(AddMemberActivity.this, "Please enter the e-mail!", Toast.LENGTH_SHORT).show();
             }
         });
 
-        //TODO modify the buttonDone setOnClicker accordingly in the future
+        buttonDone.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                finish();
+            }
+        });
     }
 }

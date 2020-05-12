@@ -99,6 +99,9 @@ public class ProjectPageActivity extends AppCompatActivity
             case R.id.addNewMember:
                 Intent newMember = new Intent(getApplicationContext(), AddMemberActivity.class);
                 newMember.putExtra("projetName", projetName);
+                newMember.putExtra("projetDesc", projetDescription.getText().toString());
+                newMember.putExtra("projetDueDate", projetDueDate.getText().toString());
+                newMember.putExtra("projetDueHour", projetDueHour.getText().toString());
                 startActivity(newMember);
                 return true;
             case R.id.addNewTask:

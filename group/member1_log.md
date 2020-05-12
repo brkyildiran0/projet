@@ -37,4 +37,15 @@ This week;
     -Fixed and cleaned create new projet page, now fully functional
     -Replaced add members and add tasks buttons with the ones at toolbar (i.e. another new toolbar design)
     -Auth based user creation at database is now functional and good to go.
+  ***9-10 May***
+    -Updated the Main Page(Current ProJets), it is now fully functional
+    -Added new properties to the ProJet and Users documents at the firebase, so they can keep up with the desired changes
+    
+  ### ~ 11 May 2020 - 17 May 2020 ~
+  This week;
+  ***11-12 May***
+    -Completely re-designed and implemented the ProJet page, now functional as desired.
+    -Drew a diagram to make our coding easier on the pages ProJet Main, ProJet Members, ProJet Tasks, ProJet Group Log (with Yüksel Berkay Erdem)
+    -Solved the group chat system, instead of a live-updated chat system, we decided to use a Group Log, which consists of various messages from users with desired Header, and attached the date the message was created.
+    
   

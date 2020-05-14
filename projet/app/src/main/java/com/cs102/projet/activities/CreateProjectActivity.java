@@ -40,6 +40,7 @@ public class CreateProjectActivity extends AppCompatActivity
     private EditText editTextProjetDueDate;
     private EditText editTextProjetDueHour;
     String currentUserMail;
+    String userRealName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -70,7 +71,7 @@ public class CreateProjectActivity extends AppCompatActivity
             public void onClick(View v)
             {
                 //these string will be sent to server
-                String projetName = editTextProjetName.getText().toString();
+                final String projetName = editTextProjetName.getText().toString();
                 String projetDesc = editTextProjetDesc.getText().toString();
                 String projetDueDate = editTextProjetDueDate.getText().toString();
                 String projetDueHour = editTextProjetDueHour.getText().toString();
@@ -120,7 +121,43 @@ public class CreateProjectActivity extends AppCompatActivity
                     //Creating users & tasks collection inside of the projet document and initializing them with currentUser's data
                     Map<String, DocumentReference> userInit = new HashMap<>();
                     userInit.put("user_reference", database.collection("Users").document(currentUserMail));
-                    projetReference.collection("Members").document("desired user name, will be adjusted").set(userInit, SetOptions.merge());
+                    projetReference.collection("Members").document(currentUserMail).set(userInit, SetOptions.merge());
+
+                    //Adding real name attribute to the user
+                    database.collection("Users").document(currentUserMail).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
+                    {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot)
+                        {
+                            userRealName = documentSnapshot.getString("user_name");
+                            assert userRealName != null;
+                            Log.d("User's real name is:", userRealName);
+
+                            Map<String, String> userInit2 = new HashMap<>();
+                            userInit2.put("user_name", userRealName);
+                            database.collection("ProJets").document(projetName).collection("Members").document(currentUserMail).set(userInit2, SetOptions.merge());
+                        }
+                    });
+
+                    //Creating tasks collection of projet TODO find a way to add task due date&hour AND using them properly to send notifications
+                    Map<String, String> taskMap = new HashMap<>();
+                    taskMap.put("task_description", "Task description goes here");
+                    projetReference.collection("Tasks").document("Task name here").set(taskMap, SetOptions.merge());
+
+                    //DocRef for creator of user, to improve code clarity
+                    DocumentReference creatorUser = database.collection("Users").document(currentUserMail);
+
+                    //Adding the projet reference and other properties of it to the creator of projet's current projets document
+                    Map<String, DocumentReference> userProjetUpdate1 = new HashMap<>();
+                    userProjetUpdate1.put("projet_reference", projetReference);
+                    creatorUser.collection("Current ProJets").document(projetName).set(userProjetUpdate1, SetOptions.merge());
+
+                    Map<String, String> userProjetUpdate2 = new HashMap<>();
+                    userProjetUpdate2.put("projet_name", projetName);
+                    userProjetUpdate2.put("projet_desc", projetDesc);
+                    userProjetUpdate2.put("projet_due_date", projetDueDate);
+                    userProjetUpdate2.put("projet_due_hour", projetDueHour);
+                    creatorUser.collection("Current ProJets").document(projetName).set(userProjetUpdate2, SetOptions.merge());
 
                     //closing the creation page, and removing it from backstack
                     startActivity(new Intent(CreateProjectActivity.this, ProjetMainPageActivity.class));

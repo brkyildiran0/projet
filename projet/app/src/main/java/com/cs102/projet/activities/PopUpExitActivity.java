@@ -12,11 +12,13 @@ import android.widget.Button;
 
 import com.cs102.projet.R;
 
-public class PopUpExitActivity extends Activity {
+public class PopUpExitActivity extends Activity
+{
     Button YesExitPop, NoExitPop;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pop_up_exit);
 

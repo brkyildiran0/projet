@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment;
 
 import com.cs102.projet.activities.ProfilePageActivity;
 import com.cs102.projet.R;
+import com.cs102.projet.activities.ProjectPageActivity;
+import com.cs102.projet.activities.ProjetMainPageActivity;
 
 public class FragmentMainPageProject extends Fragment {
     private String projetName;
@@ -41,7 +43,8 @@ public class FragmentMainPageProject extends Fragment {
         rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent gecIntent = new Intent(getContext(), ProfilePageActivity.class);
+                Intent gecIntent = new Intent(getContext(), ProjectPageActivity.class);
+                gecIntent.putExtra("projetName", unchangedNameText.getText().toString());
                 startActivity(gecIntent);
             }
         });

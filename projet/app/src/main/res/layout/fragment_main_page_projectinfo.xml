@@ -38,9 +38,10 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="343dp"
         android:layout_marginRight="343dp"
-        android:text="Date : "
+        android:text="Due Date:"
+        android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.714"
+        app:layout_constraintHorizontal_bias="0.055"
         app:layout_constraintStart_toEndOf="@+id/colorStick_fr"
         app:layout_constraintTop_toBottomOf="@+id/projetName_fr" />
 
@@ -48,13 +49,10 @@
         android:id="@+id/setDate_fr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="18dp"
-        android:layout_marginLeft="18dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="262dp"
-        android:layout_marginRight="262dp"
         android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/date_fr"
         app:layout_constraintTop_toBottomOf="@+id/projetName_fr" />
 

@@ -29,7 +29,6 @@ public class LoginActivity extends AppCompatActivity
     Button singUpButton;
 
     //OnCreate Method
-    //Deneme
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -46,8 +45,13 @@ public class LoginActivity extends AppCompatActivity
         //Firebase auth initialize
         myFirebaseAuth = FirebaseAuth.getInstance();
 
-        // Check user already signed in or not..
-        //TODO ????
+        if (myFirebaseAuth.getCurrentUser() != null)
+        {
+            // if User not logged go to login activity
+            Intent intent = new Intent(LoginActivity.this, ProjetMainPageActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
         //SignUpButton onClick
         singUpButton.setOnClickListener(new View.OnClickListener() {

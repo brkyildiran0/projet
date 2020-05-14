@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.TaskPageActivity"></activity>
+        <activity android:name=".activities.TaskPageActivity"/>
         <activity android:name=".loginpage.RegisterActivity" />
         <activity android:name=".activities.NotificationsActivity" />
         <activity android:name=".activities.ProfilePageActivity" />

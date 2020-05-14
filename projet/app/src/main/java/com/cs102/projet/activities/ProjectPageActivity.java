@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -76,6 +77,18 @@ public class ProjectPageActivity extends AppCompatActivity
                 projetDueDate.setText(documentSnapshot.getString("projet_due_date"));
                 projetDueHour.setText(documentSnapshot.getString("projet_due_hour"));
 
+            }
+        });
+
+        //tasksButton onClick()
+        tasksButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intentX = new Intent(ProjectPageActivity.this, TaskPageActivity.class);
+                intentX.putExtra("projetName", projetName);
+                startActivity(intentX);
             }
         });
     }

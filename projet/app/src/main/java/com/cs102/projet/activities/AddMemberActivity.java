@@ -130,6 +130,7 @@ public class AddMemberActivity extends AppCompatActivity
             }
         });
 
+        //To finish the adding process
         buttonDone.setOnClickListener(new View.OnClickListener()
         {
             @Override

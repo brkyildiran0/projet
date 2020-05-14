@@ -83,7 +83,7 @@ public class RegisterActivity extends AppCompatActivity
                                 //Creating the registered user at database with mail address and name&surname
                                 Map<String, String> mailNameAdder = new HashMap<>();
                                 mailNameAdder.put("user_email", emailInput.getText().toString());
-                                mailNameAdder.put("user_name_surname", userNameInput.getText().toString());
+                                mailNameAdder.put("user_name", userNameInput.getText().toString());
                                 database.collection("Users").document(emailInput.getText().toString()).set(mailNameAdder);
 
                                 //TODO create a collection of Current Projets and manage that one. Do not mess with arrays, they are complicated in firestore.

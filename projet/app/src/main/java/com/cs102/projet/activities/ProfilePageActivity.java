@@ -13,8 +13,6 @@ import com.cs102.projet.R;
 
 public class ProfilePageActivity extends AppCompatActivity
 {
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

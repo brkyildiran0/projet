@@ -10,13 +10,13 @@
         android:id="@+id/NewProjetCreateText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="60dp"
         android:text="@string/create_new_projet"
         android:textColor="#673AB7"
         android:textSize="26sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,120 +24,108 @@
         android:id="@+id/ProjetName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="240dp"
-        android:text="@string/projet_name"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="40dp"
+        android:text="ProJet Name"
         android:textSize="18sp"
+        android:textStyle="bold|italic"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/NewProjetCreateText" />
 
     <TextView
         android:id="@+id/ProJetExplanation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="285dp"
-        android:text="@string/projet_description"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="30dp"
+        android:text="ProJet Description"
         android:textSize="18sp"
+        android:textStyle="bold|italic"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextProjetName" />
 
     <TextView
         android:id="@+id/DueDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="330dp"
-        android:text="@string/due_date"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="30dp"
+        android:text="Due Date"
         android:textSize="18sp"
+        android:textStyle="bold|italic"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextProjetDesc" />
 
     <EditText
         android:id="@+id/editTextProjetName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="230dp"
         android:autofillHints=""
         android:ems="10"
-        android:hint="@string/projet_name_x"
         android:inputType="textPersonName"
         android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/ProjetName"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/ProjetName"
+        app:layout_constraintTop_toBottomOf="@+id/ProjetName" />
 
     <EditText
         android:id="@+id/editTextProjetDesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="275dp"
         android:autofillHints=""
         android:ems="10"
-        android:hint="@string/description"
         android:inputType="textPersonName"
         android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/ProJetExplanation"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/ProJetExplanation"
+        app:layout_constraintTop_toBottomOf="@+id/ProJetExplanation" />
 
     <EditText
         android:id="@+id/editTextProjetDueDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="320dp"
         android:autofillHints=""
         android:ems="10"
-        android:hint="@string/due_date_x"
         android:inputType="date"
         android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/DueDate"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/DueDate"
+        app:layout_constraintTop_toBottomOf="@+id/DueDate" />
 
     <TextView
         android:id="@+id/DueTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="375dp"
-        android:text="@string/due_hour"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="30dp"
+        android:text="Due Hour"
         android:textSize="18sp"
+        android:textStyle="bold|italic"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextProjetDueDate" />
 
     <EditText
         android:id="@+id/editTextDueHour"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="365dp"
         android:autofillHints=""
         android:ems="10"
-        android:hint="@string/due_time"
         android:inputType="time"
         android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/DueTime"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/DueTime"
+        app:layout_constraintTop_toBottomOf="@+id/DueTime" />
 
     <Button
         android:id="@+id/buttonCreateNewProjet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="450dp"
+        android:layout_width="142dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="50dp"
         android:text="@string/create_new_projet_x"
         android:textColor="#673AB7"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.457"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextDueHour" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

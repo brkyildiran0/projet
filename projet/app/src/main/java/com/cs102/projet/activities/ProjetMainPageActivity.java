@@ -17,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.cs102.projet.R;
+import com.cs102.projet.SettingsActivity;
 import com.cs102.projet.fragments.FragmentMainPageProject;
 import com.cs102.projet.LoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -141,9 +142,9 @@ public class ProjetMainPageActivity extends AppCompatActivity
                 //...
                 return true;
             case R.id.setting_button_on_toolbar:
-                //write down lines to switch to the settings page
-                //...
-                //...
+                Intent goToSettings = new Intent(ProjetMainPageActivity.this, SettingsActivity.class);
+                startActivity(goToSettings);
+
                 return true;
             case R.id.logout_button_on_toolbar:
                 myFirebaseAuth.signOut();

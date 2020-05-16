@@ -143,6 +143,7 @@ public class ProjectPageActivity extends AppCompatActivity
                 return true;
             case R.id.editProjet:
                 //TODO edit projet sayfası oluşturulacak
+                return true;
             case R.id.leaveProjet:
                 database = FirebaseFirestore.getInstance();
                 myFirebaseAuth = FirebaseAuth.getInstance();

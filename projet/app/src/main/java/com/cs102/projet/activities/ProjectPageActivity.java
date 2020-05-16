@@ -96,7 +96,6 @@ public class ProjectPageActivity extends AppCompatActivity
         });
 
         //membersButton onClick()
-        //TODO : Kopyaladığın zaman bunu da at Burağa!!!  Geçilen sayfaları düzenle.
         membersButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,6 +141,8 @@ public class ProjectPageActivity extends AppCompatActivity
             case R.id.addNewTask:
                 startActivity(new Intent(getApplicationContext(), AddTaskActivity.class));
                 return true;
+            case R.id.editProjet:
+                //TODO edit projet sayfası oluşturulacak
             case R.id.leaveProjet:
                 database = FirebaseFirestore.getInstance();
                 myFirebaseAuth = FirebaseAuth.getInstance();

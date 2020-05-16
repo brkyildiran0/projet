@@ -36,7 +36,6 @@ public class NotificationsActivity extends AppCompatActivity
         ft.commit();
     }
 
-    //TODO: onCreateOptionsMenu is the method for the AppBar(Toolbar), it will be added to the required pages on followings days as they are produced.
     //Method for the AppBar Buttons & Icons
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -47,7 +46,6 @@ public class NotificationsActivity extends AppCompatActivity
         return true;
     }
 
-    //TODO: onOptionsItemSelected is the method for the AppBar buttons' onClick methods, it will be added to the required pages on followings days as they are produced.
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item)
     {

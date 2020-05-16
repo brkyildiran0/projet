@@ -8,16 +8,51 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.cs102.projet.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class ProfilePageActivity extends AppCompatActivity
 {
+    FirebaseFirestore database;
+    FirebaseAuth myFirebaseAuth;
+    FirebaseUser currentUser;
+    TextView userMail;
+    TextView userName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_page);
+
+        //Firebase initialize
+        database = FirebaseFirestore.getInstance();
+        myFirebaseAuth = FirebaseAuth.getInstance();
+        currentUser = myFirebaseAuth.getCurrentUser();
+
+        //View initialize
+        userMail = findViewById(R.id.textMailAdress);
+        userName = findViewById(R.id.textRealNameSurname);
+
+        //Setting the Name & Email of the current user
+        assert currentUser != null;
+        userMail.setText(currentUser.getEmail());
+        database.collection("Users").document(currentUser.getEmail()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
+        {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot)
+            {
+                userName.setText(documentSnapshot.getString("user_name"));
+            }
+        });
     }
 
     //Method for the AppBar Buttons & Icons

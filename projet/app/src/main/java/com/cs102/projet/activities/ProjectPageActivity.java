@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -32,6 +33,7 @@ public class ProjectPageActivity extends AppCompatActivity
     private String projetName;
     private ImageButton membersButton;
     private ImageButton tasksButton;
+    private Button buttonChat;
     private ProgressBar progressBar;
     private TextView projetHeader;
     private TextView projetDescription;
@@ -62,6 +64,7 @@ public class ProjectPageActivity extends AppCompatActivity
         projetDescription = findViewById(R.id.projetDescription);
         projetDueDate = findViewById(R.id.projetDueDate);
         projetDueHour = findViewById(R.id.projetDueHour);
+        buttonChat = findViewById(R.id.buttonChat);
 
         //Setting the header of the ProJet page and document reference
         projetHeader.setText(projetName);
@@ -89,6 +92,25 @@ public class ProjectPageActivity extends AppCompatActivity
                 Intent intentX = new Intent(ProjectPageActivity.this, TaskPageActivity.class);
                 intentX.putExtra("projetName", projetName);
                 startActivity(intentX);
+            }
+        });
+
+        //membersButton onClick()
+        //TODO : Kopyaladığın zaman bunu da at Burağa!!!  Geçilen sayfaları düzenle.
+        membersButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentY = new Intent(ProjectPageActivity.this, MembersPageActivity.class);
+                intentY.putExtra("projetName", projetName);
+                startActivity(intentY);
+            }
+        });
+        buttonChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentA = new Intent(ProjectPageActivity.this, ChatActivity.class);
+                intentA.putExtra("projetName", projetName);
+                startActivity(intentA);
             }
         });
     }

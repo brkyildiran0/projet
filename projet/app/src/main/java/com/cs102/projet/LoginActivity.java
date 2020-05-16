@@ -29,6 +29,7 @@ public class LoginActivity extends AppCompatActivity
     Button singUpButton;
 
     //OnCreate Method
+    //Deneme
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

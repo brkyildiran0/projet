@@ -72,13 +72,4 @@ Now main page works correctly, lists all the ProJets a user has, and can refresh
 
 **ToDo:** Real-time data update is now active, but still struggling to implement it to the ProJet page, will fix this as soon as possible as well.
 
-****
-### Meeting ~ (13/05/2020, 2-3hrs)
-****
-**Present:** Ömer Burak Yıldıran, Celal Berke Can, Yüksel Berkay Erdem, Deniz Berkant Demirörs   _**Absent:**_  Amir Aliyev
-
-**Discussion:** 
-Final pages are now being created and program is almost done.
-
-**ToDo:** Group Chat Page will be added.
 

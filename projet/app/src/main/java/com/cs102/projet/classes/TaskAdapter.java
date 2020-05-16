@@ -72,7 +72,7 @@ public class TaskAdapter extends FirestoreRecyclerAdapter<Task, TaskAdapter.Task
 
         //**************** IMPORTANT PARAMETER ************** To move the projet name
         // from Task Adapter class to TaskHolder class. (The parameter is : this.projetName)
-        return new TaskHolder(v, this.projetName);
+        return new TaskHolder(v);
     }
 
     class TaskHolder extends RecyclerView.ViewHolder {
@@ -82,7 +82,7 @@ public class TaskAdapter extends FirestoreRecyclerAdapter<Task, TaskAdapter.Task
         Button buttonGetTask;
 
         //************* The parameter "projetName" is used in order to take the projetname from Task Adapter class. ******************
-        public TaskHolder(@NonNull View itemView, final String projetName) {
+        public TaskHolder(@NonNull View itemView) {
             super(itemView);
             textView_task_description = itemView.findViewById(R.id.textView_task_description);
             textView_task_due_date = itemView.findViewById(R.id.textView_task_due_date);

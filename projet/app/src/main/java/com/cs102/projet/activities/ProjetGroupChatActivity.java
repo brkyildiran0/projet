@@ -96,7 +96,7 @@ public class ProjetGroupChatActivity extends AppCompatActivity
                 Date currentdate = Calendar.getInstance().getTime();
                 Log.e("date", currentdate.toString());
                 //these string will be sent to server
-                String messageContent = editTextMessageContent.getText().toString();
+                final String messageContent = editTextMessageContent.getText().toString();
                 editTextMessageContent.setText("");
                 String messageSender = currentUserMail;
                 Timestamp messageDate = new Timestamp(currentdate);
@@ -157,7 +157,8 @@ public class ProjetGroupChatActivity extends AppCompatActivity
                         for(int h = 0; h < eventList.size(); h++){
 
                             if(!eventList.get(h).equals(currentUserMail)) {
-                                myNotification.sendNotification(eventList.get(h).toString(), "New message!");
+                                myNotification.sendNotification(eventList.get(h).toString(), "New message at "
+                                        + projetName +" \n" + messageContent);
                             }
                         }
                     }
@@ -207,7 +208,6 @@ public class ProjetGroupChatActivity extends AppCompatActivity
 
                             for(DocumentSnapshot doc : task.getResult()) {
                                 String e = doc.getId().toString();
-                                Log.e("reference : ", e);
                                 eventList.add(e);
                             }
                             getInformations.useInfo(eventList);

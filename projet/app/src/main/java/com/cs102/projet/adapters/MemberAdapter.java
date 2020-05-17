@@ -55,8 +55,14 @@ public class MemberAdapter extends FirestoreRecyclerAdapter<Member, MemberAdapte
                 int count = 1;
                 // Getting tasks from list one by one.
                 for ( int p = 0; p < eventList.size(); p++){
-                    tasks = tasks + String.valueOf(count) + "- " + eventList.get(p) + "\n";
-                    count++;
+                    if (p > 0) {
+                        tasks = tasks + "\n" + String.valueOf(count) + "- " + eventList.get(p) ;
+                        count++;
+                    }
+                    else{
+                        tasks = String.valueOf(count) + "- " + eventList.get(p);
+                        count++;
+                    }
                 }
 
                 // To set text where placed on Cardview.

@@ -40,7 +40,7 @@ public class MemberAdapter extends FirestoreRecyclerAdapter<Member, MemberAdapte
 
         // To get tasks that members have. This is limited to 3.
         Query query = db.collection("ProJets").document(projetName)
-                .collection("Tasks").whereEqualTo("task_owner", mail).limit(3);
+                .collection("Tasks").whereEqualTo("task_owner", mail).limit(4);
 
         moveData(new GetInformations() {
 

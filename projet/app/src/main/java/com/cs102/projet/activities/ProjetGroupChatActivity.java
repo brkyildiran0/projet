@@ -13,23 +13,31 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cs102.projet.MyNotificationClass;
 import com.cs102.projet.classes.Message;
 import com.cs102.projet.adapters.MessageAdapter;
 import com.cs102.projet.R;
+import com.cs102.projet.interfaces.GetInformations;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ProjetGroupChatActivity extends AppCompatActivity
@@ -49,6 +57,7 @@ public class ProjetGroupChatActivity extends AppCompatActivity
     private String currentUserName;
 
     private MessageAdapter adapter;
+    private MyNotificationClass myNotification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -63,6 +72,9 @@ public class ProjetGroupChatActivity extends AppCompatActivity
 
         groupChatname = findViewById(R.id.textView_groupchat);
         groupChatname.setText(projetName + " Group Chat");
+
+        //Notification init
+        myNotification = new MyNotificationClass();
 
         setUpRecyclerView(projetName);
 
@@ -138,6 +150,18 @@ public class ProjetGroupChatActivity extends AppCompatActivity
                             .document(projetName).collection("Chat").document(currentdate.toString());
                     messageReference.set(messeageInfo2, SetOptions.merge());
                 }
+                Query queryEmail = database.collection("ProJets").document(projetName).collection("Members");
+                moveData(new GetInformations() {
+                    @Override
+                    public void useInfo(List<String> eventList) {
+                        for(int h = 0; h < eventList.size(); h++){
+
+                            if(!eventList.get(h).equals(currentUserMail)) {
+                                myNotification.sendNotification(eventList.get(h).toString(), "New message!");
+                            }
+                        }
+                    }
+                }, queryEmail);
             }
         });
 
@@ -167,5 +191,30 @@ public class ProjetGroupChatActivity extends AppCompatActivity
     protected void onStop() {
         super.onStop();
         adapter.stopListening();
+    }
+
+    // The OnCompleteListener method is an asynchronous method. So, we cannot move the informations outside of the method.
+    // To do that, we create a new method that takes parameters an interface called "getInformations" and a query that we want to implement this method on.
+    // What does this method do? It is a normal method until the line "getInformations.useInfo(eventlist)".
+    // While this method is being used, the inner method is already completed. So, we can get the informations and we use them in "useInfo" method.
+    public void moveData(final GetInformations getInformations, Query query) {
+        query.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            List<String> eventList = new ArrayList<>();
+
+                            for(DocumentSnapshot doc : task.getResult()) {
+                                String e = doc.getId().toString();
+                                Log.e("reference : ", e);
+                                eventList.add(e);
+                            }
+                            getInformations.useInfo(eventList);
+                        } else {
+                            Log.e("QuerySnapshot Error!", "There is a problem while getting documents!");
+                        }
+                    }
+                });
     }
 }

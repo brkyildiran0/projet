@@ -47,5 +47,15 @@ This week;
     -Completely re-designed and implemented the ProJet page, now functional as desired.
     -Drew a diagram to make our coding easier on the pages ProJet Main, ProJet Members, ProJet Tasks, ProJet Group Log (with Yüksel Berkay Erdem)
     -Solved the group chat system, instead of a live-updated chat system, we decided to use a Group Log, which consists of various messages from users with desired Header, and attached the date the message was created.
-    
+  ***13-14-15 May***
+    -Designed the toolbars speacial for each page so that they can have different functionalities
+    -ProJet page polished significantly
+    -Add Member Page polishing
+    -Login page error fix.
+  
+  ***16-17 May***
+    -Add Task page database parts re-coded, it is now good to go.
+    -Add Member page database parts re-coded, it is now good to go.
+    -Created EDIT PROJET page, to let users change the name, description, due date and due hour of the projet.
+    -Profile Page needs some more thinking on it, currently implemented as a display for current tasks of an user.
   

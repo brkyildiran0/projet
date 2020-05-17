@@ -7,7 +7,7 @@
     tools:context=".activities.ProjetGroupChatActivity">
 
     <TextView
-        android:id="@+id/textView17"
+        android:id="@+id/textView_groupchat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -27,10 +27,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView17"></LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/textView_groupchat">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_chat"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/editTextMessage_chat"
         android:layout_width="329dp"
         android:layout_height="48dp"
         android:layout_marginStart="15dp"
@@ -43,14 +49,14 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/imageButtonSend_chat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginLeft="15dp"
         android:background="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/editText"
+        app:layout_constraintStart_toEndOf="@+id/editTextMessage_chat"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
         app:srcCompat="@drawable/ic_send_black_24dp" />
 

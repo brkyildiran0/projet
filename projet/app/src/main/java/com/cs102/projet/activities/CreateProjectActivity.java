@@ -144,6 +144,11 @@ public class CreateProjectActivity extends AppCompatActivity
                     taskMap.put("task_description", "Task description goes here");
                     projetReference.collection("Tasks").document("Task name here").set(taskMap, SetOptions.merge());
 
+                    //TODO XXXXXXXXXXXXXXXX
+                    //Creating chat collection of projet.
+                    //Map<String, String> chatMap = new HashMap<>();
+                    //chatMap.put("", "");
+
                     //DocRef for creator of user, to improve code clarity
                     DocumentReference creatorUser = database.collection("Users").document(currentUserMail);
 

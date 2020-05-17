@@ -16,13 +16,22 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cs102.projet.GetInformations;
 import com.cs102.projet.R;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProjectPageActivity extends AppCompatActivity
 {
@@ -33,7 +42,7 @@ public class ProjectPageActivity extends AppCompatActivity
     private String projetName;
     private ImageButton membersButton;
     private ImageButton tasksButton;
-    private Button buttonChat;
+    private ImageButton projetChatbutton;
     private ProgressBar progressBar;
     private TextView projetHeader;
     private TextView projetDescription;
@@ -59,12 +68,12 @@ public class ProjectPageActivity extends AppCompatActivity
         //View initialize
         membersButton = findViewById(R.id.projetMembersButton);
         tasksButton = findViewById(R.id.projetTasksButton);
+        projetChatbutton = findViewById(R.id.projetChatButton);
         progressBar = findViewById(R.id.projetProgressBar);
         projetHeader = findViewById(R.id.projetPageProjetName);
         projetDescription = findViewById(R.id.projetDescription);
         projetDueDate = findViewById(R.id.projetDueDate);
         projetDueHour = findViewById(R.id.projetDueHour);
-        buttonChat = findViewById(R.id.buttonChat);
 
         //Setting the header of the ProJet page and document reference
         projetHeader.setText(projetName);
@@ -96,7 +105,6 @@ public class ProjectPageActivity extends AppCompatActivity
         });
 
         //membersButton onClick()
-        //TODO : Kopyaladığın zaman bunu da at Burağa!!!  Geçilen sayfaları düzenle.
         membersButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,10 +113,10 @@ public class ProjectPageActivity extends AppCompatActivity
                 startActivity(intentY);
             }
         });
-        buttonChat.setOnClickListener(new View.OnClickListener() {
+        projetChatbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentA = new Intent(ProjectPageActivity.this, ChatActivity.class);
+                Intent intentA = new Intent(ProjectPageActivity.this, ProjetGroupChatActivity.class);
                 intentA.putExtra("projetName", projetName);
                 startActivity(intentA);
             }
@@ -141,6 +149,9 @@ public class ProjectPageActivity extends AppCompatActivity
                 return true;
             case R.id.addNewTask:
                 startActivity(new Intent(getApplicationContext(), AddTaskActivity.class));
+                return true;
+            case R.id.editProjet:
+                //TODO edit projet sayfası oluşturulacak
                 return true;
             case R.id.leaveProjet:
                 database = FirebaseFirestore.getInstance();
@@ -184,6 +195,21 @@ public class ProjectPageActivity extends AppCompatActivity
                             }
                         });
 
+                //If someone leave from the projet, tha tasks that he/she has will be open to new owner.
+                Task<QuerySnapshot> query = database.collection("ProJets").document(projetName)
+                        .collection("Tasks").whereEqualTo("task_owner", currentUser.getEmail())
+                        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if(task.isSuccessful()){
+                                    for(DocumentSnapshot doc : task.getResult()){
+                                        DocumentReference theDoc = doc.getReference();
+                                        theDoc.update("task_owner", "");
+                                    }
+                                }
+                            }
+                        });
+
                 startActivity(new Intent(getApplicationContext(), ProjetMainPageActivity.class));
                 finish();
 
@@ -191,5 +217,28 @@ public class ProjectPageActivity extends AppCompatActivity
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    // The OnCompleteListener method is an asynchronous method. So, we cannot move the informations outside of the method.
+    // To do that, we create a new method that takes parameters an interface called "getInformations" and a query that we want to implement this method on.
+    // What does this method do? It is a normal method until the line "getInformations.useInfo(eventlist)".
+    // While this method is being used, the inner method is already completed. So, we can get the informations and we use them in "useInfo" method.
+    public void moveData(final GetInformations getInformations, Query query) {
+        query.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            List<String> eventList = new ArrayList<>();
+
+                            for(DocumentSnapshot doc : task.getResult()) {
+                                doc.get("task_owner").toString();
+                            }
+                            getInformations.useInfo(eventList);
+                        } else {
+                            Log.e("QuerySnapshot Error!", "There is a problem while getting documents!");
+                        }
+                    }
+                });
     }
 }

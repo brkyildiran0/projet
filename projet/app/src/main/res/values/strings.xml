@@ -19,5 +19,16 @@
     <string name="due_time">Due Time...</string>
     <string name="due_date_x">Due Date...</string>
     <string name="description">Description...</string>
+    
+    
+    <string-array name="profile_icons">
+        <item>@drawable/spotify</item>
+        <item>@drawable/spotify</item>
+    </string-array>
+
+    <string-array name="profile_values">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
 
 </resources>

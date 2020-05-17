@@ -1,4 +1,4 @@
-package com.cs102.projet;
+package com.cs102.projet.classes;
 
 import com.google.firebase.Timestamp;
 

@@ -46,7 +46,7 @@ This week;
   ***11-12 May***
     -Completely re-designed and implemented the ProJet page, now functional as desired.
     -Drew a diagram to make our coding easier on the pages ProJet Main, ProJet Members, ProJet Tasks, ProJet Group Log (with Yüksel Berkay Erdem)
-    -Solved the group chat system, instead of a live-updated chat system, we decided to use a Group Log, which consists of various messages from users with desired Header, and attached the date the message was created.
+    -Solved the group chat system, instead of a live-updated chat system, we decided to use a Group Log, which consists of various messages from users with desired Header, and attached the date the message was created.(EDIT 17/05/20: THIS IS NO LONGER TRUE.)
   ***13-14-15 May***
     -Designed the toolbars speacial for each page so that they can have different functionalities
     -ProJet page polished significantly

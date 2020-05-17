@@ -3,12 +3,17 @@ package com.cs102.projet.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.cs102.projet.R;
@@ -26,10 +31,11 @@ import com.google.firebase.firestore.SetOptions;
 import org.w3c.dom.Document;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CreateProjectActivity extends AppCompatActivity
+public class CreateProjectActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener
 {
     FirebaseFirestore database;
     FirebaseAuth myFirebaseAuth;
@@ -62,7 +68,25 @@ public class CreateProjectActivity extends AppCompatActivity
         editTextProjetName = findViewById(R.id.editTextProjetName);
         editTextProjetDesc = findViewById(R.id.editTextProjetDesc);
         editTextProjetDueDate = findViewById(R.id.editTextProjetDueDate);
-        editTextProjetDueHour = findViewById(R.id.editTextDueHour);
+        editTextProjetDueHour = findViewById(R.id.editTextProjetDueHour);
+
+        // Using DatePicker in order to get valid dates
+        // Date ClickListener..
+        editTextProjetDueDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog();
+            }
+        });
+
+        // Using TimePicker in order to get valid times..
+        // Hour ClickListener...
+        editTextProjetDueHour.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog();
+            }
+        });
 
         //on click listener of Create New ProJet button
         buttonCreateNewProjet.setOnClickListener(new View.OnClickListener()
@@ -139,7 +163,7 @@ public class CreateProjectActivity extends AppCompatActivity
                         }
                     });
 
-                    //Creating tasks collection of projet TODO find a way to add task due date&hour AND using them properly to send notifications
+                    //Creating tasks collection of projet
                     Map<String, String> taskMap = new HashMap<>();
                     taskMap.put("task_description", "Task description goes here");
                     projetReference.collection("Tasks").document("Task name here").set(taskMap, SetOptions.merge());
@@ -172,4 +196,45 @@ public class CreateProjectActivity extends AppCompatActivity
         });
     }
 
+
+    // Method For Date Picker to get valid dates from users..
+    public void showDatePickerDialog()
+    {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this,
+                this,
+                Calendar.getInstance().get(Calendar.YEAR),
+                Calendar.getInstance().get(Calendar.MONTH),
+                Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+        );
+        datePickerDialog.show();
+
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
+    {
+        month++;
+        String date = dayOfMonth + "/" + month + "/" + year;
+        editTextProjetDueDate.setText(date);
+    }
+
+    // Method For Time Picker to get valid times from users..
+    public void showTimePickerDialog()
+    {
+        TimePickerDialog timePickerDialog = new TimePickerDialog(
+                this,
+                this,
+                Calendar.HOUR_OF_DAY,
+                Calendar.MINUTE,
+                android.text.format.DateFormat.is24HourFormat(this));
+        timePickerDialog.show();
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute)
+    {
+
+        editTextProjetDueHour.setText(hourOfDay + ":" +minute);
+    }
 }

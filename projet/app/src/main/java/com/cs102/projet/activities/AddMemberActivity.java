@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.cs102.projet.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -83,14 +84,15 @@ public class AddMemberActivity extends AppCompatActivity
                 {
                     //Checking whether such user with given email exists and continuing accordingly.
                     Query myQuery = database.collection("Users").whereEqualTo("user_email", editTextEmail.getText().toString());
-                    myQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+
+                    myQuery.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>()
                     {
                         @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task)
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots)
                         {
-                            if(task.isSuccessful())
+                            if (!queryDocumentSnapshots.isEmpty())
                             {
-                                for (QueryDocumentSnapshot document : task.getResult())
+                                for (QueryDocumentSnapshot document : queryDocumentSnapshots)
                                 {
                                     //Now we are certain that such user exists, therefore getting needed values.
                                     addedUserName = document.getString("user_name");
@@ -114,13 +116,10 @@ public class AddMemberActivity extends AppCompatActivity
                                     editTextEmail.setText("");
                                 }
                             }
-                        }
-                    }).addOnFailureListener(new OnFailureListener()
-                    {
-                        @Override
-                        public void onFailure(@NonNull Exception e)
-                        {
-                            Log.d("Error", "Could not do the query");
+                            else
+                            {
+                                Toast.makeText(AddMemberActivity.this, "Such user does not exist!", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     });
                 }

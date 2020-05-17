@@ -72,7 +72,7 @@
 
     <EditText
         android:id="@+id/editTextProjetDesc"
-        android:layout_width="wrap_content"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:autofillHints=""
         android:ems="10"
@@ -87,6 +87,7 @@
         android:layout_height="wrap_content"
         android:autofillHints=""
         android:ems="10"
+        android:focusableInTouchMode="false"
         android:inputType="date"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/DueDate"
@@ -106,12 +107,13 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextProjetDueDate" />
 
     <EditText
-        android:id="@+id/editTextDueHour"
+        android:id="@+id/editTextProjetDueHour"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:autofillHints=""
         android:ems="10"
         android:inputType="time"
+        android:focusableInTouchMode="false"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/DueTime"
         app:layout_constraintTop_toBottomOf="@+id/DueTime" />
@@ -126,6 +128,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDueHour" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextProjetDueHour" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

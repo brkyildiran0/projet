@@ -147,12 +147,17 @@ public class ProjectPageActivity extends AppCompatActivity
                 newMember.putExtra("projetDueHour", projetDueHour.getText().toString());
                 startActivity(newMember);
                 return true;
+
             case R.id.addNewTask:
-                startActivity(new Intent(getApplicationContext(), AddTaskActivity.class));
+                Intent newTask = new Intent(getApplicationContext(), AddTaskActivity.class);
+                newTask.putExtra("projetName", projetName);
+                startActivity(newTask);
                 return true;
+                
             case R.id.editProjet:
                 //TODO edit projet sayfası oluşturulacak
                 return true;
+
             case R.id.leaveProjet:
                 database = FirebaseFirestore.getInstance();
                 myFirebaseAuth = FirebaseAuth.getInstance();

@@ -97,8 +97,8 @@ public class AddMemberActivity extends AppCompatActivity
                     Query myQuery = database.collection("Users").whereEqualTo("user_email", editTextEmail.getText().toString());
 
 
-                    // Sending notification about
-                    myNotificationClass.sendNotification(editTextEmail.getText().toString(), "");
+                    // Sending notification to new member
+                    myNotificationClass.sendNotification(editTextEmail.getText().toString(), "deneme with my class");
 
                     myQuery.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>()
                     {

@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -33,6 +34,8 @@ import java.util.Map;
 
 public class AddTaskActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener
 {
+    RadioGroup prioritiesGroup;
+    String selectedPriorityInteger;
     private EditText taskName;
     private EditText taskDescription;
     private EditText editTextTaskDueHour;
@@ -62,6 +65,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         currentUser = myFirebaseAuth.getCurrentUser();
 
         //View initialize
+        prioritiesGroup = findViewById(R.id.priorityRadioGroup);
         taskName = findViewById(R.id.editTextTaskName);
         taskDescription = findViewById(R.id.editTextDescription);
         editTextTaskDueHour  = findViewById(R.id.editTextTaskDueHour);
@@ -88,6 +92,25 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
             public void onClick(View v)
             {
                 showTimePickerDialog();
+            }
+        });
+
+        //Radio Group input handling
+        selectedPriorityInteger = "1";
+
+        prioritiesGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId)
+            {
+                // find which radio button is selected
+                if(checkedId == R.id.priorityOne) {
+                    selectedPriorityInteger = "1";
+                } else if(checkedId == R.id.priorityTwo) {
+                    selectedPriorityInteger = "2";
+                } else {
+                    selectedPriorityInteger = "3";
+                }
             }
         });
 
@@ -120,6 +143,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                                 taskProperties.put("task_due_hour", editTextTaskDueHour.getText().toString());
                                 taskProperties.put("task_due_date", editTextTaskDueDate.getText().toString());
                                 taskProperties.put("task_owner", "");
+                                taskProperties.put("task_priority", selectedPriorityInteger);
                                 database.collection("ProJets").document(projetName).collection("Tasks").document(taskName.getText().toString()).set(taskProperties);
 
                                 //Adding the task task_status boolean value
@@ -137,6 +161,8 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                                 taskDescription.setText("");
                                 editTextTaskDueHour .setText("");
                                 editTextTaskDueDate.setText("");
+                                prioritiesGroup.check(R.id.priorityOne);
+                                selectedPriorityInteger = "1";
 
                                 Toast.makeText(AddTaskActivity.this, "Task added!", Toast.LENGTH_SHORT).show();
                             }

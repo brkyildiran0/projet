@@ -176,24 +176,27 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checked="true"
-            android:text="1"
-            android:textColor="#23DD57" />
+            android:text="!"
+            android:textColor="#23DD57"
+            android:textSize="16sp" />
 
         <RadioButton
             android:id="@+id/priorityTwo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="2"
-            android:textColor="#397DED" />
+            android:text="!!"
+            android:textColor="#397DED"
+            android:textSize="16sp" />
 
         <RadioButton
             android:id="@+id/priorityThree"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="3"
-            android:textColor="#EA1010" />
+            android:text="!!!"
+            android:textColor="#EA1010"
+            android:textSize="16sp" />
     </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,12 +4,7 @@
     <PreferenceCategory
         android:title="Profile Settings ">
 
-        <ListPreference
-            android:defaultValue="1"
-            android:entries="@array/profile_icons"
-            android:entryValues="@array/profile_values"
-            android:key="list_preference_1"
-            android:title="List preference" />
+
         <EditTextPreference
             android:key="userNameKey"
             android:selectAllOnFocus="true"
@@ -25,8 +20,9 @@
             android:key="notificationKey"
             android:title="Notifications" />
         <SwitchPreference
+            android:id="@+id/darkModeId"
             android:defaultValue="false"
-            android:key="darkModeKey"
+            android:key="@string/darkModeKey"
             android:title="Dark Mode" />
     </PreferenceCategory>
 </PreferenceScreen>

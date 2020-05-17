@@ -186,6 +186,10 @@ public class CreateProjectActivity extends AppCompatActivity implements DatePick
                                 userProjetUpdate2.put("projet_due_date", projetDueDate);
                                 userProjetUpdate2.put("projet_due_hour", projetDueHour);
                                 creatorUser.collection("Current ProJets").document(projetName).set(userProjetUpdate2, SetOptions.merge());
+
+                                //closing the creation page, and removing it from backstack
+                                startActivity(new Intent(CreateProjectActivity.this, ProjetMainPageActivity.class));
+                                finish();
                             }
                             //If there is another projet with  the desired name, adding an invisible char to the end of the desired projet name
                             else
@@ -195,10 +199,6 @@ public class CreateProjectActivity extends AppCompatActivity implements DatePick
                             }
                         }
                     });
-
-                    //closing the creation page, and removing it from backstack
-                    startActivity(new Intent(CreateProjectActivity.this, ProjetMainPageActivity.class));
-                    finish();
                 }
             }
         });

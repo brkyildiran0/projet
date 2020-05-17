@@ -7,7 +7,6 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,20 +16,18 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.cs102.projet.R;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
-import org.w3c.dom.Document;
-
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,6 +43,10 @@ public class CreateProjectActivity extends AppCompatActivity implements DatePick
     private EditText editTextProjetDueHour;
     String currentUserMail;
     String userRealName;
+    String projetName;
+    String projetDesc;
+    String projetDueDate;
+    String projetDueHour;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -94,88 +95,174 @@ public class CreateProjectActivity extends AppCompatActivity implements DatePick
             public void onClick(View v)
             {
                 //these string will be sent to server
-                final String projetName = editTextProjetName.getText().toString();
-                String projetDesc = editTextProjetDesc.getText().toString();
-                String projetDueDate = editTextProjetDueDate.getText().toString();
-                String projetDueHour = editTextProjetDueHour.getText().toString();
+                projetName = editTextProjetName.getText().toString();
+                projetDesc = editTextProjetDesc.getText().toString();
+                projetDueDate = editTextProjetDueDate.getText().toString();
+                projetDueHour = editTextProjetDueHour.getText().toString();
 
-                //checks whether user filled all the required info or not
+                //Query to check whether a projet with the same name exists
+                Query myQuery = database.collection("ProJets").whereEqualTo("projet_name", projetName);
+
+                //Handling empty input with if-else
                 if (projetName.equals("") || projetDesc.equals("") || projetDueDate.equals("") || projetDueHour.equals(""))
                 {
                     Toast.makeText(CreateProjectActivity.this, "Please fill all fields!", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
-                    //TODO find out a way to check whether a projet with desired name already exists.
-
-                    //Adding the essential parts of a projet and creating it at ProJets collection
-                    Map<String, String> projetInfo = new HashMap<>();
-                    projetInfo.put("projet_name", projetName);
-                    projetInfo.put("projet_desc", projetDesc);
-                    projetInfo.put("projet_due_date", projetDueDate);
-                    projetInfo.put("projet_due_hour", projetDueHour);
-                    database.collection("ProJets").document(projetName)
-                            .set(projetInfo)
-                            .addOnSuccessListener(new OnSuccessListener<Void>()
-                            {
-                                @Override
-                                public void onSuccess(Void aVoid)
-                                {
-                                    Toast.makeText(CreateProjectActivity.this, "ProJet successfully created!", Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener()
-                            {
-                                @Override
-                                public void onFailure(@NonNull Exception e)
-                                {
-                                    Toast.makeText(CreateProjectActivity.this, "Error. Can't create ProJet.", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-
-                    //Creating a DocumentReference for current projet to make code cleaner
-                    DocumentReference projetReference = database.collection("ProJets").document(projetName);
-
-                    //Adding the required boolean value to be able to finish a project in the future
-                    Map<String, Boolean> isFinished = new HashMap<>();
-                    isFinished.put("projet_is_complete", false);
-                    projetReference.set(isFinished, SetOptions.merge());
-
-                    //Creating users & tasks collection inside of the projet document and initializing them with currentUser's data
-                    Map<String, DocumentReference> userInit = new HashMap<>();
-                    userInit.put("user_reference", database.collection("Users").document(currentUserMail));
-                    projetReference.collection("Members").document(currentUserMail).set(userInit, SetOptions.merge());
-
-                    //Adding real name attribute to the user
-                    database.collection("Users").document(currentUserMail).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
+                    myQuery.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>()
                     {
                         @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot)
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots)
                         {
-                            userRealName = documentSnapshot.getString("user_name");
-                            assert userRealName != null;
-                            Log.d("User's real name is:", userRealName);
+                            //IF there is no such projet with the desired name exists,
+                            if (queryDocumentSnapshots.isEmpty())
+                            {
+                                //Adding the essential parts of a projet and creating it at ProJets collection
+                                Map<String, String> projetInfo = new HashMap<>();
+                                projetInfo.put("projet_name", projetName);
+                                projetInfo.put("projet_desc", projetDesc);
+                                projetInfo.put("projet_due_date", projetDueDate);
+                                projetInfo.put("projet_due_hour", projetDueHour);
+                                database.collection("ProJets").document(projetName)
+                                        .set(projetInfo)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>()
+                                        {
+                                            @Override
+                                            public void onSuccess(Void aVoid)
+                                            {
+                                                Toast.makeText(CreateProjectActivity.this, "ProJet successfully created!", Toast.LENGTH_SHORT).show();
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener()
+                                        {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e)
+                                            {
+                                                Toast.makeText(CreateProjectActivity.this, "Error. Can't create ProJet.", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
 
-                            Map<String, String> userInit2 = new HashMap<>();
-                            userInit2.put("user_name", userRealName);
-                            database.collection("ProJets").document(projetName).collection("Members").document(currentUserMail).set(userInit2, SetOptions.merge());
+                                //Creating a DocumentReference for current projet to make code cleaner
+                                DocumentReference projetReference = database.collection("ProJets").document(projetName);
+
+                                //Adding the required boolean value to be able to finish a project in the future
+                                Map<String, Boolean> isFinished = new HashMap<>();
+                                isFinished.put("projet_is_complete", false);
+                                projetReference.set(isFinished, SetOptions.merge());
+
+                                //Creating users & tasks collection inside of the projet document and initializing them with currentUser's data
+                                Map<String, DocumentReference> userInit = new HashMap<>();
+                                userInit.put("user_reference", database.collection("Users").document(currentUserMail));
+                                projetReference.collection("Members").document(currentUserMail).set(userInit, SetOptions.merge());
+
+                                //Adding real name attribute to the user
+                                database.collection("Users").document(currentUserMail).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
+                                {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot)
+                                    {
+                                        userRealName = documentSnapshot.getString("user_name");
+                                        assert userRealName != null;
+                                        Log.d("User's real name is:", userRealName);
+
+                                        Map<String, String> userInit2 = new HashMap<>();
+                                        userInit2.put("user_name", userRealName);
+                                        database.collection("ProJets").document(projetName).collection("Members").document(currentUserMail).set(userInit2, SetOptions.merge());
+                                    }
+                                });
+
+                                //DocRef for creator of user, to improve code clarity
+                                DocumentReference creatorUser = database.collection("Users").document(currentUserMail);
+
+                                //Adding the projet reference and other properties of it to the creator of projet's current projets document
+                                Map<String, DocumentReference> userProjetUpdate1 = new HashMap<>();
+                                userProjetUpdate1.put("projet_reference", projetReference);
+                                creatorUser.collection("Current ProJets").document(projetName).set(userProjetUpdate1, SetOptions.merge());
+
+                                Map<String, String> userProjetUpdate2 = new HashMap<>();
+                                userProjetUpdate2.put("projet_name", projetName);
+                                userProjetUpdate2.put("projet_desc", projetDesc);
+                                userProjetUpdate2.put("projet_due_date", projetDueDate);
+                                userProjetUpdate2.put("projet_due_hour", projetDueHour);
+                                creatorUser.collection("Current ProJets").document(projetName).set(userProjetUpdate2, SetOptions.merge());
+                            }
+                            //If there is another projet with  the desired name, adding an invisible char to the end of the desired projet name
+                            else
+                            {
+                                //Adding the essential parts of a projet and creating it at ProJets collection BY CONSIDERING ANOTHER PROJET EXIST WITH THE SAME NAME
+                                //TODO THIS IS A BAD SOLUTION, DOES NOT WORK FOR MORE THAN 2 PROJET WITH SAME NAME, FIX THIS BURAK XD
+                                projetName = projetName + "　";
+                                Map<String, String> projetInfo = new HashMap<>();
+                                projetInfo.put("projet_name", projetName);
+                                projetInfo.put("projet_desc", projetDesc);
+                                projetInfo.put("projet_due_date", projetDueDate);
+                                projetInfo.put("projet_due_hour", projetDueHour);
+                                database.collection("ProJets").document(projetName)
+                                        .set(projetInfo)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>()
+                                        {
+                                            @Override
+                                            public void onSuccess(Void aVoid)
+                                            {
+                                                Toast.makeText(CreateProjectActivity.this, "ProJet successfully created! (E)", Toast.LENGTH_SHORT).show();
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener()
+                                        {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e)
+                                            {
+                                                Toast.makeText(CreateProjectActivity.this, "Error. Can't create ProJet.", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+
+                                //Creating a DocumentReference for current projet to make code cleaner
+                                DocumentReference projetReference = database.collection("ProJets").document(projetName);
+
+                                //Adding the required boolean value to be able to finish a project in the future
+                                Map<String, Boolean> isFinished = new HashMap<>();
+                                isFinished.put("projet_is_complete", false);
+                                projetReference.set(isFinished, SetOptions.merge());
+
+                                //Creating users & tasks collection inside of the projet document and initializing them with currentUser's data
+                                Map<String, DocumentReference> userInit = new HashMap<>();
+                                userInit.put("user_reference", database.collection("Users").document(currentUserMail));
+                                projetReference.collection("Members").document(currentUserMail).set(userInit, SetOptions.merge());
+
+                                //Adding real name attribute to the user
+                                database.collection("Users").document(currentUserMail).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
+                                {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot)
+                                    {
+                                        userRealName = documentSnapshot.getString("user_name");
+                                        assert userRealName != null;
+                                        Log.d("User's real name is:", userRealName);
+
+                                        Map<String, String> userInit2 = new HashMap<>();
+                                        userInit2.put("user_name", userRealName);
+                                        database.collection("ProJets").document(projetName).collection("Members").document(currentUserMail).set(userInit2, SetOptions.merge());
+                                    }
+                                });
+
+                                //DocRef for creator of user, to improve code clarity
+                                DocumentReference creatorUser = database.collection("Users").document(currentUserMail);
+
+                                //Adding the projet reference and other properties of it to the creator of projet's current projets document
+                                Map<String, DocumentReference> userProjetUpdate1 = new HashMap<>();
+                                userProjetUpdate1.put("projet_reference", projetReference);
+                                creatorUser.collection("Current ProJets").document(projetName).set(userProjetUpdate1, SetOptions.merge());
+
+                                Map<String, String> userProjetUpdate2 = new HashMap<>();
+                                userProjetUpdate2.put("projet_name", projetName);
+                                userProjetUpdate2.put("projet_desc", projetDesc);
+                                userProjetUpdate2.put("projet_due_date", projetDueDate);
+                                userProjetUpdate2.put("projet_due_hour", projetDueHour);
+                                creatorUser.collection("Current ProJets").document(projetName).set(userProjetUpdate2, SetOptions.merge());
+                            }
                         }
                     });
-
-                    //DocRef for creator of user, to improve code clarity
-                    DocumentReference creatorUser = database.collection("Users").document(currentUserMail);
-
-                    //Adding the projet reference and other properties of it to the creator of projet's current projets document
-                    Map<String, DocumentReference> userProjetUpdate1 = new HashMap<>();
-                    userProjetUpdate1.put("projet_reference", projetReference);
-                    creatorUser.collection("Current ProJets").document(projetName).set(userProjetUpdate1, SetOptions.merge());
-
-                    Map<String, String> userProjetUpdate2 = new HashMap<>();
-                    userProjetUpdate2.put("projet_name", projetName);
-                    userProjetUpdate2.put("projet_desc", projetDesc);
-                    userProjetUpdate2.put("projet_due_date", projetDueDate);
-                    userProjetUpdate2.put("projet_due_hour", projetDueHour);
-                    creatorUser.collection("Current ProJets").document(projetName).set(userProjetUpdate2, SetOptions.merge());
 
                     //closing the creation page, and removing it from backstack
                     startActivity(new Intent(CreateProjectActivity.this, ProjetMainPageActivity.class));
@@ -184,7 +271,6 @@ public class CreateProjectActivity extends AppCompatActivity implements DatePick
             }
         });
     }
-
 
     // Method For Date Picker to get valid dates from users..
     public void showDatePickerDialog()

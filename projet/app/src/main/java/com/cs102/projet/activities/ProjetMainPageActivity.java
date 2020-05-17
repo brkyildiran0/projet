@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,8 +19,11 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.cs102.projet.R;
+import com.cs102.projet.adapters.ProJetAdapter;
+import com.cs102.projet.classes.ProJet;
 import com.cs102.projet.fragments.FragmentMainPageProject;
 import com.cs102.projet.LoginActivity;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,6 +31,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -35,6 +41,8 @@ public class ProjetMainPageActivity extends AppCompatActivity
     FirebaseFirestore database;
     FirebaseAuth myFirebaseAuth;
     FirebaseUser currentUser;
+
+    private ProJetAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -57,8 +65,9 @@ public class ProjetMainPageActivity extends AppCompatActivity
         //Setting a reference to user's Current Projets folder
         CollectionReference userCurrentProjets = database.collection("Users").document(currentUserMail).collection("Current ProJets");
 
+        setUpRecyclerView(userCurrentProjets);
         //Checking user's Current ProJets folder, if there are any adding them to a List
-        userCurrentProjets.get()
+        /*userCurrentProjets.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
                 {
                     @Override
@@ -86,7 +95,7 @@ public class ProjetMainPageActivity extends AppCompatActivity
                         ft.commit();
                     }
                 });
-
+        */
         //CreateNewProJetButton onClick
         buttonCreateNewProjet.setOnClickListener(new View.OnClickListener()
         {
@@ -109,6 +118,32 @@ public class ProjetMainPageActivity extends AppCompatActivity
                 finish();
             }
         });
+    }
+
+    public void setUpRecyclerView(CollectionReference collectRef){
+
+        Query query = collectRef;
+        FirestoreRecyclerOptions<ProJet> options = new FirestoreRecyclerOptions.Builder<ProJet>()
+                .setQuery(query, ProJet.class).build();
+
+        adapter = new ProJetAdapter(options);
+
+        RecyclerView recyclerView = findViewById(R.id.recycler_view_main_page);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(ProjetMainPageActivity.this));
+        recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        adapter.stopListening();
     }
 
     //Method for the AppBar Buttons & Icons

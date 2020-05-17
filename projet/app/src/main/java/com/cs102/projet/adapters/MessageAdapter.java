@@ -47,12 +47,10 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
         myFirebaseAuth = FirebaseAuth.getInstance();
         currentUser = myFirebaseAuth.getCurrentUser();
 
-        //TODO : Find an acceptible way to set color. Code is working!
-        if(currentUser.getEmail().equals(model.getComing_from()) ){
-            holder.itemView.setBackgroundColor(Color.GREEN);
-            //holder.textView_message.setTextColor(Color.WHITE);
-            //holder.textView_messageInfo.setTextColor(Color.WHITE);
-        }
+
+        holder.itemView.setBackgroundColor(model.getColor());
+
+
 
         //To get user_name from field "coming_from". (E mail >>>> user name)
         Query query = db.collection("Users").whereEqualTo("user_email", model.getComing_from()).limit(1);

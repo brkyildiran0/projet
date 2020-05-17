@@ -28,6 +28,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.onesignal.OneSignal;
 
 public class ProjetMainPageActivity extends AppCompatActivity
 {
@@ -42,6 +43,12 @@ public class ProjetMainPageActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
 
+        // OneSignal Initialization
+        OneSignal.startInit(this)
+                .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
+                .unsubscribeWhenNotificationsAreDisabled(true)
+                .init();
+
         //Firebase initialize
         database = FirebaseFirestore.getInstance();
         myFirebaseAuth = FirebaseAuth.getInstance();
@@ -53,6 +60,9 @@ public class ProjetMainPageActivity extends AppCompatActivity
 
         //Getting current logged in user's mail address
         currentUserMail = currentUser.getEmail();
+
+        //OneSignal, Settings tags for current user via email..
+        OneSignal.sendTag("User_Id", currentUserMail);
 
         //Setting a reference to user's Current Projets folder
         CollectionReference userCurrentProjets = database.collection("Users").document(currentUserMail).collection("Current ProJets");

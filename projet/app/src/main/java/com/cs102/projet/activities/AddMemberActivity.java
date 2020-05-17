@@ -3,7 +3,9 @@ package com.cs102.projet.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cs102.projet.MyNotificationClass;
 import com.cs102.projet.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -28,9 +31,13 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.Source;
 
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class AddMemberActivity extends AppCompatActivity
 {
@@ -46,6 +53,7 @@ public class AddMemberActivity extends AppCompatActivity
     FirebaseFirestore database;
     FirebaseAuth myFirebaseAuth;
     FirebaseUser currentUser;
+    MyNotificationClass myNotificationClass;
 
 
     @Override
@@ -53,6 +61,9 @@ public class AddMemberActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_member);
+
+        // MyNotificationClass initialize
+        myNotificationClass = new MyNotificationClass();
 
         //Firebase initialize
         database = FirebaseFirestore.getInstance();
@@ -85,6 +96,10 @@ public class AddMemberActivity extends AppCompatActivity
                     //Checking whether such user with given email exists and continuing accordingly.
                     Query myQuery = database.collection("Users").whereEqualTo("user_email", editTextEmail.getText().toString());
 
+
+                    // Sending notification about
+                    myNotificationClass.sendNotification(editTextEmail.getText().toString(), "");
+
                     myQuery.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>()
                     {
                         @Override
@@ -115,6 +130,7 @@ public class AddMemberActivity extends AppCompatActivity
                                     Toast.makeText(AddMemberActivity.this, "Member Added!", Toast.LENGTH_LONG).show();
                                     editTextEmail.setText("");
                                 }
+
                             }
                             else
                             {
@@ -139,4 +155,6 @@ public class AddMemberActivity extends AppCompatActivity
             }
         });
     }
+
+
 }

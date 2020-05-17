@@ -17,7 +17,6 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.cs102.projet.R;
-import com.cs102.projet.SettingsActivity;
 import com.cs102.projet.fragments.FragmentMainPageProject;
 import com.cs102.projet.LoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;

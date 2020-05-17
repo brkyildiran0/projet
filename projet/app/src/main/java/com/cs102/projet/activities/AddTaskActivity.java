@@ -201,6 +201,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                 Calendar.getInstance().get(Calendar.MONTH),
                 Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
         );
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 10000);
         datePickerDialog.show();
 
     }

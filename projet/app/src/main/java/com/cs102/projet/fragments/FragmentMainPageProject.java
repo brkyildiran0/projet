@@ -22,10 +22,12 @@ public class FragmentMainPageProject extends Fragment {
     private TextView unchangedNameText;
     private TextView unchangedDueDateText;
 
-    public FragmentMainPageProject() {
+    public FragmentMainPageProject()
+    {
     }
 
-    public FragmentMainPageProject(String projetName, String projetDueDate) {
+    public FragmentMainPageProject(String projetName, String projetDueDate)
+    {
         this.projetName = projetName;
         this.projetDueDate = projetDueDate;
     }

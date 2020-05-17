@@ -10,13 +10,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cs102.projet.GetInformations;
+import com.cs102.projet.interfaces.GetInformations;
 import com.cs102.projet.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -155,7 +154,9 @@ public class ProjectPageActivity extends AppCompatActivity
                 return true;
                 
             case R.id.editProjet:
-                //TODO edit projet sayfası oluşturulacak
+                Intent editProjet = new Intent(getApplicationContext(), EditProjetActivity.class);
+                editProjet.putExtra("projetName", projetName);
+                startActivity(editProjet);
                 return true;
 
             case R.id.leaveProjet:

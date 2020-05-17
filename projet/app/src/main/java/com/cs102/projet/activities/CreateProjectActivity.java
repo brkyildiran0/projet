@@ -40,7 +40,6 @@ public class CreateProjectActivity extends AppCompatActivity implements DatePick
     FirebaseFirestore database;
     FirebaseAuth myFirebaseAuth;
     FirebaseUser currentUser;
-
     private EditText editTextProjetName;
     private EditText editTextProjetDesc;
     private EditText editTextProjetDueDate;
@@ -163,16 +162,6 @@ public class CreateProjectActivity extends AppCompatActivity implements DatePick
                         }
                     });
 
-                    //Creating tasks collection of projet
-                    Map<String, String> taskMap = new HashMap<>();
-                    taskMap.put("task_description", "Task description goes here");
-                    projetReference.collection("Tasks").document("Task name here").set(taskMap, SetOptions.merge());
-
-                    //TODO XXXXXXXXXXXXXXXX
-                    //Creating chat collection of projet.
-                    //Map<String, String> chatMap = new HashMap<>();
-                    //chatMap.put("", "");
-
                     //DocRef for creator of user, to improve code clarity
                     DocumentReference creatorUser = database.collection("Users").document(currentUserMail);
 
@@ -207,6 +196,7 @@ public class CreateProjectActivity extends AppCompatActivity implements DatePick
                 Calendar.getInstance().get(Calendar.MONTH),
                 Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
         );
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 10000);
         datePickerDialog.show();
 
     }

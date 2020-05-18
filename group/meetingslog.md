@@ -72,14 +72,4 @@ Now main page works correctly, lists all the ProJets a user has, and can refresh
 
 **ToDo:** Real-time data update is now active, but still struggling to implement it to the ProJet page, will fix this as soon as possible as well.
 
-****
-### Meeting ~ (16/05/2020, 3-4hrs)
-****
-**Present:** Ömer Burak Yıldıran, Celal Berke Can, Yüksel Berkay Erdem   _**Absent:**_  Amir Aliyev, Deniz Berkant Demirörs
-
-**Discussion:** 
-ProJet Members and Task list are now working. Android application logo is now updated.
-
-**ToDo:** UI improvements to the tasks and members page will be made. New page, EDIT PROJET will be created to let users edit the due date and time of a ProJet. Profile Page will be able to show all current tasks of a user. Add task page will be functional.
-
 

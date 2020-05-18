@@ -2,6 +2,8 @@ package com.cs102.projet.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,8 +17,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cs102.projet.adapters.ProgressBarTaskAdapter;
+import com.cs102.projet.classes.ProgressBarTask;
 import com.cs102.projet.interfaces.GetInformations;
 import com.cs102.projet.R;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -27,10 +32,14 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ProjectPageActivity extends AppCompatActivity
 {
@@ -42,11 +51,15 @@ public class ProjectPageActivity extends AppCompatActivity
     private ImageButton membersButton;
     private ImageButton tasksButton;
     private ImageButton projetChatbutton;
-    private ProgressBar progressBar;
+    private ImageButton myTasksButton;
+    //private ProgressBar progressBar;
     private TextView projetHeader;
     private TextView projetDescription;
     private TextView projetDueDate;
     private TextView projetDueHour;
+    private RecyclerView recyclerView_task;
+
+    private ProgressBarTaskAdapter adapterTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -68,7 +81,8 @@ public class ProjectPageActivity extends AppCompatActivity
         membersButton = findViewById(R.id.projetMembersButton);
         tasksButton = findViewById(R.id.projetTasksButton);
         projetChatbutton = findViewById(R.id.projetChatButton);
-        progressBar = findViewById(R.id.projetProgressBar);
+        myTasksButton = findViewById(R.id.buttonMyTasks);
+        //progressBar = findViewById(R.id.projetProgressBar);
         projetHeader = findViewById(R.id.projetPageProjetName);
         projetDescription = findViewById(R.id.projetDescription);
         projetDueDate = findViewById(R.id.projetDueDate);
@@ -76,7 +90,6 @@ public class ProjectPageActivity extends AppCompatActivity
 
         //Setting the header of the ProJet page and document reference
         projetHeader.setText(projetName);
-
 
         //Getting projet's info from firebase
         database.collection("ProJets").document(projetName).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
@@ -88,6 +101,42 @@ public class ProjectPageActivity extends AppCompatActivity
                 projetDueDate.setText(documentSnapshot.getString("projet_due_date"));
                 projetDueHour.setText(documentSnapshot.getString("projet_due_hour"));
 
+            }
+        });
+
+        //Getting the UNCOMPLETED task amount & and updating it on the ProJet database root
+        Query uncompletedTasks = database.collection("ProJets").document(projetName).collection("Tasks").whereEqualTo("task_status", false);
+        uncompletedTasks.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>()
+        {
+            int uncompletedTasksCounter = 0;
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots)
+            {
+                for (QueryDocumentSnapshot eachUncompleteTask : queryDocumentSnapshots)
+                {
+                    uncompletedTasksCounter++;
+                }
+                Map<String, Integer> uncompletedTasksProjetAdder = new HashMap<>();
+                uncompletedTasksProjetAdder.put("total_uncompleted_tasks", uncompletedTasksCounter);
+                database.collection("ProJets").document(projetName).set(uncompletedTasksProjetAdder, SetOptions.merge());
+            }
+        });
+
+        //Getting the COMPLETED task amount & and updating it on the ProJet database root
+        Query completedTasks = database.collection("ProJets").document(projetName).collection("Tasks").whereEqualTo("task_status", true);
+        completedTasks.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>()
+        {
+            int completedTasksCounter = 0;
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots)
+            {
+                for (QueryDocumentSnapshot eachUncompleteTask : queryDocumentSnapshots)
+                {
+                    completedTasksCounter++;
+                }
+                Map<String, Integer> completedTasksProjetAdder = new HashMap<>();
+                completedTasksProjetAdder.put("total_completed_tasks", completedTasksCounter);
+                database.collection("ProJets").document(projetName).set(completedTasksProjetAdder, SetOptions.merge());
             }
         });
 
@@ -120,8 +169,41 @@ public class ProjectPageActivity extends AppCompatActivity
                 startActivity(intentA);
             }
         });
+        myTasksButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentN = new Intent(ProjectPageActivity.this, MyTasksActivity.class);
+                intentN.putExtra("projetName", projetName);
+                startActivity(intentN);
+            }
+        });
+
+        setUpRecyclerViewTask();
     }
 
+    private void setUpRecyclerViewTask(){
+        Query query = database.collection("ProJets").whereEqualTo("projet_name", projetName);
+
+        FirestoreRecyclerOptions<ProgressBarTask> options = new FirestoreRecyclerOptions.Builder<ProgressBarTask>()
+                .setQuery(query, ProgressBarTask.class).build();
+        adapterTask = new ProgressBarTaskAdapter(options);
+        recyclerView_task = findViewById(R.id.recycler_view_task_progress);
+        recyclerView_task.setHasFixedSize(true);
+        recyclerView_task.setLayoutManager(new LinearLayoutManager(ProjectPageActivity.this));
+        recyclerView_task.setAdapter(adapterTask);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        adapterTask.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        adapterTask.stopListening();
+    }
 
     //Method for the AppBar Buttons & Icons
     @Override

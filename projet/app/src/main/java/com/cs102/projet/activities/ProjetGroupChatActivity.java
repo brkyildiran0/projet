@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -70,6 +71,9 @@ public class ProjetGroupChatActivity extends AppCompatActivity
         assert extras != null;
         projetName = extras.getString("projetName");
 
+        //Moving the entire page up when text input occurs.
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
         groupChatname = findViewById(R.id.textView_groupchat);
         groupChatname.setText(projetName + " Group Chat");
 
@@ -78,7 +82,7 @@ public class ProjetGroupChatActivity extends AppCompatActivity
 
         //setUpRecyclerView(projetName);
         Query query = database.collection("ProJets").document(projetName).collection("Chat")
-                .orderBy("time", Query.Direction.DESCENDING);
+                .orderBy("time", Query.Direction.ASCENDING);
         FirestoreRecyclerOptions<Message> options = new FirestoreRecyclerOptions.Builder<Message>()
                 .setQuery(query, Message.class).build();
 
@@ -86,8 +90,27 @@ public class ProjetGroupChatActivity extends AppCompatActivity
 
         final RecyclerView recyclerView = findViewById(R.id.recycler_view_chat);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(ProjetGroupChatActivity.this));
+        final LinearLayoutManager xx = new LinearLayoutManager(ProjetGroupChatActivity.this);
+        recyclerView.setLayoutManager(xx);
         recyclerView.setAdapter(adapter);
+
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+        @Override
+        public void onItemRangeInserted(int positionStart, int itemCount) {
+            super.onItemRangeInserted(positionStart, itemCount);
+            int friendlyMessageCount = adapter.getItemCount();
+            int lastVisiblePosition =
+                    xx.findLastCompletelyVisibleItemPosition();
+            // If the recycler view is initially being loaded or the
+            // user is at the bottom of the list, scroll to the bottom
+            // of the list to show the newly added message.
+            if (lastVisiblePosition == -1 ||
+                    (positionStart >= (friendlyMessageCount - 1) &&
+                            lastVisiblePosition == (positionStart - 1))) {
+                recyclerView.scrollToPosition(positionStart);
+            }
+        }
+    });
 
         database = FirebaseFirestore.getInstance();
         myFirebaseAuth = FirebaseAuth.getInstance();
@@ -174,21 +197,18 @@ public class ProjetGroupChatActivity extends AppCompatActivity
                             if(!eventList.get(h).equals(currentUserMail)) {
                                 myNotification.sendNotification(eventList.get(h).toString(), "New message at "
                                         + projetName +" \n" + messageContent);
-                                myNotification.addNotificationsToDatabase(eventList.get(h), "New message at "
+                                myNotification.addMessageNotificationsToDatabase(eventList.get(h), "New message at "
                                         + projetName +" \n" + messageContent);
                             }
                         }
                     }
                 }, queryEmail);
-                recyclerView.setScrollBarDefaultDelayBeforeFade(0);
-                recyclerView.setScrollBarDefaultDelayBeforeFade(0);
-                recyclerView.scrollToPosition(recyclerView.SCROLLBAR_POSITION_DEFAULT);
             }
         });
 
     }
 
-    private void setUpRecyclerView(String projetName){
+    /*private void setUpRecyclerView(String projetName){
         Query query = database.collection("ProJets").document(projetName).collection("Chat")
                 .orderBy("time", Query.Direction.DESCENDING);
         FirestoreRecyclerOptions<Message> options = new FirestoreRecyclerOptions.Builder<Message>()
@@ -200,7 +220,7 @@ public class ProjetGroupChatActivity extends AppCompatActivity
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(ProjetGroupChatActivity.this));
         recyclerView.setAdapter(adapter);
-    }
+    }*/
 
     @Override
     protected void onStart() {

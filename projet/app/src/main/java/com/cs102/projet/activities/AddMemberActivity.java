@@ -96,7 +96,6 @@ public class AddMemberActivity extends AppCompatActivity
                     //Checking whether such user with given email exists at the database and continuing accordingly.
                     Query myQuery = database.collection("Users").whereEqualTo("user_email", editTextEmail.getText().toString());
 
-
                     // Sending notification to new member
                     myNotificationClass.sendNotification(editTextEmail.getText().toString(), "You are just added to a new ProJet!");
                     myNotificationClass.addNotificationsToDatabase(editTextEmail.getText().toString(), "You are just added to a new ProJet!");

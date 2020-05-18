@@ -51,7 +51,8 @@ public class ChatActivity extends AppCompatActivity {
     private String currentUserName;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
@@ -77,6 +78,8 @@ public class ChatActivity extends AppCompatActivity {
         editTextMessageContent = findViewById(R.id.editTextMessageContent);
         editTextMessageTitle = findViewById(R.id.editTextMessageTitle);
 
+        //Moving the entire page up when text input occurs.
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,7 +99,8 @@ public class ChatActivity extends AppCompatActivity {
                 {
                     Toast.makeText(ChatActivity.this, "Please fill all fields!", Toast.LENGTH_SHORT).show();
                 }
-                else {
+                else
+                {
                     final Map<String, String> messageInfo = new HashMap<>();
                     messageInfo.put("message", messageContent);
                     messageInfo.put("coming_from", currentUserMail);
@@ -152,7 +156,7 @@ public class ChatActivity extends AppCompatActivity {
                             Map<String, String> messageSender = new HashMap<>();
                             messageSender.put("coming_from", currentUserName);
 
-                            //TODO There can be a mistake !! about message REference.
+                            //TODO There can be a mistake !! about message Reference.
                             messageReference.set(messageSender, SetOptions.merge());
                             messageSender.clear();
                         }

@@ -46,12 +46,15 @@ public class ProjectPageActivity extends AppCompatActivity
     private ImageButton membersButton;
     private ImageButton tasksButton;
     private ImageButton projetChatbutton;
+    private ProgressBar timeProgressBar;
+    private ProgressBar taskProgressBar;
     private ImageButton myTasksButton;
-    private ProgressBar progressBar;
     private TextView projetHeader;
     private TextView projetDescription;
     private TextView projetDueDate;
     private TextView projetDueHour;
+    private TextView textTotalTasks;
+    private TextView textCompletedTasks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -73,14 +76,17 @@ public class ProjectPageActivity extends AppCompatActivity
         membersButton = findViewById(R.id.projetMembersButton);
         tasksButton = findViewById(R.id.projetTasksButton);
         projetChatbutton = findViewById(R.id.projetChatButton);
+        timeProgressBar = findViewById(R.id.timeProgressBar);
+        taskProgressBar = findViewById(R.id.taskProgressBar);
         myTasksButton = findViewById(R.id.buttonMyTasks);
-        //progressBar = findViewById(R.id.projetProgressBar);
         projetHeader = findViewById(R.id.projetPageProjetName);
         projetDescription = findViewById(R.id.projetDescription);
         projetDueDate = findViewById(R.id.projetDueDate);
         projetDueHour = findViewById(R.id.projetDueHour);
+        textTotalTasks = findViewById(R.id.taskViewTotalTask);
+        textCompletedTasks = findViewById(R.id.taskViewCompleteTask);
 
-        //Setting the header of the ProJet page and document reference
+        //Setting the header of the ProJet page and document reference and other pre-declarations
         projetHeader.setText(projetName);
 
         //Getting projet's info from firebase
@@ -92,6 +98,8 @@ public class ProjectPageActivity extends AppCompatActivity
                 projetDescription.setText(documentSnapshot.getString("projet_desc"));
                 projetDueDate.setText(documentSnapshot.getString("projet_due_date"));
                 projetDueHour.setText(documentSnapshot.getString("projet_due_hour"));
+                //TODO buraya completed tasks ve uncompleted tasksı al
+
 
             }
         });

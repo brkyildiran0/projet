@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="161dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="161dp">
 
         <View
             android:id="@+id/divider"
@@ -23,7 +23,9 @@
             android:layout_height="76dp"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="46dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_person_black_125dp" />
@@ -32,11 +34,11 @@
             android:id="@+id/divider4"
             android:layout_width="409dp"
             android:layout_height="4dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="157dp"
             android:background="@color/colorPrimaryDark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_member_tasks_members_page" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView_member_name_members_page"
@@ -57,8 +59,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="144dp"
             android:layout_marginLeft="144dp"
-            android:layout_marginTop="9dp"
+            android:layout_marginTop="4dp"
             android:text="Member e-mail"
+            android:textStyle="italic"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView_member_name_members_page" />
 
@@ -68,7 +71,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="144dp"
             android:layout_marginLeft="144dp"
-            android:text="Tasks"
+            android:layout_marginTop="8dp"
+            android:text="Task1\n Task2\n Task3\n Task4"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView_member_email_members_page" />
 

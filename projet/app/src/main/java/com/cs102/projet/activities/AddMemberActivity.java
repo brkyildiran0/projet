@@ -98,7 +98,8 @@ public class AddMemberActivity extends AppCompatActivity
 
 
                     // Sending notification to new member
-                    myNotificationClass.sendNotification(editTextEmail.getText().toString(), "deneme with my class");
+                    myNotificationClass.sendNotification(editTextEmail.getText().toString(), "You are just added to a new ProJet!");
+                    myNotificationClass.addNotificationsToDatabase(editTextEmail.getText().toString(), "You are just added to a new ProJet!");
 
                     myQuery.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>()
                     {

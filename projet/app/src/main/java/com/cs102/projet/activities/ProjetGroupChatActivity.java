@@ -76,7 +76,18 @@ public class ProjetGroupChatActivity extends AppCompatActivity
         //Notification init
         myNotification = new MyNotificationClass();
 
-        setUpRecyclerView(projetName);
+        //setUpRecyclerView(projetName);
+        Query query = database.collection("ProJets").document(projetName).collection("Chat")
+                .orderBy("time", Query.Direction.DESCENDING);
+        FirestoreRecyclerOptions<Message> options = new FirestoreRecyclerOptions.Builder<Message>()
+                .setQuery(query, Message.class).build();
+
+        adapter = new MessageAdapter(options, projetName);
+
+        final RecyclerView recyclerView = findViewById(R.id.recycler_view_chat);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(ProjetGroupChatActivity.this));
+        recyclerView.setAdapter(adapter);
 
         database = FirebaseFirestore.getInstance();
         myFirebaseAuth = FirebaseAuth.getInstance();
@@ -150,6 +161,10 @@ public class ProjetGroupChatActivity extends AppCompatActivity
                             .document(projetName).collection("Chat").document(currentdate.toString());
                     messageReference.set(messeageInfo2, SetOptions.merge());
                 }
+
+                // To find projet members collection and get the e-mails.
+                // moveData function is used for find e-mails
+                // Function "useInfo" which is a part of" moveData" enables us to use these mails to send notification to all members.
                 Query queryEmail = database.collection("ProJets").document(projetName).collection("Members");
                 moveData(new GetInformations() {
                     @Override
@@ -159,10 +174,15 @@ public class ProjetGroupChatActivity extends AppCompatActivity
                             if(!eventList.get(h).equals(currentUserMail)) {
                                 myNotification.sendNotification(eventList.get(h).toString(), "New message at "
                                         + projetName +" \n" + messageContent);
+                                myNotification.addNotificationsToDatabase(eventList.get(h), "New message at "
+                                        + projetName +" \n" + messageContent);
                             }
                         }
                     }
                 }, queryEmail);
+                recyclerView.setScrollBarDefaultDelayBeforeFade(0);
+                recyclerView.setScrollBarDefaultDelayBeforeFade(0);
+                recyclerView.scrollToPosition(recyclerView.SCROLLBAR_POSITION_DEFAULT);
             }
         });
 

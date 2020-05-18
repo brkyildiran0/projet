@@ -3,15 +3,26 @@ package com.cs102.projet;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class MyNotificationClass {
+
+    private FirebaseFirestore database = FirebaseFirestore.getInstance();
+    FirebaseAuth myFirebaseAuth;
+    FirebaseUser currentUser;
 
     public MyNotificationClass(){
     }
@@ -81,5 +92,17 @@ public class MyNotificationClass {
                 }
             });
         }
+    }
+    public void addNotificationsToDatabase(final String send_email, final String message){
+        /*int month = Calendar.getInstance().get(Calendar.MONTH) +1;
+        String calendar = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)+ "/" + month + "/" + Calendar.getInstance().get(Calendar.YEAR) + " "
+                + Calendar.getInstance().get(Calendar.HOUR_OF_DAY) + ":" + Calendar.getInstance().get(Calendar.MINUTE);*/
+        Date currentdate = Calendar.getInstance().getTime();
+        DocumentReference notificationRef = database.collection("Users")
+                .document(send_email).collection("Notifications").document(currentdate.toString());
+        Map<String, String> notificationMap = new HashMap<>();
+        notificationMap.put("title", "ProJet!!");
+        notificationMap.put("message", message);
+        notificationRef.set(notificationMap);
     }
 }

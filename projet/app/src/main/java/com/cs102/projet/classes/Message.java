@@ -24,13 +24,7 @@ public class Message {
         this.coming_from = coming_from;
         this.message = message;
         this.time = time;
-
-        if(this.coming_from  == currentUser.getEmail()){
-            this.color = Color.GREEN;
-        }
-        else{
-            this.color = Color.WHITE;
-        }
+        this.color = Color.GREEN;
     }
 
     public String getComing_from() {

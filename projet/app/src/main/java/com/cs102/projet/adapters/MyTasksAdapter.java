@@ -26,6 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -94,6 +95,7 @@ public class MyTasksAdapter extends FirestoreRecyclerAdapter<Task, MyTasksAdapte
                         Map<String, Integer> increaserTwo = new HashMap<>();
                         increaserTwo.put("total_uncompleted_tasks", databaseSenderTwo);
                         database.collection("ProJets").document(projetName).set(increaserTwo, SetOptions.merge());
+
                     }
                 });
 

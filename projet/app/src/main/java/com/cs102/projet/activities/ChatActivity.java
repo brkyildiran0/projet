@@ -51,7 +51,8 @@ public class ChatActivity extends AppCompatActivity {
     private String currentUserName;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
@@ -77,6 +78,8 @@ public class ChatActivity extends AppCompatActivity {
         editTextMessageContent = findViewById(R.id.editTextMessageContent);
         editTextMessageTitle = findViewById(R.id.editTextMessageTitle);
 
+        //Moving the entire page up when text input occurs.
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override

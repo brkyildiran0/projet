@@ -65,6 +65,9 @@ public class ChatActivity extends AppCompatActivity {
         assert extras != null;
         projetName = extras.getString("projetName");
 
+        //Moving the entire page up when text input occurs.
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
 
         //Getting current logged in user's mail address
         assert currentUser != null;

@@ -71,6 +71,9 @@ public class ProjetGroupChatActivity extends AppCompatActivity
         assert extras != null;
         projetName = extras.getString("projetName");
 
+        //Moving the entire page up when text input occurs.
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
         groupChatname = findViewById(R.id.textView_groupchat);
         groupChatname.setText(projetName + " Group Chat");
 
@@ -94,9 +97,11 @@ public class ProjetGroupChatActivity extends AppCompatActivity
         recyclerView.setLayoutManager(xx);
         recyclerView.setAdapter(adapter);
 
-        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() 
+        {
             @Override
-            public void onItemRangeInserted(int positionStart, int itemCount) {
+            public void onItemRangeInserted(int positionStart, int itemCount) 
+            {
                 super.onItemRangeInserted(positionStart, itemCount);
                 int friendlyMessageCount = adapter.getItemCount();
                 int lastVisiblePosition = xx.findLastCompletelyVisibleItemPosition();
@@ -107,8 +112,10 @@ public class ProjetGroupChatActivity extends AppCompatActivity
                 {
                     recyclerView.scrollToPosition(positionStart);
                 }
+
             }
-        });
+        }
+    });
 
         database = FirebaseFirestore.getInstance();
         myFirebaseAuth = FirebaseAuth.getInstance();
@@ -195,7 +202,7 @@ public class ProjetGroupChatActivity extends AppCompatActivity
                             if(!eventList.get(h).equals(currentUserMail)) {
                                 myNotification.sendNotification(eventList.get(h).toString(), "New message at "
                                         + projetName +" \n" + messageContent);
-                                myNotification.addNotificationsToDatabase(eventList.get(h), "New message at "
+                                myNotification.addMessageNotificationsToDatabase(eventList.get(h), "New message at "
                                         + projetName +" \n" + messageContent);
                             }
                         }

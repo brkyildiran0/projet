@@ -10,11 +10,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cs102.projet.MyTasksActivity;
 import com.cs102.projet.interfaces.GetInformations;
 import com.cs102.projet.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -44,6 +46,7 @@ public class ProjectPageActivity extends AppCompatActivity
     private ImageButton projetChatbutton;
     private ProgressBar timeProgressBar;
     private ProgressBar taskProgressBar;
+    private ImageButton myTasksButton;
     private TextView projetHeader;
     private TextView projetDescription;
     private TextView projetDueDate;
@@ -73,6 +76,7 @@ public class ProjectPageActivity extends AppCompatActivity
         projetChatbutton = findViewById(R.id.projetChatButton);
         timeProgressBar = findViewById(R.id.timeProgressBar);
         taskProgressBar = findViewById(R.id.taskProgressBar);
+        myTasksButton = findViewById(R.id.buttonMyTasks);
         projetHeader = findViewById(R.id.projetPageProjetName);
         projetDescription = findViewById(R.id.projetDescription);
         projetDueDate = findViewById(R.id.projetDueDate);
@@ -132,6 +136,14 @@ public class ProjectPageActivity extends AppCompatActivity
                 Intent intentA = new Intent(ProjectPageActivity.this, ProjetGroupChatActivity.class);
                 intentA.putExtra("projetName", projetName);
                 startActivity(intentA);
+            }
+        });
+        myTasksButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentN = new Intent(ProjectPageActivity.this, MyTasksActivity.class);
+                intentN.putExtra("projetName", projetName);
+                startActivity(intentN);
             }
         });
     }

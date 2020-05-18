@@ -118,14 +118,16 @@ public class CreateProjectActivity extends AppCompatActivity implements DatePick
                             //IF there is no such projet with the desired name exists,
                             if (queryDocumentSnapshots.isEmpty())
                             {
+                                //Creating a DocumentReference for current projet to make code cleaner
+                                DocumentReference projetReference = database.collection("ProJets").document(projetName);
+
                                 //Adding the essential parts of a projet and creating it at ProJets collection
                                 Map<String, String> projetInfo = new HashMap<>();
                                 projetInfo.put("projet_name", projetName);
                                 projetInfo.put("projet_desc", projetDesc);
                                 projetInfo.put("projet_due_date", projetDueDate);
                                 projetInfo.put("projet_due_hour", projetDueHour);
-                                database.collection("ProJets").document(projetName)
-                                        .set(projetInfo)
+                                projetReference.set(projetInfo)
                                         .addOnSuccessListener(new OnSuccessListener<Void>()
                                         {
                                             @Override
@@ -142,9 +144,6 @@ public class CreateProjectActivity extends AppCompatActivity implements DatePick
                                                 Toast.makeText(CreateProjectActivity.this, "Error. Can't create ProJet.", Toast.LENGTH_SHORT).show();
                                             }
                                         });
-
-                                //Creating a DocumentReference for current projet to make code cleaner
-                                DocumentReference projetReference = database.collection("ProJets").document(projetName);
 
                                 //Adding the required boolean value to be able to finish a project in the future
                                 Map<String, Boolean> isFinished = new HashMap<>();

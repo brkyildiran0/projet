@@ -1,4 +1,4 @@
-package com.cs102.projet;
+package com.cs102.projet.loginpage;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,9 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.cs102.projet.R;
 import com.cs102.projet.activities.ProjetMainPageActivity;
-import com.cs102.projet.loginpage.ForgetPasswordActivity;
-import com.cs102.projet.loginpage.RegisterActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -29,7 +28,6 @@ public class LoginActivity extends AppCompatActivity
     Button singUpButton;
 
     //OnCreate Method
-    //Deneme
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

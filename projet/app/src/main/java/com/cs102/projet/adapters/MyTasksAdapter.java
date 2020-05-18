@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cs102.projet.MyNotificationClass;
+import com.cs102.projet.classes.MyNotificationClass;
 import com.cs102.projet.R;
 import com.cs102.projet.classes.Task;
 import com.cs102.projet.interfaces.GetInformations;

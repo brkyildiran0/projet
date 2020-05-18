@@ -14,7 +14,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cs102.projet.MyNotificationClass;
+import com.cs102.projet.classes.MyNotificationClass;
 import com.cs102.projet.classes.Message;
 import com.cs102.projet.adapters.MessageAdapter;
 import com.cs102.projet.R;

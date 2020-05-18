@@ -29,6 +29,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,6 +48,9 @@ public class CreateProjectActivity extends AppCompatActivity implements DatePick
     String projetDesc;
     String projetDueDate;
     String projetDueHour;
+    int dayOfMonth = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+    int monthOfYear = Calendar.getInstance().get(Calendar.MONTH) + 1;
+    int year = Calendar.getInstance().get(Calendar.YEAR);
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -127,6 +131,7 @@ public class CreateProjectActivity extends AppCompatActivity implements DatePick
                                 projetInfo.put("projet_desc", projetDesc);
                                 projetInfo.put("projet_due_date", projetDueDate);
                                 projetInfo.put("projet_due_hour", projetDueHour);
+                                projetInfo.put("projet_created_date", dayOfMonth + "/" + monthOfYear + "/" + year);
                                 projetReference.set(projetInfo)
                                         .addOnSuccessListener(new OnSuccessListener<Void>()
                                         {

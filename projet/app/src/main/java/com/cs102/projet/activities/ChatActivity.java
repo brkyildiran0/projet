@@ -96,7 +96,8 @@ public class ChatActivity extends AppCompatActivity {
                 {
                     Toast.makeText(ChatActivity.this, "Please fill all fields!", Toast.LENGTH_SHORT).show();
                 }
-                else {
+                else
+                {
                     final Map<String, String> messageInfo = new HashMap<>();
                     messageInfo.put("message", messageContent);
                     messageInfo.put("coming_from", currentUserMail);
@@ -152,7 +153,7 @@ public class ChatActivity extends AppCompatActivity {
                             Map<String, String> messageSender = new HashMap<>();
                             messageSender.put("coming_from", currentUserName);
 
-                            //TODO There can be a mistake !! about message REference.
+                            //TODO There can be a mistake !! about message Reference.
                             messageReference.set(messageSender, SetOptions.merge());
                             messageSender.clear();
                         }

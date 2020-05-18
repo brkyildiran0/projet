@@ -10,7 +10,7 @@
         android:id="@+id/projetPageProjetName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="15dp"
         android:fontFamily="casual"
         android:text="Projet Name"
         android:textColor="#673AB7"
@@ -47,12 +47,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="35dp"
         android:text="Due Date and Hour"
         android:textSize="16sp"
         android:textStyle="bold|italic"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/a" />
 
     <TextView
         android:id="@+id/a"
@@ -60,22 +60,22 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="5dp"
         android:text="Description"
         android:textSize="16sp"
         android:textStyle="bold|italic"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/projetPageProjetName" />
 
     <TextView
         android:id="@+id/projetDueHour"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="165dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="58dp"
         android:layout_marginRight="58dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView19" />
 
     <ImageButton
         android:id="@+id/projetTasksButton"
@@ -117,10 +117,10 @@
         android:id="@+id/projetChatButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="536dp"
+        android:layout_marginTop="520dp"
         android:background="@android:color/transparent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.955"
+        app:layout_constraintHorizontal_bias="0.916"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_chat_black_125dp" />
@@ -165,10 +165,10 @@
         android:layout_height="161dp"
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="182dp"
+        android:layout_marginTop="35dp"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/textView19">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_task_progress"
@@ -179,12 +179,12 @@
     <LinearLayout
         android:layout_width="139dp"
         android:layout_height="161dp"
-        android:layout_marginTop="181dp"
+        android:layout_marginTop="35dp"
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/textView19">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_day_progress"

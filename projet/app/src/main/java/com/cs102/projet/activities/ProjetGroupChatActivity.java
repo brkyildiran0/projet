@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -73,6 +74,9 @@ public class ProjetGroupChatActivity extends AppCompatActivity
         groupChatname = findViewById(R.id.textView_groupchat);
         groupChatname.setText(projetName + " Group Chat");
 
+        //Moving the entire page up when text input occurs.
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
         //Notification init
         myNotification = new MyNotificationClass();
 
@@ -95,14 +99,12 @@ public class ProjetGroupChatActivity extends AppCompatActivity
             public void onItemRangeInserted(int positionStart, int itemCount) {
                 super.onItemRangeInserted(positionStart, itemCount);
                 int friendlyMessageCount = adapter.getItemCount();
-                int lastVisiblePosition =
-                        xx.findLastCompletelyVisibleItemPosition();
+                int lastVisiblePosition = xx.findLastCompletelyVisibleItemPosition();
                 // If the recycler view is initially being loaded or the
                 // user is at the bottom of the list, scroll to the bottom
                 // of the list to show the newly added message.
-                if (lastVisiblePosition == -1 ||
-                        (positionStart >= (friendlyMessageCount - 1) &&
-                                lastVisiblePosition == (positionStart - 1))) {
+                if (lastVisiblePosition == -1 || (positionStart >= (friendlyMessageCount - 1) && lastVisiblePosition == (positionStart - 1)))
+                {
                     recyclerView.scrollToPosition(positionStart);
                 }
             }

@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -62,6 +63,9 @@ public class ChatActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         assert extras != null;
         projetName = extras.getString("projetName");
+
+        //Moving the entire page up when text input occurs.
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
 
         //Getting current logged in user's mail address

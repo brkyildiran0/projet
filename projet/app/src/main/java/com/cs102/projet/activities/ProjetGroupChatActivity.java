@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -69,6 +70,9 @@ public class ProjetGroupChatActivity extends AppCompatActivity
         Bundle extras = getIntent().getExtras();
         assert extras != null;
         projetName = extras.getString("projetName");
+
+        //Moving the entire page up when text input occurs.
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         groupChatname = findViewById(R.id.textView_groupchat);
         groupChatname.setText(projetName + " Group Chat");

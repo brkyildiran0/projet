@@ -1,4 +1,4 @@
-package com.cs102.projet;
+package com.cs102.projet.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
+import com.cs102.projet.R;
 import com.cs102.projet.adapters.MyTasksAdapter;
 import com.cs102.projet.classes.Task;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -46,6 +47,7 @@ public class MyTasksActivity extends AppCompatActivity {
         Query query = database.collection("ProJets").document(projetName)
                 .collection("Tasks").whereEqualTo("task_owner", userEmail)
                 .whereEqualTo("task_status", false);
+
         FirestoreRecyclerOptions<Task> options = new FirestoreRecyclerOptions.Builder<Task>()
                 .setQuery(query, Task.class).build();
 

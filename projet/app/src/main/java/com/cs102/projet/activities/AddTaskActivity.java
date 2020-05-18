@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -16,20 +17,24 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.cs102.projet.R;
+import com.cs102.projet.interfaces.GetInformations;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AddTaskActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener
@@ -47,6 +52,9 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
     FirebaseFirestore database;
     FirebaseAuth myFirebaseAuth;
     FirebaseUser currentUser;
+
+    Long currentAmountOfUncompletedTasks;
+    int assigner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -156,13 +164,34 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                                 taskReference.put(taskName.getText().toString(), database.collection("ProJets").document(projetName).collection("Tasks").document(taskName.getText().toString()));
                                 database.collection("Users").document(myFirebaseAuth.getCurrentUser().getEmail()).collection("Current Tasks").document(taskName.getText().toString()).set(taskReference);
 
-                                //Emptying the EditTexts again so that user can add other tasks again
+                                //Getting the current amount of uncompleted tasks at ProJet to increase it
+                                database.collection("ProJets").document(projetName).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
+                                {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot)
+                                    {
+                                        //Increasing the total_incompleted_tasks value at ProJet database root by 1, since new task added.
+                                        currentAmountOfUncompletedTasks = documentSnapshot.getLong("total_uncompleted_tasks");
+                                        assigner = 0;
+                                        assigner = currentAmountOfUncompletedTasks.intValue();
+                                        assigner++;
+                                        Integer databaseSender = assigner;
+
+                                        //Now adding the increased value to the ProJet root back again.
+                                        Map<String, Integer> increaser = new HashMap<>();
+                                        increaser.put("total_uncompleted_tasks", databaseSender);
+                                        database.collection("ProJets").document(projetName).set(increaser, SetOptions.merge());
+                                    }
+                                });
+
+                                //Emptying the EditTexts and other variables again so that user can add other tasks again
                                 taskName.setText("");
                                 taskDescription.setText("");
                                 editTextTaskDueHour .setText("");
                                 editTextTaskDueDate.setText("");
                                 prioritiesGroup.check(R.id.priorityOne);
                                 selectedPriorityInteger = "1";
+                                assigner = 0;
 
                                 Toast.makeText(AddTaskActivity.this, "Task added!", Toast.LENGTH_SHORT).show();
                             }

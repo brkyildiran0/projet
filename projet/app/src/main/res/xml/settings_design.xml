@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="Profile Settings ">
+
+
+        <EditTextPreference
+            android:key="userNameKey"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="Change your user name"
+            android:title="User Name" />
+
+    </PreferenceCategory>
+    <PreferenceCategory android:title="App Settings">
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="notificationKey"
+            android:title="Notifications" />
+        <SwitchPreference
+            android:id="@+id/darkModeId"
+            android:defaultValue="false"
+            android:key="@string/darkModeKey"
+            android:title="Dark Mode" />
+    </PreferenceCategory>
+</PreferenceScreen>

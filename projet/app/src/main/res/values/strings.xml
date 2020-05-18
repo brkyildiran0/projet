@@ -19,5 +19,7 @@
     <string name="due_time">Due Time...</string>
     <string name="due_date_x">Due Date...</string>
     <string name="description">Description...</string>
+    <string name="darkModeKey">darkModeKey</string>
+
 
 </resources>

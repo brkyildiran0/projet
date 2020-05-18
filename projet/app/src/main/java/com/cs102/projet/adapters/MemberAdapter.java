@@ -1,4 +1,4 @@
-package com.cs102.projet;
+package com.cs102.projet.adapters;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +9,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cs102.projet.interfaces.GetInformations;
+import com.cs102.projet.classes.Member;
+import com.cs102.projet.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -34,13 +37,14 @@ public class MemberAdapter extends FirestoreRecyclerAdapter<Member, MemberAdapte
     protected void onBindViewHolder(@NonNull final MemberHolder holder, int position, @NonNull Member model) {
         holder.textView_member_name.setText(model.getUser_name());
 
+
         // To get mail, we use document name.
         String mail = getSnapshots().getSnapshot(position).getReference().getId();
         holder.textView_member_email.setText(mail);
 
         // To get tasks that members have. This is limited to 3.
         Query query = db.collection("ProJets").document(projetName)
-                .collection("Tasks").whereEqualTo("task_owner", mail).limit(3);
+                .collection("Tasks").whereEqualTo("task_owner", mail).limit(4);
 
         moveData(new GetInformations() {
 
@@ -52,8 +56,14 @@ public class MemberAdapter extends FirestoreRecyclerAdapter<Member, MemberAdapte
                 int count = 1;
                 // Getting tasks from list one by one.
                 for ( int p = 0; p < eventList.size(); p++){
-                    tasks = tasks + String.valueOf(count) + "- " + eventList.get(p) + "\n";
-                    count++;
+                    if (p > 0) {
+                        tasks = tasks + "\n" + String.valueOf(count) + "- " + eventList.get(p) ;
+                        count++;
+                    }
+                    else{
+                        tasks = String.valueOf(count) + "- " + eventList.get(p);
+                        count++;
+                    }
                 }
 
                 // To set text where placed on Cardview.

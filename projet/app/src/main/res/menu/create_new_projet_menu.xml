@@ -5,12 +5,17 @@
         android:icon="@drawable/ic_add_member"
         android:title="Add Member"
         app:showAsAction = "ifRoom" />
+
     <item android:id="@+id/addNewTask"
         android:icon="@drawable/ic_add_task"
         android:title="Add Task"
         app:showAsAction="ifRoom" />
+
+    <item android:id="@+id/editProjet"
+        android:title="Edit ProJet Properties"
+        app:showAsAction="never"/>
+
     <item android:id="@+id/leaveProjet"
         android:title="Leave ProJet"
         app:showAsAction="never"/>
-
 </menu>

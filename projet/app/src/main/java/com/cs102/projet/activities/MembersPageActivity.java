@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
-import com.cs102.projet.Member;
-import com.cs102.projet.MemberAdapter;
+import com.cs102.projet.classes.Member;
+import com.cs102.projet.adapters.MemberAdapter;
 import com.cs102.projet.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;

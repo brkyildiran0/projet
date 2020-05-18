@@ -11,10 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.cs102.projet.activities.ProfilePageActivity;
 import com.cs102.projet.R;
 import com.cs102.projet.activities.ProjectPageActivity;
-import com.cs102.projet.activities.ProjetMainPageActivity;
 
 public class FragmentMainPageProject extends Fragment {
     private String projetName;
@@ -22,10 +20,12 @@ public class FragmentMainPageProject extends Fragment {
     private TextView unchangedNameText;
     private TextView unchangedDueDateText;
 
-    public FragmentMainPageProject() {
+    public FragmentMainPageProject()
+    {
     }
 
-    public FragmentMainPageProject(String projetName, String projetDueDate) {
+    public FragmentMainPageProject(String projetName, String projetDueDate)
+    {
         this.projetName = projetName;
         this.projetDueDate = projetDueDate;
     }
@@ -34,7 +34,7 @@ public class FragmentMainPageProject extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_main_page_projectinfo, container,false);
+        View rootView = inflater.inflate(R.layout.projet_info_item, container,false);
         unchangedNameText = rootView.findViewById(R.id.projetName_fr);
         unchangedDueDateText = rootView.findViewById(R.id.setDate_fr);
         unchangedNameText.setText(this.projetName);

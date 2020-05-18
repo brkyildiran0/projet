@@ -3,7 +3,9 @@ package com.cs102.projet.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -11,9 +13,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cs102.projet.MyNotificationClass;
 import com.cs102.projet.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,9 +31,13 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.Source;
 
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class AddMemberActivity extends AppCompatActivity
 {
@@ -45,6 +53,7 @@ public class AddMemberActivity extends AppCompatActivity
     FirebaseFirestore database;
     FirebaseAuth myFirebaseAuth;
     FirebaseUser currentUser;
+    MyNotificationClass myNotificationClass;
 
 
     @Override
@@ -52,6 +61,9 @@ public class AddMemberActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_member);
+
+        // MyNotificationClass initialize
+        myNotificationClass = new MyNotificationClass();
 
         //Firebase initialize
         database = FirebaseFirestore.getInstance();
@@ -81,17 +93,24 @@ public class AddMemberActivity extends AppCompatActivity
             {
                 if ( !editTextEmail.getText().toString().equals("") )
                 {
-                    //Checking whether such user with given email exists and continuing accordingly.
+                    //Checking whether such user with given email exists at the database and continuing accordingly.
                     Query myQuery = database.collection("Users").whereEqualTo("user_email", editTextEmail.getText().toString());
-                    myQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+
+
+                    // Sending notification to new member
+                    myNotificationClass.sendNotification(editTextEmail.getText().toString(), "You are just added to a new ProJet!");
+                    myNotificationClass.addNotificationsToDatabase(editTextEmail.getText().toString(), "You are just added to a new ProJet!");
+
+                    myQuery.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>()
                     {
                         @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task)
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots)
                         {
-                            if(task.isSuccessful())
+                            if (!queryDocumentSnapshots.isEmpty())
                             {
-                                for (QueryDocumentSnapshot document : task.getResult())
+                                for (QueryDocumentSnapshot document : queryDocumentSnapshots)
                                 {
+                                    //TODO restrict the input which consists of the user that already a member of the current projet
                                     //Now we are certain that such user exists, therefore getting needed values.
                                     addedUserName = document.getString("user_name");
                                     addedUserMail = document.getString("user_email");
@@ -113,14 +132,12 @@ public class AddMemberActivity extends AppCompatActivity
                                     Toast.makeText(AddMemberActivity.this, "Member Added!", Toast.LENGTH_LONG).show();
                                     editTextEmail.setText("");
                                 }
+
                             }
-                        }
-                    }).addOnFailureListener(new OnFailureListener()
-                    {
-                        @Override
-                        public void onFailure(@NonNull Exception e)
-                        {
-                            Log.d("Error", "Could not do the query");
+                            else
+                            {
+                                Toast.makeText(AddMemberActivity.this, "Such user does not exist!", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     });
                 }
@@ -140,4 +157,6 @@ public class AddMemberActivity extends AppCompatActivity
             }
         });
     }
+
+
 }

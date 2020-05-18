@@ -13,7 +13,7 @@ import android.view.MenuItem;
 
 import com.cs102.projet.R;
 import com.cs102.projet.classes.Task;
-import com.cs102.projet.classes.TaskAdapter;
+import com.cs102.projet.adapters.TaskAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;

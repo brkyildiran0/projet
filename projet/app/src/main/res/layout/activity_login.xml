@@ -10,10 +10,11 @@
 
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="120dp"
+        android:layout_width="346dp"
+        android:layout_height="87dp"
         android:layout_marginTop="80dp"
-        android:src="@drawable/spotify"/>
+        android:background="#FAFAFA"
+        android:src="@drawable/login_logo" />
 
     <EditText
         android:id="@+id/email"

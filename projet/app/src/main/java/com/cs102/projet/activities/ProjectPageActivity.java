@@ -27,12 +27,10 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ProjectPageActivity extends AppCompatActivity
 {
@@ -57,7 +55,7 @@ public class ProjectPageActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_projet_page);
+        setContentView(R.layout.activity_project_page);
 
         //Getting the clicked ProJet name
         Bundle extras = getIntent().getExtras();

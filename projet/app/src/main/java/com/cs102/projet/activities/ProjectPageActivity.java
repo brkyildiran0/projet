@@ -10,13 +10,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cs102.projet.MyTasksActivity;
 import com.cs102.projet.interfaces.GetInformations;
 import com.cs102.projet.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,10 +27,14 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ProjectPageActivity extends AppCompatActivity
 {
@@ -81,7 +83,6 @@ public class ProjectPageActivity extends AppCompatActivity
         //Setting the header of the ProJet page and document reference
         projetHeader.setText(projetName);
 
-
         //Getting projet's info from firebase
         database.collection("ProJets").document(projetName).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
         {
@@ -92,6 +93,42 @@ public class ProjectPageActivity extends AppCompatActivity
                 projetDueDate.setText(documentSnapshot.getString("projet_due_date"));
                 projetDueHour.setText(documentSnapshot.getString("projet_due_hour"));
 
+            }
+        });
+
+        //Getting the UNCOMPLETED task amount & and updating it on the ProJet database root
+        Query uncompletedTasks = database.collection("ProJets").document(projetName).collection("Tasks").whereEqualTo("task_status", false);
+        uncompletedTasks.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>()
+        {
+            int uncompletedTasksCounter = 0;
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots)
+            {
+                for (QueryDocumentSnapshot eachUncompleteTask : queryDocumentSnapshots)
+                {
+                    uncompletedTasksCounter++;
+                }
+                Map<String, Integer> uncompletedTasksProjetAdder = new HashMap<>();
+                uncompletedTasksProjetAdder.put("total_uncompleted_tasks", uncompletedTasksCounter);
+                database.collection("ProJets").document(projetName).set(uncompletedTasksProjetAdder, SetOptions.merge());
+            }
+        });
+
+        //Getting the COMPLETED task amount & and updating it on the ProJet database root
+        Query completedTasks = database.collection("ProJets").document(projetName).collection("Tasks").whereEqualTo("task_status", true);
+        completedTasks.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>()
+        {
+            int completedTasksCounter = 0;
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots)
+            {
+                for (QueryDocumentSnapshot eachUncompleteTask : queryDocumentSnapshots)
+                {
+                    completedTasksCounter++;
+                }
+                Map<String, Integer> completedTasksProjetAdder = new HashMap<>();
+                completedTasksProjetAdder.put("total_completed_tasks", completedTasksCounter);
+                database.collection("ProJets").document(projetName).set(completedTasksProjetAdder, SetOptions.merge());
             }
         });
 

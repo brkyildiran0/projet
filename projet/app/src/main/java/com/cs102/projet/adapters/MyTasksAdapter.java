@@ -13,13 +13,23 @@ import com.cs102.projet.R;
 import com.cs102.projet.classes.Task;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MyTasksAdapter extends FirestoreRecyclerAdapter<Task, MyTasksAdapter.MyTasksHolder> {
 
     FirebaseFirestore database = FirebaseFirestore.getInstance();
     private String projetName;
+    Long currentAmountOfCompletedTasks;
+    int assigner;
+    Long currentAmountOfIncompletedTasks;
+    int assignerTwo;
 
     public MyTasksAdapter(@NonNull FirestoreRecyclerOptions<Task> options, String projetName) {
         super(options);
@@ -38,6 +48,38 @@ public class MyTasksAdapter extends FirestoreRecyclerAdapter<Task, MyTasksAdapte
                 DocumentReference theTask = database.collection("ProJets").document(projetName).collection("Tasks")
                         .document(model.getTask_name());
                 theTask.update("task_status", true);
+
+                //Incrementing total_completed_tasks attribute by 1 since the task is declared as completed above.
+                //And decrementing total_incompleted_tasks attribute by 1.
+                database.collection("ProJets").document(projetName).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
+                {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot)
+                    {
+                        currentAmountOfCompletedTasks = documentSnapshot.getLong("total_completed_tasks");
+                        assigner = 0;
+                        assigner = currentAmountOfCompletedTasks.intValue();
+                        assigner++;
+                        Integer databaseSender = assigner;
+
+                        //Now adding the increased value to the ProJet root back again.
+                        Map<String, Integer> increaser = new HashMap<>();
+                        increaser.put("total_completed_tasks", databaseSender);
+                        database.collection("ProJets").document(projetName).set(increaser, SetOptions.merge());
+
+                        //Decrementing the total_incompleted_tasks value at ProJet database root by 1, since new task added.
+                        currentAmountOfIncompletedTasks = documentSnapshot.getLong("total_uncompleted_tasks");
+                        assignerTwo = 0;
+                        assignerTwo = currentAmountOfIncompletedTasks.intValue();
+                        assignerTwo--;
+                        Integer databaseSenderTwo = assignerTwo;
+
+                        //Now adding the increased value to the ProJet root back again.
+                        Map<String, Integer> increaserTwo = new HashMap<>();
+                        increaserTwo.put("total_uncompleted_tasks", databaseSenderTwo);
+                        database.collection("ProJets").document(projetName).set(increaserTwo, SetOptions.merge());
+                    }
+                });
             }
         });
 

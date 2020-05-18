@@ -179,7 +179,8 @@ public class ProjectPageActivity extends AppCompatActivity
         setUpRecyclerViewTask();
     }
 
-    private void setUpRecyclerViewTask(){
+    private void setUpRecyclerViewTask()
+    {
         Query query = database.collection("ProJets").whereEqualTo("projet_name", projetName);
 
         FirestoreRecyclerOptions<ProgressBarTask> options = new FirestoreRecyclerOptions.Builder<ProgressBarTask>()

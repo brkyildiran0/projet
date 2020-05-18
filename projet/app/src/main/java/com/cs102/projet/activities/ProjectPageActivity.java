@@ -2,6 +2,8 @@ package com.cs102.projet.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,8 +17,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cs102.projet.adapters.ProgressBarTaskAdapter;
+import com.cs102.projet.classes.ProgressBarTask;
 import com.cs102.projet.interfaces.GetInformations;
 import com.cs102.projet.R;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -46,15 +51,15 @@ public class ProjectPageActivity extends AppCompatActivity
     private ImageButton membersButton;
     private ImageButton tasksButton;
     private ImageButton projetChatbutton;
-    private ProgressBar timeProgressBar;
-    private ProgressBar taskProgressBar;
     private ImageButton myTasksButton;
+    //private ProgressBar progressBar;
     private TextView projetHeader;
     private TextView projetDescription;
     private TextView projetDueDate;
     private TextView projetDueHour;
-    private TextView textTotalTasks;
-    private TextView textCompletedTasks;
+    private RecyclerView recyclerView_task;
+
+    private ProgressBarTaskAdapter adapterTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -76,17 +81,14 @@ public class ProjectPageActivity extends AppCompatActivity
         membersButton = findViewById(R.id.projetMembersButton);
         tasksButton = findViewById(R.id.projetTasksButton);
         projetChatbutton = findViewById(R.id.projetChatButton);
-        timeProgressBar = findViewById(R.id.timeProgressBar);
-        taskProgressBar = findViewById(R.id.taskProgressBar);
         myTasksButton = findViewById(R.id.buttonMyTasks);
+        //progressBar = findViewById(R.id.projetProgressBar);
         projetHeader = findViewById(R.id.projetPageProjetName);
         projetDescription = findViewById(R.id.projetDescription);
         projetDueDate = findViewById(R.id.projetDueDate);
         projetDueHour = findViewById(R.id.projetDueHour);
-        textTotalTasks = findViewById(R.id.taskViewTotalTask);
-        textCompletedTasks = findViewById(R.id.taskViewCompleteTask);
 
-        //Setting the header of the ProJet page and document reference and other pre-declarations
+        //Setting the header of the ProJet page and document reference
         projetHeader.setText(projetName);
 
         //Getting projet's info from firebase
@@ -98,8 +100,6 @@ public class ProjectPageActivity extends AppCompatActivity
                 projetDescription.setText(documentSnapshot.getString("projet_desc"));
                 projetDueDate.setText(documentSnapshot.getString("projet_due_date"));
                 projetDueHour.setText(documentSnapshot.getString("projet_due_hour"));
-                //TODO buraya completed tasks ve uncompleted tasksı al
-
 
             }
         });
@@ -177,8 +177,33 @@ public class ProjectPageActivity extends AppCompatActivity
                 startActivity(intentN);
             }
         });
+
+        setUpRecyclerViewTask();
     }
 
+    private void setUpRecyclerViewTask(){
+        Query query = database.collection("ProJets").whereEqualTo("projet_name", projetName);
+
+        FirestoreRecyclerOptions<ProgressBarTask> options = new FirestoreRecyclerOptions.Builder<ProgressBarTask>()
+                .setQuery(query, ProgressBarTask.class).build();
+        adapterTask = new ProgressBarTaskAdapter(options);
+        recyclerView_task = findViewById(R.id.recycler_view_task_progress);
+        recyclerView_task.setHasFixedSize(true);
+        recyclerView_task.setLayoutManager(new LinearLayoutManager(ProjectPageActivity.this));
+        recyclerView_task.setAdapter(adapterTask);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        adapterTask.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        adapterTask.stopListening();
+    }
 
     //Method for the AppBar Buttons & Icons
     @Override

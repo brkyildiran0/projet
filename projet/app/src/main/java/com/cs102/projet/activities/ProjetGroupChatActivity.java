@@ -91,22 +91,22 @@ public class ProjetGroupChatActivity extends AppCompatActivity
         recyclerView.setAdapter(adapter);
 
         adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-            @Override
-            public void onItemRangeInserted(int positionStart, int itemCount) {
-                super.onItemRangeInserted(positionStart, itemCount);
-                int friendlyMessageCount = adapter.getItemCount();
-                int lastVisiblePosition =
-                        xx.findLastCompletelyVisibleItemPosition();
-                // If the recycler view is initially being loaded or the
-                // user is at the bottom of the list, scroll to the bottom
-                // of the list to show the newly added message.
-                if (lastVisiblePosition == -1 ||
-                        (positionStart >= (friendlyMessageCount - 1) &&
-                                lastVisiblePosition == (positionStart - 1))) {
-                    recyclerView.scrollToPosition(positionStart);
-                }
+        @Override
+        public void onItemRangeInserted(int positionStart, int itemCount) {
+            super.onItemRangeInserted(positionStart, itemCount);
+            int friendlyMessageCount = adapter.getItemCount();
+            int lastVisiblePosition =
+                    xx.findLastCompletelyVisibleItemPosition();
+            // If the recycler view is initially being loaded or the
+            // user is at the bottom of the list, scroll to the bottom
+            // of the list to show the newly added message.
+            if (lastVisiblePosition == -1 ||
+                    (positionStart >= (friendlyMessageCount - 1) &&
+                            lastVisiblePosition == (positionStart - 1))) {
+                recyclerView.scrollToPosition(positionStart);
             }
-        });
+        }
+    });
 
         database = FirebaseFirestore.getInstance();
         myFirebaseAuth = FirebaseAuth.getInstance();
@@ -193,7 +193,7 @@ public class ProjetGroupChatActivity extends AppCompatActivity
                             if(!eventList.get(h).equals(currentUserMail)) {
                                 myNotification.sendNotification(eventList.get(h).toString(), "New message at "
                                         + projetName +" \n" + messageContent);
-                                myNotification.addNotificationsToDatabase(eventList.get(h), "New message at "
+                                myNotification.addMessageNotificationsToDatabase(eventList.get(h), "New message at "
                                         + projetName +" \n" + messageContent);
                             }
                         }

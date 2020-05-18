@@ -46,7 +46,7 @@
             android:theme="@style/AppTheme.PopMe" />
 
         <activity
-            android:name=".LoginActivity"
+            android:name=".loginpage.LoginActivity"
             android:clearTaskOnLaunch="true"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

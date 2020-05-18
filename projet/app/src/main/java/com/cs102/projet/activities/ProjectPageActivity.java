@@ -27,10 +27,12 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ProjectPageActivity extends AppCompatActivity
 {
@@ -42,11 +44,14 @@ public class ProjectPageActivity extends AppCompatActivity
     private ImageButton membersButton;
     private ImageButton tasksButton;
     private ImageButton projetChatbutton;
-    private ProgressBar progressBar;
+    private ProgressBar timeProgressBar;
+    private ProgressBar taskProgressBar;
     private TextView projetHeader;
     private TextView projetDescription;
     private TextView projetDueDate;
     private TextView projetDueHour;
+    private TextView textTotalTasks;
+    private TextView textCompletedTasks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -68,15 +73,17 @@ public class ProjectPageActivity extends AppCompatActivity
         membersButton = findViewById(R.id.projetMembersButton);
         tasksButton = findViewById(R.id.projetTasksButton);
         projetChatbutton = findViewById(R.id.projetChatButton);
-        //progressBar = findViewById(R.id.projetProgressBar);
+        timeProgressBar = findViewById(R.id.timeProgressBar);
+        taskProgressBar = findViewById(R.id.taskProgressBar);
         projetHeader = findViewById(R.id.projetPageProjetName);
         projetDescription = findViewById(R.id.projetDescription);
         projetDueDate = findViewById(R.id.projetDueDate);
         projetDueHour = findViewById(R.id.projetDueHour);
+        textTotalTasks = findViewById(R.id.taskViewTotalTask);
+        textCompletedTasks = findViewById(R.id.taskViewCompleteTask);
 
-        //Setting the header of the ProJet page and document reference
+        //Setting the header of the ProJet page and document reference and other pre-declarations
         projetHeader.setText(projetName);
-
 
         //Getting projet's info from firebase
         database.collection("ProJets").document(projetName).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
@@ -87,9 +94,18 @@ public class ProjectPageActivity extends AppCompatActivity
                 projetDescription.setText(documentSnapshot.getString("projet_desc"));
                 projetDueDate.setText(documentSnapshot.getString("projet_due_date"));
                 projetDueHour.setText(documentSnapshot.getString("projet_due_hour"));
+                //TODO buraya completed tasks ve uncompleted tasksı al
+
 
             }
         });
+
+
+
+
+        //Setting the text beneath the progress bar
+//        textCompletedTasks.setText(strCompletedTasks);
+//        textTotalTasks.setText(strTotalTasks);
 
         //tasksButton onClick()
         tasksButton.setOnClickListener(new View.OnClickListener()

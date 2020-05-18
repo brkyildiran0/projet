@@ -50,14 +50,14 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
         holder.textView_message.setText(model.getMessage());
 
         //To know the message owner is me or not and colorization with this information.
-        /*myFirebaseAuth = FirebaseAuth.getInstance();
+        myFirebaseAuth = FirebaseAuth.getInstance();
         currentUser = myFirebaseAuth.getCurrentUser();
         if(currentUser.getEmail().equals(model.getComing_from())) {
-            holder.itemView.setBackgroundColor(Color.GREEN);
+            holder.itemView.setBackgroundColor(Color.LTGRAY);
         }
         else{
             holder.itemView.setBackgroundColor(Color.WHITE);
-        }*/
+        }
 
 
         //To get user_name from field "coming_from". (E mail >>>> user name)

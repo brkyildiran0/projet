@@ -133,7 +133,6 @@ public class ProjetGroupChatActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Date currentdate = Calendar.getInstance().getTime();
-                Log.e("date", currentdate.toString());
                 //these string will be sent to server
                 final String messageContent = editTextMessageContent.getText().toString();
                 editTextMessageContent.setText("");

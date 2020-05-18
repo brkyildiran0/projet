@@ -15,19 +15,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MyTasksActivity"></activity>
+        <activity android:name=".activities.MyTasksActivity"></activity>
         <activity android:name=".activities.EditProjetActivity" />
         <activity android:name=".activities.SettingsActivity" />
+        <activity android:name=".activities.ChatActivity" />
         <activity android:name=".activities.MembersPageActivity" />
+        <activity android:name=".activities.ProjetGroupChatActivity" />
         <activity android:name=".activities.TaskPageActivity" />
         <activity android:name=".loginpage.RegisterActivity" />
         <activity android:name=".activities.NotificationsActivity" />
         <activity android:name=".activities.ProfilePageActivity" />
         <activity android:name=".activities.ProjectPageActivity" />
         <activity android:name=".activities.ProjetMainPageActivity" />
-        <activity android:name=".activities.ChatActivity" />
-        <activity android:name=".activities.ProjetGroupChatActivity" />
-
         <activity
             android:name=".loginpage.ForgetPasswordActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -43,9 +42,8 @@
         <activity
             android:name=".activities.PopUpExitActivity"
             android:theme="@style/AppTheme.PopMe" />
-
         <activity
-            android:name=".loginpage.LoginActivity"
+            android:name=".LoginActivity"
             android:clearTaskOnLaunch="true"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

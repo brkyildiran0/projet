@@ -13,7 +13,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,14 +50,13 @@ public class ProjectPageActivity extends AppCompatActivity
     private ImageButton membersButton;
     private ImageButton tasksButton;
     private ImageButton projetChatbutton;
-    private ProgressBar timeProgressBar;
-    private ProgressBar taskProgressBar;
     private ImageButton myTasksButton;
     private TextView projetHeader;
     private TextView projetDescription;
     private TextView projetDueDate;
     private TextView projetDueHour;
     private RecyclerView recyclerView_task;
+
     private ProgressBarTaskAdapter adapterTask;
 
     @Override
@@ -81,16 +79,14 @@ public class ProjectPageActivity extends AppCompatActivity
         membersButton = findViewById(R.id.projetMembersButton);
         tasksButton = findViewById(R.id.projetTasksButton);
         projetChatbutton = findViewById(R.id.projetChatButton);
-
         myTasksButton = findViewById(R.id.buttonMyTasks);
+        //progressBar = findViewById(R.id.projetProgressBar);
         projetHeader = findViewById(R.id.projetPageProjetName);
         projetDescription = findViewById(R.id.projetDescription);
         projetDueDate = findViewById(R.id.projetDueDate);
         projetDueHour = findViewById(R.id.projetDueHour);
-        textTotalTasks = findViewById(R.id.taskViewTotalTask);
-        textCompletedTasks = findViewById(R.id.taskViewCompleteTask);
 
-        //Setting the header of the ProJet page and document reference and other pre-declarations
+        //Setting the header of the ProJet page and document reference
         projetHeader.setText(projetName);
 
         //Getting projet's info from firebase
@@ -102,45 +98,7 @@ public class ProjectPageActivity extends AppCompatActivity
                 projetDescription.setText(documentSnapshot.getString("projet_desc"));
                 projetDueDate.setText(documentSnapshot.getString("projet_due_date"));
                 projetDueHour.setText(documentSnapshot.getString("projet_due_hour"));
-                //TODO buraya completed tasks ve uncompleted tasksı al
 
-
-            }
-        });
-
-        //Getting the UNCOMPLETED task amount & and updating it on the ProJet database root
-        Query uncompletedTasks = database.collection("ProJets").document(projetName).collection("Tasks").whereEqualTo("task_status", false);
-        uncompletedTasks.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>()
-        {
-            int uncompletedTasksCounter = 0;
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots)
-            {
-                for (QueryDocumentSnapshot eachUncompleteTask : queryDocumentSnapshots)
-                {
-                    uncompletedTasksCounter++;
-                }
-                Map<String, Integer> uncompletedTasksProjetAdder = new HashMap<>();
-                uncompletedTasksProjetAdder.put("total_uncompleted_tasks", uncompletedTasksCounter);
-                database.collection("ProJets").document(projetName).set(uncompletedTasksProjetAdder, SetOptions.merge());
-            }
-        });
-
-        //Getting the COMPLETED task amount & and updating it on the ProJet database root
-        Query completedTasks = database.collection("ProJets").document(projetName).collection("Tasks").whereEqualTo("task_status", true);
-        completedTasks.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>()
-        {
-            int completedTasksCounter = 0;
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots)
-            {
-                for (QueryDocumentSnapshot eachUncompleteTask : queryDocumentSnapshots)
-                {
-                    completedTasksCounter++;
-                }
-                Map<String, Integer> completedTasksProjetAdder = new HashMap<>();
-                completedTasksProjetAdder.put("total_completed_tasks", completedTasksCounter);
-                database.collection("ProJets").document(projetName).set(completedTasksProjetAdder, SetOptions.merge());
             }
         });
 
@@ -274,7 +232,7 @@ public class ProjectPageActivity extends AppCompatActivity
                 newTask.putExtra("projetName", projetName);
                 startActivity(newTask);
                 return true;
-                
+
             case R.id.editProjet:
                 Intent editProjet = new Intent(getApplicationContext(), EditProjetActivity.class);
                 editProjet.putExtra("projetName", projetName);

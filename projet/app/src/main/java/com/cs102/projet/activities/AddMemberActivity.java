@@ -82,7 +82,7 @@ public class AddMemberActivity extends AppCompatActivity
             {
                 if ( !editTextEmail.getText().toString().equals("") )
                 {
-                    //Checking whether such user with given email exists and continuing accordingly.
+                    //Checking whether such user with given email exists at the database and continuing accordingly.
                     Query myQuery = database.collection("Users").whereEqualTo("user_email", editTextEmail.getText().toString());
 
                     myQuery.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>()
@@ -94,6 +94,7 @@ public class AddMemberActivity extends AppCompatActivity
                             {
                                 for (QueryDocumentSnapshot document : queryDocumentSnapshots)
                                 {
+                                    //TODO restrict the input which consists of the user that already a member of the current projet
                                     //Now we are certain that such user exists, therefore getting needed values.
                                     addedUserName = document.getString("user_name");
                                     addedUserMail = document.getString("user_email");

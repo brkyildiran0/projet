@@ -115,7 +115,7 @@ public class ProjetGroupChatActivity extends AppCompatActivity
 
             }
         }
-    });
+    );
 
         database = FirebaseFirestore.getInstance();
         myFirebaseAuth = FirebaseAuth.getInstance();

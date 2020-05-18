@@ -55,7 +55,6 @@ public class ProjetMainPageActivity extends AppCompatActivity
 
         //View & more initialize
         Button buttonCreateNewProjet = findViewById(R.id.buttonCreateNewProjet);
-        ImageButton buttonRecycle = findViewById(R.id.buttonRecycle);
 
         //Getting current logged in user's mail address
         currentUserMail = currentUser.getEmail();
@@ -109,16 +108,6 @@ public class ProjetMainPageActivity extends AppCompatActivity
             }
         });
 
-        //Recycle onClick
-        buttonRecycle.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                startActivity(new Intent(getApplicationContext(), ProjetMainPageActivity.class));
-                finish();
-            }
-        });
     }
 
     public void setUpRecyclerView(CollectionReference collectRef){

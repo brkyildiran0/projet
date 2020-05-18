@@ -66,36 +66,7 @@ public class ProjetMainPageActivity extends AppCompatActivity
         CollectionReference userCurrentProjets = database.collection("Users").document(currentUserMail).collection("Current ProJets");
 
         setUpRecyclerView(userCurrentProjets);
-        //Checking user's Current ProJets folder, if there are any adding them to a List
-        /*userCurrentProjets.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
-                {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task)
-                    {
-                        //Initializing the fragment managers here to display each projet user owns
-                        FragmentManager fm = getSupportFragmentManager();
-                        FragmentTransaction ft = fm.beginTransaction();
 
-                        //Processing the projet info and inserting the info to fragment and displaying it
-                        if (task.isSuccessful())
-                        {
-                            for (QueryDocumentSnapshot document : task.getResult())
-                            {
-                                //Getting the projet refence to use it at getting projet duedate
-                                DocumentReference projetReference = database.collection("ProJets").document(document.getId());
-                                ft.add(R.id.fragmentContainer, new FragmentMainPageProject(document.getId(), document.getString("projet_due_date")));
-                            }
-                        }
-                        else
-                        {
-                            Log.e("Error", "Could not retrieve ProJet info.");
-                        }
-
-                        ft.commit();
-                    }
-                });
-        */
         //CreateNewProJetButton onClick
         buttonCreateNewProjet.setOnClickListener(new View.OnClickListener()
         {

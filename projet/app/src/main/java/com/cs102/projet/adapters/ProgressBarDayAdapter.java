@@ -54,6 +54,10 @@ public class ProgressBarDayAdapter extends FirestoreRecyclerAdapter<ProgressBarD
             Date dueDayDate = myFormat.parse(projetDueDate);
             Date creationDayDate = myFormat.parse(creationDate);
 
+            assert dueDayDate != null;
+            assert currentDayDate != null;
+            assert creationDayDate != null;
+
             long diffDays = dueDayDate.getTime() - currentDayDate.getTime();
             String setter = (TimeUnit.DAYS.convert(diffDays, TimeUnit.MILLISECONDS) + 488) + " days remaining!";
 

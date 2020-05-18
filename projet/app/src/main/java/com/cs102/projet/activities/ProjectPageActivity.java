@@ -16,7 +16,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cs102.projet.adapters.ProgressBarDayAdapter;
 import com.cs102.projet.adapters.ProgressBarTaskAdapter;
+import com.cs102.projet.classes.ProgressBarDay;
 import com.cs102.projet.classes.ProgressBarTask;
 import com.cs102.projet.interfaces.GetInformations;
 import com.cs102.projet.R;
@@ -56,8 +58,10 @@ public class ProjectPageActivity extends AppCompatActivity
     private TextView projetDueDate;
     private TextView projetDueHour;
     private RecyclerView recyclerView_task;
+    private RecyclerView recyclerView_day;
 
     private ProgressBarTaskAdapter adapterTask;
+    private ProgressBarDayAdapter adapterDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -177,6 +181,7 @@ public class ProjectPageActivity extends AppCompatActivity
         });
 
         setUpRecyclerViewTask();
+        setUpRecyclerViewDay();
     }
 
     private void setUpRecyclerViewTask(){
@@ -190,17 +195,30 @@ public class ProjectPageActivity extends AppCompatActivity
         recyclerView_task.setLayoutManager(new LinearLayoutManager(ProjectPageActivity.this));
         recyclerView_task.setAdapter(adapterTask);
     }
+    private void setUpRecyclerViewDay(){
+        Query query = database.collection("ProJets").whereEqualTo("projet_name", projetName);
+
+        FirestoreRecyclerOptions<ProgressBarDay> options = new FirestoreRecyclerOptions.Builder<ProgressBarDay>()
+                .setQuery(query, ProgressBarDay.class).build();
+        adapterDay = new ProgressBarDayAdapter(options);
+        recyclerView_task = findViewById(R.id.recycler_view_day_progress);
+        recyclerView_task.setHasFixedSize(true);
+        recyclerView_task.setLayoutManager(new LinearLayoutManager(ProjectPageActivity.this));
+        recyclerView_task.setAdapter(adapterDay);
+    }
 
     @Override
     protected void onStart() {
         super.onStart();
         adapterTask.startListening();
+        adapterDay.startListening();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         adapterTask.stopListening();
+        adapterDay.stopListening();
     }
 
     //Method for the AppBar Buttons & Icons

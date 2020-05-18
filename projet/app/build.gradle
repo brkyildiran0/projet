@@ -1,6 +1,6 @@
 buildscript {
     repositories {
-        maven { url 'https://plugins.gradle.org/m2/'}
+        maven { url 'https://plugins.gradle.org/m2/' }
     }
     dependencies {
         classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:0.12.7'
@@ -23,7 +23,7 @@ android {
         applicationId "com.cs102.projet"
 
         manifestPlaceholders = [
-                onesignal_app_id: '42e66f60-0fa0-42b4-aad6-001620b0df7f',
+                onesignal_app_id               : '42e66f60-0fa0-42b4-aad6-001620b0df7f',
                 // Project number pulled from dashboard, local value is ignored.
                 onesignal_google_project_number: 'REMOTE'
         ]

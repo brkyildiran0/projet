@@ -52,7 +52,7 @@ public class ProjectPageActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_project_page);
+        setContentView(R.layout.activity_projet_page);
 
         //Getting the clicked ProJet name
         Bundle extras = getIntent().getExtras();
@@ -68,7 +68,7 @@ public class ProjectPageActivity extends AppCompatActivity
         membersButton = findViewById(R.id.projetMembersButton);
         tasksButton = findViewById(R.id.projetTasksButton);
         projetChatbutton = findViewById(R.id.projetChatButton);
-        progressBar = findViewById(R.id.projetProgressBar);
+        //progressBar = findViewById(R.id.projetProgressBar);
         projetHeader = findViewById(R.id.projetPageProjetName);
         projetDescription = findViewById(R.id.projetDescription);
         projetDueDate = findViewById(R.id.projetDueDate);

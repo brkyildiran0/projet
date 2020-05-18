@@ -2,20 +2,42 @@ package com.cs102.projet.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.cs102.projet.R;
-import com.cs102.projet.fragments.FragmentNotifications;
+import com.cs102.projet.adapters.NotificationAdapter;
+import com.cs102.projet.classes.Notification;
+import com.cs102.projet.interfaces.GetInformations;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class NotificationsActivity extends AppCompatActivity
 {
+    private FirebaseFirestore database = FirebaseFirestore.getInstance();
+    FirebaseAuth myFirebaseAuth;
+    FirebaseUser currentUser;
+    String currentUserEmail;
+
+    private NotificationAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -23,19 +45,39 @@ public class NotificationsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
 
-        //adding notifications fragment
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
+        database = FirebaseFirestore.getInstance();
+        myFirebaseAuth = FirebaseAuth.getInstance();
+        currentUser = myFirebaseAuth.getCurrentUser();
+        currentUserEmail = currentUser.getEmail();
+        CollectionReference notificationReference = database.collection("Users")
+                .document(currentUserEmail).collection("Notifications");
+        setUpRecyclerView(notificationReference);
+    }
+    public void setUpRecyclerView(CollectionReference notificationReference){
+        Query query = notificationReference.whereEqualTo("delete", false);
+        FirestoreRecyclerOptions<Notification> options = new FirestoreRecyclerOptions.Builder<Notification>()
+                .setQuery(query, Notification.class).build();
 
-        ft.add(R.id.notificationsFragmentContainer, new FragmentNotifications("finish", "CS 102 Projesi"));
-        ft.add(R.id.notificationsFragmentContainer, new FragmentNotifications("finish", "Ahmet'in Doğum Günü"));
-        ft.add(R.id.notificationsFragmentContainer, new FragmentNotifications("remain", "CS 102 Projesi", "9"));
-        ft.add(R.id.notificationsFragmentContainer, new FragmentNotifications("added", "Bitirelim şu işi!"));
-        ft.add(R.id.notificationsFragmentContainer, new FragmentNotifications("remain", "Coding", "1"));
+        adapter = new NotificationAdapter(options);
 
-        ft.commit();
+        RecyclerView recyclerView = findViewById(R.id.recycler_view_notifications);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(NotificationsActivity.this));
+        recyclerView.setAdapter(adapter);
+
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        adapter.stopListening();
+    }
     //Method for the AppBar Buttons & Icons
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -77,5 +119,24 @@ public class NotificationsActivity extends AppCompatActivity
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    public void moveData(final GetInformations getInformations, Query query) {
+        query.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            List<String> eventList = new ArrayList<>();
+
+                            for(DocumentSnapshot doc : task.getResult()) {
+                                String e = doc.get("title").toString();
+                                eventList.add(e);
+                            }
+                            getInformations.useInfo(eventList);
+                        } else {
+                            Log.e("QuerySnapshot Error!", "There is a problem while getting documents!");
+                        }
+                    }
+                });
     }
 }

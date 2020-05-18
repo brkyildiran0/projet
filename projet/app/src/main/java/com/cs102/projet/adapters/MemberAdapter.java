@@ -37,6 +37,7 @@ public class MemberAdapter extends FirestoreRecyclerAdapter<Member, MemberAdapte
     protected void onBindViewHolder(@NonNull final MemberHolder holder, int position, @NonNull Member model) {
         holder.textView_member_name.setText(model.getUser_name());
 
+
         // To get mail, we use document name.
         String mail = getSnapshots().getSnapshot(position).getReference().getId();
         holder.textView_member_email.setText(mail);

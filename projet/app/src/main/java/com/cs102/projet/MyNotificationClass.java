@@ -103,6 +103,7 @@ public class MyNotificationClass {
         Map<String, String> notificationMap = new HashMap<>();
         notificationMap.put("title", "ProJet!!");
         notificationMap.put("message", message);
+        notificationMap.put("time", currentdate.toString());
         notificationRef.set(notificationMap);
     }
 }

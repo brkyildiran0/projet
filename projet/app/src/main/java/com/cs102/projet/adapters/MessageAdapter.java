@@ -34,6 +34,12 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
     FirebaseAuth myFirebaseAuth;
     FirebaseUser currentUser;
 
+    // To fix the problems of view types when scrolling.
+    //@Override
+    /*public int getItemViewType(int position) {
+        return position;
+    }*/
+
     public MessageAdapter(@NonNull FirestoreRecyclerOptions<Message> options, String projetName) {
         super(options);
         this.projetName = projetName;
@@ -43,13 +49,15 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
     protected void onBindViewHolder(@NonNull final MessageHolder holder, int position, @NonNull final Message model) {
         holder.textView_message.setText(model.getMessage());
 
-        //To know the message owner is me or not.
-        myFirebaseAuth = FirebaseAuth.getInstance();
+        //To know the message owner is me or not and colorization with this information.
+        /*myFirebaseAuth = FirebaseAuth.getInstance();
         currentUser = myFirebaseAuth.getCurrentUser();
-
-
-        holder.itemView.setBackgroundColor(model.getColor());
-
+        if(currentUser.getEmail().equals(model.getComing_from())) {
+            holder.itemView.setBackgroundColor(Color.GREEN);
+        }
+        else{
+            holder.itemView.setBackgroundColor(Color.WHITE);
+        }*/
 
 
         //To get user_name from field "coming_from". (E mail >>>> user name)

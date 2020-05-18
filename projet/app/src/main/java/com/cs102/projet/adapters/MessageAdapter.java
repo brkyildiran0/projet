@@ -34,12 +34,6 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
     FirebaseAuth myFirebaseAuth;
     FirebaseUser currentUser;
 
-    // To fix the problems of view types when scrolling.
-    //@Override
-    /*public int getItemViewType(int position) {
-        return position;
-    }*/
-
     public MessageAdapter(@NonNull FirestoreRecyclerOptions<Message> options, String projetName) {
         super(options);
         this.projetName = projetName;
@@ -74,13 +68,11 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
                     userName = userName + eventList.get(p);
                 }
 
-
                 if (userName == "" && userName == null) {
                     userName = "Error: Username";
                 }
 
-                // To set text where placed on Cardview.
-                //TODO : Date should be converted to day!!
+                // To get time properly.
 
                 String stringDate = model.getTime().toDate().toString();
                 Log.e("stringDate: ", stringDate);

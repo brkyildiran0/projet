@@ -74,7 +74,7 @@ public class ProjectPageActivity extends AppCompatActivity
         tasksButton = findViewById(R.id.projetTasksButton);
         projetChatbutton = findViewById(R.id.projetChatButton);
         myTasksButton = findViewById(R.id.buttonMyTasks);
-        progressBar = findViewById(R.id.projetProgressBar);
+        //progressBar = findViewById(R.id.projetProgressBar);
         projetHeader = findViewById(R.id.projetPageProjetName);
         projetDescription = findViewById(R.id.projetDescription);
         projetDueDate = findViewById(R.id.projetDueDate);

@@ -6,15 +6,19 @@ public class Task {
     private String task_due_date;
     private String task_name;
     private String task_owner;
+    private String task_due_hour;
+    private String task_priority;
 
     public Task() {
     }
 
-    public Task(String task_description, String task_due_date, String task_name, String task_owner) {
+    public Task(String task_description, String task_due_date, String task_name, String task_owner, String task_due_hour, String task_priority) {
         this.task_description = task_description;
         this.task_due_date = task_due_date;
         this.task_name = task_name;
         this.task_owner = task_owner;
+        this.task_due_hour = task_due_hour;
+        this.task_priority = task_priority;
     }
 
     public String getTask_description() {
@@ -31,5 +35,13 @@ public class Task {
 
     public String getTask_owner() {
         return task_owner;
+    }
+
+    public String getTask_due_hour() {
+        return task_due_hour;
+    }
+
+    public String getTask_priority() {
+        return task_priority;
     }
 }

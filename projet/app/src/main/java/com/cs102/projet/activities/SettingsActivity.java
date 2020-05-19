@@ -94,7 +94,7 @@ public class SettingsActivity extends AppCompatActivity
 
                 //Updating the app to darkmode immediately
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+                startActivity(new Intent(getApplicationContext(), ProjetMainPageActivity.class));
                 finish();
             }
         });
@@ -111,7 +111,7 @@ public class SettingsActivity extends AppCompatActivity
 
                 //Updating the app to darkmode immediately
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+                startActivity(new Intent(getApplicationContext(), ProjetMainPageActivity.class));
                 finish();
             }
         });

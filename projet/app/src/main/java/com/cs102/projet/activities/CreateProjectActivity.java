@@ -155,6 +155,12 @@ public class CreateProjectActivity extends AppCompatActivity implements DatePick
                                 isFinished.put("projet_is_complete", false);
                                 projetReference.set(isFinished, SetOptions.merge());
 
+                                //Adding the required completed/incompleted task int values beforehand to handle nullPointerException
+                                Map<String, Integer> integerHashMap = new HashMap<>();
+                                integerHashMap.put("total_completed_tasks", 0);
+                                integerHashMap.put("total_uncompleted_tasks", 0);
+                                projetReference.set(integerHashMap,SetOptions.merge());
+
                                 //Creating users & tasks collection inside of the projet document and initializing them with currentUser's data
                                 Map<String, DocumentReference> userInit = new HashMap<>();
                                 userInit.put("user_reference", database.collection("Users").document(currentUserMail));

@@ -18,6 +18,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TaskAdapter extends FirestoreRecyclerAdapter<Task, TaskAdapter.TaskHolder> {
 
@@ -47,7 +51,7 @@ public class TaskAdapter extends FirestoreRecyclerAdapter<Task, TaskAdapter.Task
         holder.textView_task_due_date.setText(model.getTask_due_date());
         holder.textView_task_description.setText(model.getTask_description());
         holder.textView_task_due_hour.setText(model.getTask_due_hour());
-        String taskPriority = model.getTask_priority();
+        final String taskPriority = model.getTask_priority();
         if(taskPriority.equals("1")){
             holder.imageView_priority.setVisibility(View.GONE);
             holder.imageView_priority2.setVisibility(View.GONE);
@@ -72,6 +76,17 @@ public class TaskAdapter extends FirestoreRecyclerAdapter<Task, TaskAdapter.Task
 
                 // To update the task owner with user e-mail.
                 theTask.update("task_owner", userEmail);
+
+                //Adding the task to the User database as well(to list all tasks in Profile Page)
+                Map<String, DocumentReference> taskReference = new HashMap<>();
+                taskReference.put(model.getTask_name(), db.collection("ProJets").document(projetName).collection("Tasks").document(model.getTask_name() ));
+                Map<String, String> taskString = new HashMap<>();
+                taskString.put("task_name", model.getTask_name());
+                taskString.put("task_due_date", model.getTask_due_date());
+                taskString.put("task_priority", model.getTask_priority());
+                taskString.put("projet_name", projetName);
+                db.collection("Users").document(myFirebaseAuth.getCurrentUser().getEmail()).collection("Current Tasks").document(model.getTask_name()).set(taskReference);
+                db.collection("Users").document(myFirebaseAuth.getCurrentUser().getEmail()).collection("Current Tasks").document(model.getTask_name()).set(taskString, SetOptions.merge());
             }
         });
     }

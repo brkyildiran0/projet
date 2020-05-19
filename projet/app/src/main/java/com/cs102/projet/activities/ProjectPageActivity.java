@@ -190,7 +190,7 @@ public class ProjectPageActivity extends AppCompatActivity
 
         FirestoreRecyclerOptions<ProgressBarTask> options = new FirestoreRecyclerOptions.Builder<ProgressBarTask>()
                 .setQuery(query, ProgressBarTask.class).build();
-        adapterTask = new ProgressBarTaskAdapter(options);
+        adapterTask = new ProgressBarTaskAdapter(options, projetName);
         recyclerView_task = findViewById(R.id.recycler_view_task_progress);
         recyclerView_task.setHasFixedSize(true);
         recyclerView_task.setLayoutManager(new LinearLayoutManager(ProjectPageActivity.this));

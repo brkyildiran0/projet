@@ -127,6 +127,9 @@ public class MyTasksAdapter extends FirestoreRecyclerAdapter<Task, MyTasksAdapte
                         }
                     }
                 }, queryEmail);
+
+                //REMOVING THE TASK FROM USER'S CURRENT TASKS COLLECTION
+                database.collection("Users").document(currentUserMail).collection("Current Tasks").document(model.getTask_name()).delete();
             }
         });
 

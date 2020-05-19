@@ -2,10 +2,18 @@ package com.cs102.projet.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +23,7 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.cs102.projet.NotificationsReceiver;
 import com.cs102.projet.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -47,6 +56,13 @@ public class CreateProjectActivity extends AppCompatActivity implements DatePick
     String projetDesc;
     String projetDueDate;
     String projetDueHour;
+
+    private String day ;
+    private String month ;
+    private String year ;
+
+    private String hour ;
+    private String minute ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -186,6 +202,32 @@ public class CreateProjectActivity extends AppCompatActivity implements DatePick
                                 userProjetUpdate2.put("projet_due_hour", projetDueHour);
                                 creatorUser.collection("Current ProJets").document(projetName).set(userProjetUpdate2, SetOptions.merge());
 
+                                //NOTIFICATION PART
+                                // Getting task date and task name separately for the 2 hours left notification..
+                                int indexForHour = projetDueHour.indexOf(':');
+                                int indexFirstDate = projetDueDate.indexOf('/');
+                                int indexSecondDate = projetDueDate.lastIndexOf('/');
+
+                                day = projetDueDate.substring(0,indexFirstDate);
+                                month = projetDueDate.substring(indexFirstDate + 1, indexSecondDate);
+                                year = projetDueDate.substring(indexSecondDate + 1);
+
+                                hour = projetDueHour.substring(0,indexForHour);
+                                minute = projetDueHour.substring(indexForHour + 1);
+
+                                int monthN = Integer.parseInt(month);
+                                int dayN = Integer.parseInt(day);
+                                int hourN = Integer.parseInt(hour);
+                                int minuteN = Integer.parseInt(minute);
+
+                                Log.e("month", month);
+                                Log.e("day", day);
+                                Log.e("hour", hour);
+                                Log.e("minute", minute);
+
+                                // Sending notification to the current user when 2 hours left for the task...
+                                plannedNotification("2 days left for the projet " + projetName, monthN, dayN, hourN, minuteN );
+
                                 //closing the creation page, and removing it from backstack
                                 startActivity(new Intent(CreateProjectActivity.this, ProjetMainPageActivity.class));
                                 finish();
@@ -243,5 +285,70 @@ public class CreateProjectActivity extends AppCompatActivity implements DatePick
     {
 
         editTextProjetDueHour.setText(hourOfDay + ":" +minute);
+    }
+
+    public void plannedNotification(String message, int month, int day, int hour, int minute){
+        NotificationCompat.Builder builder;
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Intent intent = new Intent(CreateProjectActivity.this, ProjetMainPageActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 1,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            // For Oreo
+            String channelId = "channelId";
+            String channelName = "channelName";
+            String channelDef = "channelDef";
+            int channelPriority = NotificationManager.IMPORTANCE_HIGH;
+
+            NotificationChannel channel = notificationManager.getNotificationChannel(channelId);
+
+            if (channel == null){
+                channel = new NotificationChannel(channelId, channelName, channelPriority);
+                channel.setDescription(channelDef);
+
+                notificationManager.createNotificationChannel(channel);
+            }
+
+            builder = new NotificationCompat.Builder(this, channelId);
+            builder.setContentTitle("ProJet!!");
+            builder.setContentText(message); //TODO get some real times for all tasks
+            builder.setSmallIcon(R.drawable.app_logo);
+            builder.setAutoCancel(true);
+            builder.setContentIntent(pendingIntent);
+
+        }
+        else{
+            // For Except Oreo
+
+            builder = new NotificationCompat.Builder(this);
+
+
+            builder.setContentTitle("ProJet!!");
+            builder.setContentText(message); //TODO get some real times for all tasks
+            builder.setAutoCancel(true);
+            builder.setSmallIcon(R.drawable.app_logo);
+            builder.setPriority(Notification.PRIORITY_HIGH);
+            builder.setContentIntent(pendingIntent);
+        }
+
+        Intent broadcastIntent = new Intent(CreateProjectActivity.this, NotificationsReceiver.class);
+        broadcastIntent.putExtra("object", builder.build());
+
+        PendingIntent goBroadcast = PendingIntent.getBroadcast(this, 0,
+                broadcastIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.MONTH, month - 1);
+        calendar.set(Calendar.DAY_OF_MONTH, day - 2);
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+
+        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), goBroadcast);
     }
 }

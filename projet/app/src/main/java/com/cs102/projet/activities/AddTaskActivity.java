@@ -225,6 +225,11 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                                 int hourN = Integer.parseInt(hour);
                                 int minuteN = Integer.parseInt(minute);
 
+                                Log.e("month", month);
+                                Log.e("day", day);
+                                Log.e("hour", hour);
+                                Log.e("minute", minute);
+
                                 // Sending notification to the current user when 2 hours left for the task...
                                 plannedNotification("2 hour left for the task " + taskNameNotification, monthN, dayN, hourN, minuteN );
 
@@ -306,7 +311,6 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         editTextTaskDueHour.setText(hourOfDay + ":" +minute);
     }
 
-
     public void plannedNotification(String message, int month, int day, int hour, int minute){
         NotificationCompat.Builder builder;
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -360,8 +364,6 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                 broadcastIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
-        //Long delay = SystemClock.elapsedRealtime() + 10000;
-
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         Calendar calendar = Calendar.getInstance();
@@ -372,7 +374,5 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         calendar.set(Calendar.MINUTE, minute - 2);
 
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), goBroadcast);
-
-//        notificationManager.notify(1, builder.build());
     }
 }

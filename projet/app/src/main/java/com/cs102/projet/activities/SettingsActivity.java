@@ -4,44 +4,53 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
+import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.cs102.projet.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
-public class SettingsActivity extends PreferenceActivity {
+public class SettingsActivity extends AppCompatActivity
+{
+    String currentUserMail;
+    FirebaseFirestore database;
+    FirebaseAuth myFirebaseAuth;
+    FirebaseUser currentUser;
 
-    boolean darkModeBoolean;
-    SwitchPreference nightmode;
+    EditText newNameInput;
+    ImageButton buttonChangeName;
+    ImageButton enableDarkMode;
+    ImageButton disableDarkMode;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.settings_design);
+        setContentView(R.layout.activity_settings);
 
-        nightmode = (SwitchPreference)findPreference(getResources().getString(R.string.darkModeKey));
+        //Firebase initialize
+        database = FirebaseFirestore.getInstance();
+        myFirebaseAuth = FirebaseAuth.getInstance();
+        currentUser = myFirebaseAuth.getCurrentUser();
 
-        nightmode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
-        {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue)
-            {
-                if( !nightmode.isChecked())
-                {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    nightmode.setChecked(true);
-                }
-                else
-                {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    nightmode.setChecked(false);
-                }
+        //Getting current logged in user's mail address
+        currentUserMail = currentUser.getEmail();
 
-                return false;
-            }
-        });
+        //View initialize
+        newNameInput = findViewById(R.id.editTextNameInput);
+        buttonChangeName = findViewById(R.id.imageButtonChangeName);
+        enableDarkMode = findViewById(R.id.enableDarkMode);
+        disableDarkMode = findViewById(R.id.disableDarkMode);
+
+
+
     }
 }

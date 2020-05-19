@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -78,7 +79,6 @@ public class ProjetMainPageActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
-
     }
 
     public void setUpRecyclerView(CollectionReference collectRef){

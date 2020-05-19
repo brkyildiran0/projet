@@ -159,10 +159,6 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                                 isTaskComplete.put("task_status", false);
                                 database.collection("ProJets").document(projetName).collection("Tasks").document(taskName.getText().toString()).set(isTaskComplete, SetOptions.merge());
 
-                                //Adding the task to the User database as well(to list all tasks in Profile Page)
-                                Map<String, DocumentReference> taskReference = new HashMap<>();
-                                taskReference.put(taskName.getText().toString(), database.collection("ProJets").document(projetName).collection("Tasks").document(taskName.getText().toString()));
-                                database.collection("Users").document(myFirebaseAuth.getCurrentUser().getEmail()).collection("Current Tasks").document(taskName.getText().toString()).set(taskReference);
 
                                 //Getting the current amount of uncompleted tasks at ProJet to increase it
                                 database.collection("ProJets").document(projetName).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()

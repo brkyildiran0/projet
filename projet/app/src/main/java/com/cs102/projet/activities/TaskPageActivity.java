@@ -46,8 +46,8 @@ public class TaskPageActivity extends AppCompatActivity
     private void setUpRecyclerView(String getProjetName){
 
         CollectionReference lastItemRef = itemRef.document(getProjetName).collection("Tasks");
-        Query query = lastItemRef.whereEqualTo("task_owner", "")
-                .whereEqualTo("task_status", false).orderBy("task_priority", Query.Direction.DESCENDING);
+        Query query = lastItemRef.orderBy("task_priority", Query.Direction.DESCENDING).whereEqualTo("task_owner", "")
+                .whereEqualTo("task_status", false);
 
         FirestoreRecyclerOptions<Task> options = new FirestoreRecyclerOptions.Builder<Task>()
                 .setQuery(query, Task.class).build();

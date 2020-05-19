@@ -11,14 +11,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cs102.projet.R;
+import com.cs102.projet.activities.CompletedTasksActivity;
+import com.cs102.projet.activities.MyTasksActivity;
+import com.cs102.projet.activities.ProjectPageActivity;
 import com.cs102.projet.classes.ProgressBarTask;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
 public class ProgressBarTaskAdapter extends FirestoreRecyclerAdapter<ProgressBarTask, ProgressBarTaskAdapter.ProgressBarTaskHolder> {
 
-    public ProgressBarTaskAdapter(@NonNull FirestoreRecyclerOptions<ProgressBarTask> options) {
+    private String projetName;
+    public ProgressBarTaskAdapter(@NonNull FirestoreRecyclerOptions<ProgressBarTask> options, String projetName) {
         super(options);
+        this.projetName = projetName;
     }
 
     @Override
@@ -37,7 +42,9 @@ public class ProgressBarTaskAdapter extends FirestoreRecyclerAdapter<ProgressBar
         holder.progressBar_task.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intentK = new Intent(holder.itemView.getContext(), CompletedTasksActivity.class);
+                intentK.putExtra("projetName", projetName);
+                holder.itemView.getContext().startActivity(intentK);
             }
         });
     }

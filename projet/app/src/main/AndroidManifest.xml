@@ -15,6 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activities.CompletedTasksActivity"></activity>
         <activity android:name=".activities.MyTasksActivity" />
         <activity android:name=".activities.EditProjetActivity" />
         <activity android:name=".activities.SettingsActivity" />
@@ -25,7 +26,6 @@
         <activity android:name=".activities.ProfilePageActivity" />
         <activity android:name=".activities.ProjectPageActivity" />
         <activity android:name=".activities.ProjetMainPageActivity" />
-        <activity android:name=".activities.ChatActivity" />
         <activity android:name=".activities.ProjetGroupChatActivity" />
         <activity
             android:name=".loginpage.ForgetPasswordActivity"

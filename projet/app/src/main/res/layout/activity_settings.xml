@@ -115,7 +115,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:fontFamily="sans-serif-medium"
-        android:text="@string/common_google_play_services_enable_button"
+        android:text="Enable"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/enableDarkMode"
         app:layout_constraintHorizontal_bias="0.508"

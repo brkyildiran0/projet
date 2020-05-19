@@ -51,6 +51,9 @@ public class LoginActivity extends AppCompatActivity
         //Firebase auth initialize
         myFirebaseAuth = FirebaseAuth.getInstance();
 
+        //Dark mode default value set
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
         if (myFirebaseAuth.getCurrentUser() != null)
         {
             //DARK MODE HANDLING

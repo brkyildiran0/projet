@@ -1,6 +1,5 @@
 package com.cs102.projet.adapters;
 
-import android.app.DownloadManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cs102.projet.R;
-import com.cs102.projet.classes.Notification;
+import com.cs102.projet.classes.NotificationPage;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,19 +24,19 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
-public class NotificationAdapter extends FirestoreRecyclerAdapter<Notification, NotificationAdapter.NotificationHolder> {
+public class NotificationAdapter extends FirestoreRecyclerAdapter<NotificationPage, NotificationAdapter.NotificationHolder> {
 
     private FirebaseFirestore database = FirebaseFirestore.getInstance();
     FirebaseAuth myFirebaseAuth;
     FirebaseUser currentUser;
     String currentUserEmail;
 
-    public NotificationAdapter(@NonNull FirestoreRecyclerOptions<Notification> options) {
+    public NotificationAdapter(@NonNull FirestoreRecyclerOptions<NotificationPage> options) {
         super(options);
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull NotificationHolder holder, int position, @NonNull final Notification model) {
+    protected void onBindViewHolder(@NonNull NotificationHolder holder, int position, @NonNull final NotificationPage model) {
 
         holder.textViewMessage.setText(model.getMessage());
         holder.textViewTitle.setText(model.getTitle());

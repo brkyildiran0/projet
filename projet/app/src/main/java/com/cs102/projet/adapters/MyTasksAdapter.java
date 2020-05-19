@@ -133,9 +133,12 @@ public class MyTasksAdapter extends FirestoreRecyclerAdapter<Task, MyTasksAdapte
         holder.buttonLeave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String taskName = model.getTask_name();
                 DocumentReference theTask = database.collection("ProJets").document(projetName).collection("Tasks")
-                        .document(model.getTask_name());
+                        .document(taskName);
                 theTask.update("task_owner", "");
+                database.collection("Users").document(currentUserMail)
+                        .collection("Current Tasks").document(taskName).delete();
             }
         });
     }

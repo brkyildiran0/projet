@@ -184,22 +184,23 @@ public class ProjectPageActivity extends AppCompatActivity
         setUpRecyclerViewDay();
     }
 
-    private void setUpRecyclerViewTask(){
+    private void setUpRecyclerViewTask()
+    {
         Query query = database.collection("ProJets").whereEqualTo("projet_name", projetName);
 
         FirestoreRecyclerOptions<ProgressBarTask> options = new FirestoreRecyclerOptions.Builder<ProgressBarTask>()
                 .setQuery(query, ProgressBarTask.class).build();
-        adapterTask = new ProgressBarTaskAdapter(options);
+        adapterTask = new ProgressBarTaskAdapter(options, projetName);
         recyclerView_task = findViewById(R.id.recycler_view_task_progress);
         recyclerView_task.setHasFixedSize(true);
         recyclerView_task.setLayoutManager(new LinearLayoutManager(ProjectPageActivity.this));
         recyclerView_task.setAdapter(adapterTask);
     }
-    private void setUpRecyclerViewDay(){
+    private void setUpRecyclerViewDay()
+    {
         Query query = database.collection("ProJets").whereEqualTo("projet_name", projetName);
 
-        FirestoreRecyclerOptions<ProgressBarDay> options = new FirestoreRecyclerOptions.Builder<ProgressBarDay>()
-                .setQuery(query, ProgressBarDay.class).build();
+        FirestoreRecyclerOptions<ProgressBarDay> options = new FirestoreRecyclerOptions.Builder<ProgressBarDay>().setQuery(query, ProgressBarDay.class).build();
         adapterDay = new ProgressBarDayAdapter(options);
         recyclerView_task = findViewById(R.id.recycler_view_day_progress);
         recyclerView_task.setHasFixedSize(true);

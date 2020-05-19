@@ -10,31 +10,25 @@
         android:id="@+id/textRealNameSurname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginLeft="28dp"
-        android:layout_marginTop="88dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginRight="50dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="40dp"
+        android:text="Name"
         android:textColor="#B388FF"
-        android:textSize="16sp"
+        android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.636"
+        app:layout_constraintBottom_toBottomOf="@+id/profilePicture"
         app:layout_constraintStart_toEndOf="@+id/profilePicture"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/profilePicture" />
 
     <TextView
         android:id="@+id/textMailAdress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginLeft="28dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/profilePicture"
+        android:layout_marginTop="10dp"
+        android:text="Email"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/textRealNameSurname"
         app:layout_constraintTop_toBottomOf="@+id/textRealNameSurname" />
 
     <FrameLayout
@@ -47,6 +41,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/container_current_tasks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </ScrollView>
     </FrameLayout>
 
     <ImageView
@@ -55,21 +59,10 @@
         android:layout_height="150dp"
         android:layout_marginStart="28dp"
         android:layout_marginLeft="28dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="56dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/btn_star" />
-
-    <Button
-        android:id="@+id/buttonChangePhoto"
-        android:layout_width="135dp"
-        android:layout_height="40dp"
-        android:text="Change Photo"
-        android:textColor="#673AB7"
-        android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="@+id/profilePicture"
-        app:layout_constraintStart_toStartOf="@+id/profilePicture"
-        app:layout_constraintTop_toBottomOf="@+id/profilePicture" />
+        app:srcCompat="@drawable/ic_person_black_125dp" />
 
     <TextView
         android:id="@+id/textView13"

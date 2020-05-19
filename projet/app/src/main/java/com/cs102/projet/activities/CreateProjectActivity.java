@@ -38,6 +38,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,6 +57,9 @@ public class CreateProjectActivity extends AppCompatActivity implements DatePick
     String projetDesc;
     String projetDueDate;
     String projetDueHour;
+    int dayOfMonth = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+    int monthOfYear = Calendar.getInstance().get(Calendar.MONTH) + 1;
+    int year = Calendar.getInstance().get(Calendar.YEAR);
 
     private String day ;
     private String month ;
@@ -143,6 +147,7 @@ public class CreateProjectActivity extends AppCompatActivity implements DatePick
                                 projetInfo.put("projet_desc", projetDesc);
                                 projetInfo.put("projet_due_date", projetDueDate);
                                 projetInfo.put("projet_due_hour", projetDueHour);
+                                projetInfo.put("projet_created_date", dayOfMonth + "/" + monthOfYear + "/" + year);
                                 projetReference.set(projetInfo)
                                         .addOnSuccessListener(new OnSuccessListener<Void>()
                                         {
@@ -165,6 +170,12 @@ public class CreateProjectActivity extends AppCompatActivity implements DatePick
                                 Map<String, Boolean> isFinished = new HashMap<>();
                                 isFinished.put("projet_is_complete", false);
                                 projetReference.set(isFinished, SetOptions.merge());
+
+                                //Adding the required completed/incompleted task int values beforehand to handle nullPointerException
+                                Map<String, Integer> integerHashMap = new HashMap<>();
+                                integerHashMap.put("total_completed_tasks", 0);
+                                integerHashMap.put("total_uncompleted_tasks", 0);
+                                projetReference.set(integerHashMap,SetOptions.merge());
 
                                 //Creating users & tasks collection inside of the projet document and initializing them with currentUser's data
                                 Map<String, DocumentReference> userInit = new HashMap<>();

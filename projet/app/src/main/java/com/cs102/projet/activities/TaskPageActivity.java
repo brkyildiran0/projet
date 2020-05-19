@@ -15,6 +15,7 @@ import com.cs102.projet.R;
 import com.cs102.projet.classes.Task;
 import com.cs102.projet.adapters.TaskAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -46,8 +47,8 @@ public class TaskPageActivity extends AppCompatActivity
     private void setUpRecyclerView(String getProjetName){
 
         CollectionReference lastItemRef = itemRef.document(getProjetName).collection("Tasks");
-        Query query = lastItemRef.whereEqualTo("task_owner", "").whereEqualTo("task_status", false);
-
+        Query query = lastItemRef.whereEqualTo("task_owner", "")
+                .whereEqualTo("task_status", false);
         FirestoreRecyclerOptions<Task> options = new FirestoreRecyclerOptions.Builder<Task>()
                 .setQuery(query, Task.class).build();
 
@@ -69,34 +70,5 @@ public class TaskPageActivity extends AppCompatActivity
     protected void onStop() {
         super.onStop();
         adapter.stopListening();
-    }
-
-    //Method for the AppBar Buttons & Icons
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.create_new_projet_menu, menu);
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case R.id.addNewMember:
-                startActivity(new Intent(getApplicationContext(), AddMemberActivity.class));
-                return true;
-            case R.id.addNewTask:
-                startActivity(new Intent(getApplicationContext(), AddTaskActivity.class));
-                return true;
-            case R.id.leaveProjet:
-                //TODO will be handled later
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 }

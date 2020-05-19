@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cs102.projet.MyNotificationClass;
+import com.cs102.projet.classes.MyNotificationClass;
 import com.cs102.projet.R;
 import com.cs102.projet.classes.Task;
 import com.cs102.projet.interfaces.GetInformations;
@@ -59,6 +59,16 @@ public class MyTasksAdapter extends FirestoreRecyclerAdapter<Task, MyTasksAdapte
         holder.taskDesc.setText(model.getTask_description());
         holder.taskDueDate.setText(model.getTask_due_date());
 
+        //Getting current user's real name to use it in notification.
+        database.collection("Users").document(currentUserMail).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
+        {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot)
+            {
+                currentUserName = documentSnapshot.getString("user_name");
+            }
+        });
+
         holder.buttonFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,16 +109,7 @@ public class MyTasksAdapter extends FirestoreRecyclerAdapter<Task, MyTasksAdapte
                     }
                 });
 
-                //Getting current user's real name to use it in notification.
-                database.collection("Users").document(currentUserMail).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
-                {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot)
-                    {
-                        currentUserName = documentSnapshot.getString("user_name");
-                    }
-                });
-
+                //NOTIFICATION SENDING PART
                 // To find projet members collection and get the e-mails.
                 // moveData function is used for find e-mails
                 // Function "useInfo" which is a part of" moveData" enables us to use these mails to send notification to all members.
@@ -126,15 +127,21 @@ public class MyTasksAdapter extends FirestoreRecyclerAdapter<Task, MyTasksAdapte
                         }
                     }
                 }, queryEmail);
+
+                //REMOVING THE TASK FROM USER'S CURRENT TASKS COLLECTION
+                database.collection("Users").document(currentUserMail).collection("Current Tasks").document(model.getTask_name()).delete();
             }
         });
 
         holder.buttonLeave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String taskName = model.getTask_name();
                 DocumentReference theTask = database.collection("ProJets").document(projetName).collection("Tasks")
-                        .document(model.getTask_name());
+                        .document(taskName);
                 theTask.update("task_owner", "");
+                database.collection("Users").document(currentUserMail)
+                        .collection("Current Tasks").document(taskName).delete();
             }
         });
     }

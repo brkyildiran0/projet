@@ -80,13 +80,18 @@ public class RegisterActivity extends AppCompatActivity
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful())
                             {
+                                String emailOfUser = emailInput.getText().toString();
+
                                 //Creating the registered user at database with mail address and name&surname
                                 Map<String, String> mailNameAdder = new HashMap<>();
                                 mailNameAdder.put("user_email", emailInput.getText().toString());
                                 mailNameAdder.put("user_name", userNameInput.getText().toString());
-                                database.collection("Users").document(emailInput.getText().toString()).set(mailNameAdder);
+                                database.collection("Users").document(emailOfUser).set(mailNameAdder);
 
-                                //TODO create a collection of Current Projets and manage that one. Do not mess with arrays, they are complicated in firestore.
+                                //Creating user darkmode preference to false as default
+                                Map<String, Boolean> darkModePreference = new HashMap<>();
+                                darkModePreference.put("user_darkmode_preference", false);
+                                database.collection("Users").document(emailOfUser).set(darkModePreference, SetOptions.merge());
 
                                 //Sending user back to the login screen by finish()ing register activity
                                 finish();

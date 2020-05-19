@@ -2,15 +2,20 @@ package com.cs102.projet.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.cs102.projet.R;
+import com.cs102.projet.fragments.FragmentCurrentTasks;
+import com.cs102.projet.interfaces.GetInformations;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -18,6 +23,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProfilePageActivity extends AppCompatActivity
 {
@@ -26,6 +36,8 @@ public class ProfilePageActivity extends AppCompatActivity
     FirebaseUser currentUser;
     TextView userMail;
     TextView userName;
+
+    String currentUserEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -53,6 +65,25 @@ public class ProfilePageActivity extends AppCompatActivity
                 userName.setText(documentSnapshot.getString("user_name"));
             }
         });
+
+
+        FragmentManager fm = getSupportFragmentManager();
+        final FragmentTransaction ft = fm.beginTransaction();
+
+        currentUserEmail = currentUser.getEmail();
+
+        Query query = database.collection("Users").document(currentUserEmail).collection("Current Tasks");
+        moveData(new GetInformations() {
+            @Override
+            public void useInfo(List<String> eventList) {
+                Log.e("list : ", eventList.toString());
+                for(int h = 0; h < eventList.size(); h = h+4){
+                    ft.add(R.id.container_current_tasks, new FragmentCurrentTasks(eventList.get(h),
+                            eventList.get(h+1),eventList.get(h+2),Long.valueOf(eventList.get(h+3))));
+                }
+                ft.commit();
+            }
+        }, query);
     }
 
     //Method for the AppBar Buttons & Icons
@@ -96,5 +127,32 @@ public class ProfilePageActivity extends AppCompatActivity
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+
+    public void moveData(final GetInformations getInformations, Query query) {
+        query.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            List<String> eventList = new ArrayList<>();
+
+                            for(DocumentSnapshot doc : task.getResult()) {
+                                String task_name = doc.getString("task_name");
+                                String projet_name = doc.getString("projet_name");
+                                String task_due_date = doc.getString("task_due_date");
+                                String task_priority = doc.getString("task_priority");
+                                eventList.add(task_name);
+                                eventList.add(projet_name);
+                                eventList.add(task_due_date);
+                                eventList.add(task_priority);
+                            }
+                            getInformations.useInfo(eventList);
+                        } else {
+                            Log.e("QuerySnapshot Error!", "There is a problem while getting documents!");
+                        }
+                    }
+                });
     }
 }

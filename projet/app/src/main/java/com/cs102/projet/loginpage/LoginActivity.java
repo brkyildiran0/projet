@@ -2,6 +2,7 @@ package com.cs102.projet.loginpage;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.os.Bundle;
 
@@ -14,9 +15,14 @@ import android.widget.Toast;
 import com.cs102.projet.R;
 import com.cs102.projet.activities.ProjetMainPageActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginActivity extends AppCompatActivity
 {
@@ -26,6 +32,7 @@ public class LoginActivity extends AppCompatActivity
     Button loginButton;
     Button forgetPasswordButton;
     Button singUpButton;
+    Boolean darkModePreference;
 
     //OnCreate Method
     @Override
@@ -44,9 +51,38 @@ public class LoginActivity extends AppCompatActivity
         //Firebase auth initialize
         myFirebaseAuth = FirebaseAuth.getInstance();
 
+        //Dark mode default value set
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
         if (myFirebaseAuth.getCurrentUser() != null)
         {
-            // if User not logged go to login activity
+            //DARK MODE HANDLING
+            FirebaseFirestore database = FirebaseFirestore.getInstance();
+            FirebaseUser currentUser = myFirebaseAuth.getCurrentUser();;
+            String currentUserMail = currentUser.getEmail();
+
+            //Set the app theme (dark-mode) according to the user's preference
+            database.collection("Users").document(currentUserMail).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
+            {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot)
+                {
+                    darkModePreference = documentSnapshot.getBoolean("user_darkmode_preference");
+
+                    if (darkModePreference)
+                    {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    }
+                    else
+                    {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    }
+                }
+            });
+
+
+
+            //If user already logged in, go to main page.
             Intent intent = new Intent(LoginActivity.this, ProjetMainPageActivity.class);
             startActivity(intent);
             finish();

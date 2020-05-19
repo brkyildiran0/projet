@@ -220,6 +220,13 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
 
                                 taskNameNotification = taskName.getText().toString();
 
+                                int monthN = Integer.parseInt(month);
+                                int dayN = Integer.parseInt(day);
+                                int hourN = Integer.parseInt(hour);
+                                int minuteN = Integer.parseInt(minute);
+
+                                // Sending notification to the current user when 2 hours left for the task...
+                                plannedNotification("2 hour left for the task " + taskNameNotification, monthN, dayN, hourN, minuteN );
 
                                 //Emptying the EditTexts and other variables again so that user can add other tasks again
                                 taskName.setText("");
@@ -238,13 +245,6 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                             }
                         }
                     });
-
-                    // Sending notification to the current user when 2 hours left for the task...
-                    int monthN = Integer.valueOf(month);
-                    int dayN = Integer.valueOf(day);
-                    int hourN = Integer.valueOf(hour);
-                    int minuteN = Integer.valueOf(minute);
-                    plannedNotification("2 hour left for the task " + taskNameNotification, monthN, dayN, hourN, minuteN );
                 }
                 //If there is an empty statement at the task properties
                 else
@@ -334,7 +334,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
             builder = new NotificationCompat.Builder(this, channelId);
             builder.setContentTitle("ProJet!!");
             builder.setContentText(message); //TODO get some real times for all tasks
-            builder.setSmallIcon(R.drawable.spotify);
+            builder.setSmallIcon(R.drawable.app_logo);
             builder.setAutoCancel(true);
             builder.setContentIntent(pendingIntent);
 
@@ -348,7 +348,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
             builder.setContentTitle("ProJet!!");
             builder.setContentText(message); //TODO get some real times for all tasks
             builder.setAutoCancel(true);
-            builder.setSmallIcon(R.drawable.spotify);
+            builder.setSmallIcon(R.drawable.app_logo);
             builder.setPriority(Notification.PRIORITY_HIGH);
             builder.setContentIntent(pendingIntent);
         }
@@ -368,8 +368,8 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.MONTH, month -1 );
         calendar.set(Calendar.DAY_OF_MONTH, day);
-        calendar.set(Calendar.HOUR_OF_DAY, hour - 2);
-        calendar.set(Calendar.MINUTE, minute - 3);
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute - 2);
 
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), goBroadcast);
 

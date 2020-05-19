@@ -1,14 +1,14 @@
 package com.cs102.projet.classes;
 
-public class Notification {
+public class NotificationPage {
     private String title;
     private String message;
     private String time;
 
-    public Notification() {
+    public NotificationPage() {
     }
 
-    public Notification(String title, String message, String time) {
+    public NotificationPage(String title, String message, String time) {
         this.title = title;
         this.message = message;
         this.time = time;

@@ -14,7 +14,7 @@ import android.view.MenuItem;
 
 import com.cs102.projet.R;
 import com.cs102.projet.adapters.NotificationAdapter;
-import com.cs102.projet.classes.Notification;
+import com.cs102.projet.classes.NotificationPage;
 import com.cs102.projet.interfaces.GetInformations;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -55,8 +55,8 @@ public class NotificationsActivity extends AppCompatActivity
     }
     public void setUpRecyclerView(CollectionReference notificationReference){
         Query query = notificationReference.whereEqualTo("delete", false);
-        FirestoreRecyclerOptions<Notification> options = new FirestoreRecyclerOptions.Builder<Notification>()
-                .setQuery(query, Notification.class).build();
+        FirestoreRecyclerOptions<NotificationPage> options = new FirestoreRecyclerOptions.Builder<NotificationPage>()
+                .setQuery(query, NotificationPage.class).build();
 
         adapter = new NotificationAdapter(options);
 

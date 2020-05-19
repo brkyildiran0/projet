@@ -2,10 +2,20 @@ package com.cs102.projet.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +26,7 @@ import android.widget.RadioGroup;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.cs102.projet.NotificationsReceiver;
 import com.cs102.projet.R;
 import com.cs102.projet.interfaces.GetInformations;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -49,6 +60,15 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
     Button done;
     private String projetName;
 
+    private String day ;
+    private String month ;
+    private String year ;
+
+    private String hour ;
+    private String minute ;
+
+    private String taskNameNotification;
+
     FirebaseFirestore database;
     FirebaseAuth myFirebaseAuth;
     FirebaseUser currentUser;
@@ -80,6 +100,9 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         editTextTaskDueDate = findViewById(R.id.editTextTaskDueDate);
         addTask = findViewById(R.id.buttonAddTask);
         done = findViewById(R.id.buttonDone);
+
+        //message for notification
+
 
         // Using DatePicker in order to get valid dates
         // Date ClickListener..
@@ -183,6 +206,20 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                                         database.collection("ProJets").document(projetName).set(increaser, SetOptions.merge());
                                     }
                                 });
+                                // Getting task date and task name separately for the 2 hours left notification..
+                                int indexForHour = editTextTaskDueHour.getText().toString().indexOf(':');
+                                int indexFirstDate = editTextTaskDueDate.getText().toString().indexOf('/');
+                                int indexSecondDate = editTextTaskDueDate.getText().toString().lastIndexOf('/');
+
+                                day = editTextTaskDueDate.getText().toString().substring(0,indexFirstDate);
+                                month = editTextTaskDueDate.getText().toString().substring(indexFirstDate + 1, indexSecondDate);
+                                year = editTextTaskDueDate.getText().toString().substring(indexSecondDate + 1);
+
+                                hour = editTextTaskDueHour.getText().toString().substring(0,indexForHour);
+                                minute = editTextTaskDueHour.getText().toString().substring(indexForHour + 1);
+
+                                taskNameNotification = taskName.getText().toString();
+
 
                                 //Emptying the EditTexts and other variables again so that user can add other tasks again
                                 taskName.setText("");
@@ -201,6 +238,13 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                             }
                         }
                     });
+
+                    // Sending notification to the current user when 2 hours left for the task...
+                    int monthN = Integer.valueOf(month);
+                    int dayN = Integer.valueOf(day);
+                    int hourN = Integer.valueOf(hour);
+                    int minuteN = Integer.valueOf(minute);
+                    plannedNotification("2 hour left for the task " + taskNameNotification, monthN, dayN, hourN, minuteN );
                 }
                 //If there is an empty statement at the task properties
                 else
@@ -238,6 +282,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
     {
+        // because calendar start at 0 for counting the months..
         month++;
         String date = dayOfMonth + "/" + month + "/" + year;
         editTextTaskDueDate.setText(date);
@@ -259,5 +304,75 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
     public void onTimeSet(TimePicker view, int hourOfDay, int minute)
     {
         editTextTaskDueHour.setText(hourOfDay + ":" +minute);
+    }
+
+
+    public void plannedNotification(String message, int month, int day, int hour, int minute){
+        NotificationCompat.Builder builder;
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Intent intent = new Intent(AddTaskActivity.this, ProjetMainPageActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 1,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            // For Oreo
+            String channelId = "channelId";
+            String channelName = "channelName";
+            String channelDef = "channelDef";
+            int channelPriority = NotificationManager.IMPORTANCE_HIGH;
+
+            NotificationChannel channel = notificationManager.getNotificationChannel(channelId);
+
+            if (channel == null){
+                channel = new NotificationChannel(channelId, channelName, channelPriority);
+                channel.setDescription(channelDef);
+
+                notificationManager.createNotificationChannel(channel);
+            }
+
+            builder = new NotificationCompat.Builder(this, channelId);
+            builder.setContentTitle("ProJet!!");
+            builder.setContentText(message); //TODO get some real times for all tasks
+            builder.setSmallIcon(R.drawable.spotify);
+            builder.setAutoCancel(true);
+            builder.setContentIntent(pendingIntent);
+
+        }
+        else{
+            // For Except Oreo
+
+            builder = new NotificationCompat.Builder(this);
+
+
+            builder.setContentTitle("ProJet!!");
+            builder.setContentText(message); //TODO get some real times for all tasks
+            builder.setAutoCancel(true);
+            builder.setSmallIcon(R.drawable.spotify);
+            builder.setPriority(Notification.PRIORITY_HIGH);
+            builder.setContentIntent(pendingIntent);
+        }
+
+        Intent broadcastIntent = new Intent(AddTaskActivity.this, NotificationsReceiver.class);
+        broadcastIntent.putExtra("object", builder.build());
+
+        PendingIntent goBroadcast = PendingIntent.getBroadcast(this, 0,
+                broadcastIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        //Long delay = SystemClock.elapsedRealtime() + 10000;
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.MONTH, month -1 );
+        calendar.set(Calendar.DAY_OF_MONTH, day);
+        calendar.set(Calendar.HOUR_OF_DAY, hour - 2);
+        calendar.set(Calendar.MINUTE, minute - 3);
+
+        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), goBroadcast);
+
+//        notificationManager.notify(1, builder.build());
     }
 }

@@ -1,7 +1,18 @@
 package com.cs102.projet;
 
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.StrictMode;
+import android.os.SystemClock;
+
+import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,7 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class MyNotificationClass {
+public class MyNotificationClass  {
 
     private FirebaseFirestore database = FirebaseFirestore.getInstance();
     FirebaseAuth myFirebaseAuth;
@@ -125,4 +136,73 @@ public class MyNotificationClass {
         notificationMap.put("time", currentdate.toString());
         notificationRef.set(notificationMap);
     }
+
+
+//    public void plannedNotification(){
+//        NotificationCompat.Builder builder;
+//        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//
+//        Intent intent = new Intent(HomeActivity.this, SecondPageAcitivity.class);
+//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 1,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+//
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+//            // For Oreo
+//            String channelId = "channelId";
+//            String channelName = "channelName";
+//            String channelDef = "channelDef";
+//            int channelPriority = NotificationManager.IMPORTANCE_HIGH;
+//
+//            NotificationChannel channel = notificationManager.getNotificationChannel(channelId);
+//
+//            if (channel == null){
+//                channel = new NotificationChannel(channelId, channelName, channelPriority);
+//                channel.setDescription(channelDef);
+//
+//                notificationManager.createNotificationChannel(channel);
+//            }
+//
+//            builder = new NotificationCompat.Builder(this, channelId);
+//            builder.setContentTitle("ProJet!!");
+//            builder.setContentText("You have a new Task..");
+//            builder.setAutoCancel(true);
+//            builder.setContentIntent(pendingIntent);
+//
+//        }
+//        else{
+//            // For Except Oreo
+//
+//            builder = new NotificationCompat.Builder();
+//
+//
+//            builder.setContentTitle("ProJet!!");
+//            builder.setContentText("You have a new Task..");
+//            builder.setAutoCancel(true);
+//            builder.setPriority(Notification.PRIORITY_HIGH);
+//            builder.setContentIntent(pendingIntent);
+//        }
+//
+//        Intent broadcastIntent = new Intent(this, NotificationsReceiver.class);
+//        broadcastIntent.putExtra("object", builder.build());
+//
+//        PendingIntent goBroadcast = PendingIntent.getBroadcast(this, 0,
+//                broadcastIntent,
+//                PendingIntent.FLAG_UPDATE_CURRENT);
+//
+//        Long delay = SystemClock.elapsedRealtime() + 10000;
+//
+//        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+//
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTimeInMillis(System.currentTimeMillis());
+//        calendar.set(Calendar.YEAR, 2020);
+//        calendar.set(Calendar.MONTH, 5);
+//        calendar.set(Calendar.DAY_OF_MONTH, 22);
+//        calendar.set(Calendar.HOUR_OF_DAY, 8);
+//        calendar.set(Calendar.MINUTE, 30);
+//
+//        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, calendar.getTimeInMillis(), goBroadcast);
+//
+//        notificationManager.notify(1, builder.build());
+//    }
 }

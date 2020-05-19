@@ -23,7 +23,7 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.cs102.projet.NotificationsReceiver;
+import com.cs102.projet.recievers.NotificationsReceiver;
 import com.cs102.projet.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -33,12 +33,10 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,7 +61,6 @@ public class CreateProjectActivity extends AppCompatActivity implements DatePick
 
     private String day ;
     private String month ;
-    private String year ;
 
     private String hour ;
     private String minute ;
@@ -221,7 +218,6 @@ public class CreateProjectActivity extends AppCompatActivity implements DatePick
 
                                 day = projetDueDate.substring(0,indexFirstDate);
                                 month = projetDueDate.substring(indexFirstDate + 1, indexSecondDate);
-                                year = projetDueDate.substring(indexSecondDate + 1);
 
                                 hour = projetDueHour.substring(0,indexForHour);
                                 minute = projetDueHour.substring(indexForHour + 1);

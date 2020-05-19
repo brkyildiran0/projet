@@ -1,4 +1,4 @@
-package com.cs102.projet;
+package com.cs102.projet.recievers;
 
 import android.app.Notification;
 import android.app.NotificationManager;

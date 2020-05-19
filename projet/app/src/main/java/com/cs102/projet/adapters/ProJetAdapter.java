@@ -45,7 +45,7 @@ public class ProJetAdapter extends FirestoreRecyclerAdapter<ProJet, ProJetAdapte
                 Double uncompleted_tasks = Double.valueOf(eventList.get(1));
                 Double total_tasks = completed_tasks + uncompleted_tasks;
                 int percentage = (int)((completed_tasks/total_tasks)*100);
-                holder.setprogress_text.setText("%" + String.valueOf(percentage));
+                holder.setprogress_text.setText("%" + percentage);
                 holder.progressBar.setProgress(percentage);
             }
         }, query);

@@ -159,7 +159,6 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                                 isTaskComplete.put("task_status", false);
                                 database.collection("ProJets").document(projetName).collection("Tasks").document(taskName.getText().toString()).set(isTaskComplete, SetOptions.merge());
 
-                                //TODO : Burakla burayı netleştir, yanlışsa eğer TaskAdapter ın "Get Task" butonuna ekle
                                 //Adding the task to the User database as well(to list all tasks in Profile Page)
                                 Map<String, DocumentReference> taskReference = new HashMap<>();
                                 taskReference.put(taskName.getText().toString(), database.collection("ProJets").document(projetName).collection("Tasks").document(taskName.getText().toString()));
@@ -174,6 +173,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                                         //Increasing the total_incompleted_tasks value at ProJet database root by 1, since new task added.
                                         currentAmountOfUncompletedTasks = documentSnapshot.getLong("total_uncompleted_tasks");
                                         assigner = 0;
+                                        assert currentAmountOfUncompletedTasks != null;
                                         assigner = currentAmountOfUncompletedTasks.intValue();
                                         assigner++;
                                         Integer databaseSender = assigner;

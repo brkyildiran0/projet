@@ -10,8 +10,8 @@
         android:id="@+id/textRealNameSurname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginBottom="40dp"
         android:text="Name"
         android:textColor="#B388FF"
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Email"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/textRealNameSurname"
         app:layout_constraintTop_toBottomOf="@+id/textRealNameSurname" />
 

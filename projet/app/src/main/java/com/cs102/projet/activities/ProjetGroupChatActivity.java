@@ -151,20 +151,6 @@ public class ProjetGroupChatActivity extends AppCompatActivity
                     messageInfo.put("message", messageContent);
                     messageInfo.put("coming_from", currentUserMail);
 
-
-                    /*Query query = database.collection("Users").whereEqualTo("user_email", currentUserMail);
-                    moveData(new GetInformations() {
-                        @Override
-                        public void useInfo(List<String> eventList) {
-                            String userName = "";
-                            for ( int p = 0; p < eventList.size(); p++){
-                                userName = userName + eventList.get(p) + "\n";
-                            }
-                            Log.e("username:", userName);
-                            messageInfo.put("coming_from", userName);
-                        }
-                    }, query);*/
-
                     //To add message and create message file with title on server.
                     database.collection("ProJets").document(projetName).collection("Chat")
                             .document(currentdate.toString()).set(messageInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -211,20 +197,6 @@ public class ProjetGroupChatActivity extends AppCompatActivity
         });
 
     }
-
-    /*private void setUpRecyclerView(String projetName){
-        Query query = database.collection("ProJets").document(projetName).collection("Chat")
-                .orderBy("time", Query.Direction.DESCENDING);
-        FirestoreRecyclerOptions<Message> options = new FirestoreRecyclerOptions.Builder<Message>()
-                .setQuery(query, Message.class).build();
-
-        adapter = new MessageAdapter(options, projetName);
-
-        RecyclerView recyclerView = findViewById(R.id.recycler_view_chat);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(ProjetGroupChatActivity.this));
-        recyclerView.setAdapter(adapter);
-    }*/
 
     @Override
     protected void onStart() {

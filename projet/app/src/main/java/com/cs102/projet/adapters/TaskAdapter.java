@@ -19,6 +19,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class TaskAdapter extends FirestoreRecyclerAdapter<Task, TaskAdapter.TaskHolder> {
 
     // To get ProJet name.
@@ -72,6 +75,11 @@ public class TaskAdapter extends FirestoreRecyclerAdapter<Task, TaskAdapter.Task
 
                 // To update the task owner with user e-mail.
                 theTask.update("task_owner", userEmail);
+
+                //Adding the task to the User database as well(to list all tasks in Profile Page)
+                Map<String, DocumentReference> taskReference = new HashMap<>();
+                taskReference.put(model.getTask_name(), db.collection("ProJets").document(projetName).collection("Tasks").document(model.getTask_name() ));
+                db.collection("Users").document(myFirebaseAuth.getCurrentUser().getEmail()).collection("Current Tasks").document(model.getTask_name()).set(taskReference);
             }
         });
     }

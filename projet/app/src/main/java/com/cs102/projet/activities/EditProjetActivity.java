@@ -146,25 +146,6 @@ public class EditProjetActivity extends AppCompatActivity implements DatePickerD
                                 }
                             });
 
-                    // To find projet members collection and get the e-mails.
-                    // moveData function is used for find e-mails
-                    // Function "useInfo" which is a part of" moveData" enables us to use these mails to send notification to all members.
-                    Query queryEmail = database.collection("ProJets").document(projetName).collection("Members");
-                    moveData(new GetInformations() {
-                        @Override
-                        public void useInfo(List<String> eventList) {
-                            for(int h = 0; h < eventList.size(); h++){
-
-                                if(!eventList.get(h).equals(currentUserMail)) {
-                                    myNotification.sendNotification(eventList.get(h).toString(), "There are new changes! "
-                                            + projetName + " has been changed.");
-                                    myNotification.addMessageNotificationsToDatabase(eventList.get(h), "There are new changes! "
-                                            + projetName + " has been changed.");
-                                }
-                            }
-                        }
-                    }, queryEmail);
-
                     //Closing the page after edit process is completed
                     Intent complete = new Intent(getApplicationContext(), ProjetMainPageActivity.class);
                     startActivity(complete);

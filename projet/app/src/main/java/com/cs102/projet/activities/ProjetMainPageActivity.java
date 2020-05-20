@@ -132,9 +132,8 @@ public class ProjetMainPageActivity extends AppCompatActivity
                 startActivity(goToNotifications);
                 return true;
             case R.id.help_button_on_toolbar:
-                //write down lines to switch to the help page
-                //...
-                //...
+                Intent goToHelp = new Intent(ProjetMainPageActivity.this, SlideActivity.class);
+                startActivity(goToHelp);
                 return true;
             case R.id.setting_button_on_toolbar:
                 Intent goToSettings = new Intent(ProjetMainPageActivity.this, SettingsActivity.class);

@@ -355,10 +355,10 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.MONTH, month -1 );
+        calendar.set(Calendar.MONTH, month -1);
         calendar.set(Calendar.DAY_OF_MONTH, day);
-        calendar.set(Calendar.HOUR_OF_DAY, hour);
-        calendar.set(Calendar.MINUTE, minute - 2);
+        calendar.set(Calendar.HOUR_OF_DAY, hour - 2);
+        calendar.set(Calendar.MINUTE, minute);
 
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), goBroadcast);
     }

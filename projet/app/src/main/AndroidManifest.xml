@@ -21,6 +21,7 @@
             android:enabled="true"
             android:exported="true"/>
 
+        <activity android:name=".activities.SlideActivity"/>
         <activity android:name=".activities.MyTasksActivity" />
         <activity android:name=".activities.EditProjetActivity" />
         <activity android:name=".activities.SettingsActivity" />
@@ -32,6 +33,8 @@
         <activity android:name=".activities.ProjectPageActivity" />
         <activity android:name=".activities.ProjetMainPageActivity" />
         <activity android:name=".activities.ProjetGroupChatActivity" />
+        <activity android:name=".activities.CompletedTasksActivity"/>
+
         <activity
             android:name=".loginpage.ForgetPasswordActivity"
             android:theme="@style/AppTheme.NoActionBar" />

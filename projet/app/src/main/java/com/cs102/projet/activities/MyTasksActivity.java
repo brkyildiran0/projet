@@ -17,6 +17,7 @@ import com.google.firebase.firestore.Query;
 
 public class MyTasksActivity extends AppCompatActivity
 {
+    //Global Variables
     String projetName;
     FirebaseFirestore database;
     FirebaseAuth myFirebaseAuth;

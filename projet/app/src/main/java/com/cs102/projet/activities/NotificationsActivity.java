@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.cs102.projet.R;
 import com.cs102.projet.adapters.NotificationAdapter;
@@ -32,12 +33,12 @@ import java.util.List;
 
 public class NotificationsActivity extends AppCompatActivity
 {
-    private FirebaseFirestore database = FirebaseFirestore.getInstance();
+    //Global Variables
+    String currentUserEmail;
+    FirebaseFirestore database;
     FirebaseAuth myFirebaseAuth;
     FirebaseUser currentUser;
-    String currentUserEmail;
-
-    private NotificationAdapter adapter;
+    NotificationAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -45,40 +46,56 @@ public class NotificationsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
 
+        //Firebase & Views initialize
         database = FirebaseFirestore.getInstance();
         myFirebaseAuth = FirebaseAuth.getInstance();
         currentUser = myFirebaseAuth.getCurrentUser();
         currentUserEmail = currentUser.getEmail();
-        CollectionReference notificationReference = database.collection("Users")
-                .document(currentUserEmail).collection("Notifications");
+        CollectionReference notificationReference = database.collection("Users").document(currentUserEmail).collection("Notifications");
         setUpRecyclerView(notificationReference);
     }
-    public void setUpRecyclerView(CollectionReference notificationReference){
+
+    public void setUpRecyclerView(CollectionReference notificationReference)
+    {
+        //Query to get notifications from database
         Query query = notificationReference.whereEqualTo("delete", false);
+
+        //Applying the query above.
         FirestoreRecyclerOptions<NotificationPage> options = new FirestoreRecyclerOptions.Builder<NotificationPage>()
                 .setQuery(query, NotificationPage.class).build();
 
         adapter = new NotificationAdapter(options);
 
+        //Setting the gathered info(notifications) to recycleView(page)
         RecyclerView recyclerView = findViewById(R.id.recycler_view_notifications);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(NotificationsActivity.this));
         recyclerView.setAdapter(adapter);
-
     }
 
+    /**
+     * Necessary method for real-time(recycleView) view of page to work
+     */
     @Override
-    protected void onStart() {
+    protected void onStart()
+    {
         super.onStart();
         adapter.startListening();
     }
 
+    /**
+     * Necessary method for real-time(recycleView) view of page to work
+     */
     @Override
-    protected void onStop() {
+    protected void onStop()
+    {
         super.onStop();
         adapter.stopListening();
     }
-    //Method for the AppBar Buttons & Icons
+
+    /**
+     * This method is responsible for showing the customized appbar at the top of the page.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
@@ -88,6 +105,9 @@ public class NotificationsActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * This method is responsible for showing the customized appbar at the top of the page as well.
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item)
     {
@@ -103,40 +123,19 @@ public class NotificationsActivity extends AppCompatActivity
                 //should stay empty...
                 return true;
             case R.id.help_button_on_toolbar:
-                //write down lines to switch to the help page
-                //...
-                //...
+                finish();
+                Intent helpeGit = new Intent(NotificationsActivity.this, SlideActivity.class);
+                startActivity(helpeGit);
                 return true;
             case R.id.setting_button_on_toolbar:
-                //write down lines to switch to the settings page
-                //...
-                //...
+                finish();
+                Intent settingseGit = new Intent(NotificationsActivity.this, SettingsActivity.class);
+                startActivity(settingseGit);
                 return true;
             case R.id.logout_button_on_toolbar:
-                //write down lines to logout the user
-                //...
-                //...
+                Toast.makeText(this, "Please return to the main page to logout!", Toast.LENGTH_SHORT).show();
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-    public void moveData(final GetInformations getInformations, Query query) {
-        query.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            List<String> eventList = new ArrayList<>();
-
-                            for(DocumentSnapshot doc : task.getResult()) {
-                                String e = doc.get("title").toString();
-                                eventList.add(e);
-                            }
-                            getInformations.useInfo(eventList);
-                        } else {
-                            Log.e("QuerySnapshot Error!", "There is a problem while getting documents!");
-                        }
-                    }
-                });
     }
 }

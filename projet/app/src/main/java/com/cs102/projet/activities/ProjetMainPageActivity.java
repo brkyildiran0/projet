@@ -7,13 +7,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.cs102.projet.R;
@@ -30,12 +28,12 @@ import com.onesignal.OneSignal;
 
 public class ProjetMainPageActivity extends AppCompatActivity
 {
+    //Global Variables
     String currentUserMail;
     FirebaseFirestore database;
     FirebaseAuth myFirebaseAuth;
     FirebaseUser currentUser;
-
-    private ProJetAdapter adapter;
+    ProJetAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -81,8 +79,9 @@ public class ProjetMainPageActivity extends AppCompatActivity
         });
     }
 
-    public void setUpRecyclerView(CollectionReference collectRef){
-
+    public void setUpRecyclerView(CollectionReference collectRef)
+    {
+        //Getting the user's current ProJets to display them on the main page.
         Query query = collectRef;
         FirestoreRecyclerOptions<ProJet> options = new FirestoreRecyclerOptions.Builder<ProJet>()
                 .setQuery(query, ProJet.class).build();
@@ -95,19 +94,29 @@ public class ProjetMainPageActivity extends AppCompatActivity
         recyclerView.setAdapter(adapter);
     }
 
+    /**
+     * Necessary method for real-time(recycleView) view of page to work
+     */
     @Override
-    protected void onStart() {
+    protected void onStart()
+    {
         super.onStart();
         adapter.startListening();
     }
 
+    /**
+     * Necessary method for real-time(recycleView) view of page to work
+     */
     @Override
-    protected void onStop() {
+    protected void onStop()
+    {
         super.onStop();
         adapter.stopListening();
     }
 
-    //Method for the AppBar Buttons & Icons
+    /**
+     * This method is responsible for showing the customized appbar at the top of the page.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
@@ -117,10 +126,12 @@ public class ProjetMainPageActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * This method is responsible for showing the customized appbar at the top of the page as well.
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item)
     {
-        //TODO: edit the following comments as other pages gets created.
         switch (item.getItemId())
         {
             case R.id.profile_icon_on_toolbar:
@@ -138,7 +149,6 @@ public class ProjetMainPageActivity extends AppCompatActivity
             case R.id.setting_button_on_toolbar:
                 Intent goToSettings = new Intent(ProjetMainPageActivity.this, SettingsActivity.class);
                 startActivity(goToSettings);
-
                 return true;
             case R.id.logout_button_on_toolbar:
                 myFirebaseAuth.signOut();

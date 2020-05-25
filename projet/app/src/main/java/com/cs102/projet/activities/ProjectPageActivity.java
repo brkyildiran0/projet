@@ -44,24 +44,23 @@ import java.util.Map;
 
 public class ProjectPageActivity extends AppCompatActivity
 {
+    //Global Variables
+    String projetName;
+    ImageButton membersButton;
+    ImageButton tasksButton;
+    ImageButton projetChatbutton;
+    ImageButton myTasksButton;
+    TextView projetHeader;
+    TextView projetDescription;
+    TextView projetDueDate;
+    TextView projetDueHour;
+    RecyclerView recyclerView_task;
+    RecyclerView recyclerView_day;
     FirebaseFirestore database;
     FirebaseAuth myFirebaseAuth;
     FirebaseUser currentUser;
-
-    private String projetName;
-    private ImageButton membersButton;
-    private ImageButton tasksButton;
-    private ImageButton projetChatbutton;
-    private ImageButton myTasksButton;
-    private TextView projetHeader;
-    private TextView projetDescription;
-    private TextView projetDueDate;
-    private TextView projetDueHour;
-    private RecyclerView recyclerView_task;
-    private RecyclerView recyclerView_day;
-
-    private ProgressBarTaskAdapter adapterTask;
-    private ProgressBarDayAdapter adapterDay;
+    ProgressBarTaskAdapter adapterTask;
+    ProgressBarDayAdapter adapterDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -84,7 +83,6 @@ public class ProjectPageActivity extends AppCompatActivity
         tasksButton = findViewById(R.id.projetTasksButton);
         projetChatbutton = findViewById(R.id.projetChatButton);
         myTasksButton = findViewById(R.id.buttonMyTasks);
-        //progressBar = findViewById(R.id.projetProgressBar);
         projetHeader = findViewById(R.id.projetPageProjetName);
         projetDescription = findViewById(R.id.projetDescription);
         projetDueDate = findViewById(R.id.projetDueDate);
@@ -106,7 +104,7 @@ public class ProjectPageActivity extends AppCompatActivity
             }
         });
 
-        //Getting the UNCOMPLETED task amount & and updating it on the ProJet database root
+        //Getting the UNCOMPLETED task amount & and updating it on the ProJet database root by query below
         Query uncompletedTasks = database.collection("ProJets").document(projetName).collection("Tasks").whereEqualTo("task_status", false);
         uncompletedTasks.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>()
         {
@@ -124,7 +122,7 @@ public class ProjectPageActivity extends AppCompatActivity
             }
         });
 
-        //Getting the COMPLETED task amount & and updating it on the ProJet database root
+        //Getting the COMPLETED task amount & and updating it on the ProJet database root by query below
         Query completedTasks = database.collection("ProJets").document(projetName).collection("Tasks").whereEqualTo("task_status", true);
         completedTasks.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>()
         {
@@ -184,6 +182,9 @@ public class ProjectPageActivity extends AppCompatActivity
         setUpRecyclerViewDay();
     }
 
+    /**
+     * This method is responsible for live-updating the task progress bar at the ProJet page.
+     */
     private void setUpRecyclerViewTask()
     {
         Query query = database.collection("ProJets").whereEqualTo("projet_name", projetName);
@@ -196,6 +197,10 @@ public class ProjectPageActivity extends AppCompatActivity
         recyclerView_task.setLayoutManager(new LinearLayoutManager(ProjectPageActivity.this));
         recyclerView_task.setAdapter(adapterTask);
     }
+
+    /**
+     * This method is responsible for live-updating the left time progress bar at the ProJet page.
+     */
     private void setUpRecyclerViewDay()
     {
         Query query = database.collection("ProJets").whereEqualTo("projet_name", projetName);
@@ -208,21 +213,31 @@ public class ProjectPageActivity extends AppCompatActivity
         recyclerView_task.setAdapter(adapterDay);
     }
 
+    /**
+     * Necessary method for real-time(recycleView) view of page to work
+     */
     @Override
-    protected void onStart() {
+    protected void onStart()
+    {
         super.onStart();
         adapterTask.startListening();
         adapterDay.startListening();
     }
 
+    /**
+     * Necessary method for real-time(recycleView) view of page to work
+     */
     @Override
-    protected void onStop() {
+    protected void onStop()
+    {
         super.onStop();
         adapterTask.stopListening();
         adapterDay.stopListening();
     }
 
-    //Method for the AppBar Buttons & Icons
+    /**
+     * This method is responsible for showing the customized appbar at the top of the page.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
@@ -232,6 +247,9 @@ public class ProjectPageActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * This method is responsible for showing the customized appbar at the top of the page as well.
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item)
     {
@@ -259,6 +277,7 @@ public class ProjectPageActivity extends AppCompatActivity
                 return true;
 
             case R.id.leaveProjet:
+                //Handling the abandoning process of a ProJet here.
                 database = FirebaseFirestore.getInstance();
                 myFirebaseAuth = FirebaseAuth.getInstance();
                 currentUser = myFirebaseAuth.getCurrentUser();
@@ -300,7 +319,7 @@ public class ProjectPageActivity extends AppCompatActivity
                             }
                         });
 
-                //If someone leave from the projet, tha tasks that he/she has will be open to new owner.
+                //If someone leaves the ProJet, the tasks that they held will be added back to the ProJet.
                 Task<QuerySnapshot> query = database.collection("ProJets").document(projetName)
                         .collection("Tasks").whereEqualTo("task_owner", currentUser.getEmail())
                         .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -322,28 +341,5 @@ public class ProjectPageActivity extends AppCompatActivity
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    // The OnCompleteListener method is an asynchronous method. So, we cannot move the informations outside of the method.
-    // To do that, we create a new method that takes parameters an interface called "getInformations" and a query that we want to implement this method on.
-    // What does this method do? It is a normal method until the line "getInformations.useInfo(eventlist)".
-    // While this method is being used, the inner method is already completed. So, we can get the informations and we use them in "useInfo" method.
-    public void moveData(final GetInformations getInformations, Query query) {
-        query.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            List<String> eventList = new ArrayList<>();
-
-                            for(DocumentSnapshot doc : task.getResult()) {
-                                doc.get("task_owner").toString();
-                            }
-                            getInformations.useInfo(eventList);
-                        } else {
-                            Log.e("QuerySnapshot Error!", "There is a problem while getting documents!");
-                        }
-                    }
-                });
     }
 }

@@ -40,19 +40,20 @@ import java.util.Map;
 
 public class AddTaskActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener
 {
-    private RadioGroup prioritiesGroup;
-    private EditText taskName;
-    private EditText taskDescription;
-    private EditText editTextTaskDueHour;
-    private EditText editTextTaskDueDate;
-    private String projetName;
-    private String day;
-    private String month;
-    private String year;
-    private String hour;
-    private String minute;
-    private String selectedPriorityInteger;
-    private String taskNameNotification;
+    //Global Variables
+    RadioGroup prioritiesGroup;
+    EditText taskName;
+    EditText taskDescription;
+    EditText editTextTaskDueHour;
+    EditText editTextTaskDueDate;
+    String projetName;
+    String day;
+    String month;
+    String year;
+    String hour;
+    String minute;
+    String selectedPriorityInteger;
+    String taskNameNotification;
     Button addTask;
     Button done;
     FirebaseFirestore database;
@@ -205,7 +206,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                                 int hourN = Integer.parseInt(hour);
                                 int minuteN = Integer.parseInt(minute);
 
-                                //Planning to send notification to the current user when 2 hours left for the given task
+                                //Sending the notification at planned time
                                 plannedNotification("2 hour left for the task " + taskNameNotification, monthN, dayN, hourN, minuteN );
 
                                 //Emptying the EditTexts and other parts again so that user can add other tasks
@@ -275,7 +276,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
     {
-        // because calendar start at 0 for counting the months..
+        //Because calendar starts at 0 for counting the months, incrementing month by 1
         month++;
         String date = dayOfMonth + "/" + month + "/" + year;
         editTextTaskDueDate.setText(date);
@@ -381,7 +382,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         //By AlarmManager, now device can display the sent notifications from the app.
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-        //Adjusting Java's Calendar class as needed to display the true information.
+        //Adjusting Java's Calendar class as needed to display the correct information.
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.MONTH, month -1);

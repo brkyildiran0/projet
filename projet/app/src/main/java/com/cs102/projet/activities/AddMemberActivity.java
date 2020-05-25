@@ -24,13 +24,14 @@ import java.util.Map;
 
 public class AddMemberActivity extends AppCompatActivity
 {
-    private String projetName;
-    private String projetDescription;
-    private String projetDueDate;
-    private String projetDueHour;
-    private String addedUserName;
-    private String addedUserMail;
-    private EditText editTextEmail;
+    //Global Variables
+    String projetName;
+    String projetDescription;
+    String projetDueDate;
+    String projetDueHour;
+    String addedUserName;
+    String addedUserMail;
+    EditText editTextEmail;
     Button buttonAddMember;
     Button buttonDone;
     FirebaseFirestore database;

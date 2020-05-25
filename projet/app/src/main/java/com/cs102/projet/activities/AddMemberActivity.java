@@ -38,7 +38,6 @@ public class AddMemberActivity extends AppCompatActivity
     FirebaseUser currentUser;
     MyNotificationClass myNotificationClass;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -57,18 +56,19 @@ public class AddMemberActivity extends AppCompatActivity
         Bundle extras = getIntent().getExtras();
         assert extras != null;
 
-        //initializing views
+        //Initializing views
         buttonAddMember = findViewById(R.id.buttonAddMembers);
         buttonDone = findViewById(R.id.buttonDone);
         editTextEmail = findViewById(R.id.editTextEmail);
 
+        //Getting the sent info from the previous activity (Main Page in this case)
         projetName = extras.getString("projetName");
         projetDescription = extras.getString("projetDesc");
         projetDueDate = extras.getString("projetDueDate");
         projetDueHour = extras.getString("projetDueHour");
 
 
-        //AddMember button listener, adds members' directly to ProJet/Members root and Members/"addedMemberName" root
+        //AddMember button listener, adds members directly to ProJet/Members root and Members/"addedMemberName" root
         buttonAddMember.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -88,21 +88,21 @@ public class AddMemberActivity extends AppCompatActivity
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots)
                         {
+                            //If the user exists
                             if (!queryDocumentSnapshots.isEmpty())
                             {
                                 for (QueryDocumentSnapshot document : queryDocumentSnapshots)
                                 {
-                                    //TODO restrict the input which consists of the user that already a member of the current projet
                                     //Now we are certain that such user exists, therefore getting needed values.
                                     addedUserName = document.getString("user_name");
                                     addedUserMail = document.getString("user_email");
 
-                                    //ProJet root update
+                                    //ProJet root update at database
                                     Map<String, String> userInitializer = new HashMap<>();
                                     userInitializer.put("user_name", addedUserName);
                                     database.collection("ProJets").document(projetName).collection("Members").document(addedUserMail).set(userInitializer, SetOptions.merge());
 
-                                    //Users root update
+                                    //Users root update at database
                                     Map<String, String> user = new HashMap<>();
                                     user.put("projet_desc", projetDescription);
                                     user.put("projet_due_date", projetDueDate);
@@ -114,7 +114,6 @@ public class AddMemberActivity extends AppCompatActivity
                                     Toast.makeText(AddMemberActivity.this, "Member Added!", Toast.LENGTH_LONG).show();
                                     editTextEmail.setText("");
                                 }
-
                             }
                             else
                             {
@@ -123,7 +122,7 @@ public class AddMemberActivity extends AppCompatActivity
                         }
                     });
                 }
-                //Empty input case
+                //Empty input case handling
                 else
                     Toast.makeText(AddMemberActivity.this, "Please enter the e-mail!", Toast.LENGTH_SHORT).show();
             }
@@ -139,6 +138,4 @@ public class AddMemberActivity extends AppCompatActivity
             }
         });
     }
-
-
 }

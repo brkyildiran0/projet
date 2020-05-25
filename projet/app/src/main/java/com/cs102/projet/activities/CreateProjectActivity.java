@@ -42,6 +42,7 @@ import java.util.Map;
 
 public class CreateProjectActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener
 {
+    //Global Variables
     int dayOfMonth;
     int monthOfYear;
     int year;

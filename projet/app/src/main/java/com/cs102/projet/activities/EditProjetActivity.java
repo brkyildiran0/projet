@@ -30,7 +30,7 @@ import java.util.Map;
 
 public class EditProjetActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener
 {
-
+    //Global Variables
     String projetName;
     String currentUserMail;
     Button buttonApplyChanges;
@@ -53,7 +53,7 @@ public class EditProjetActivity extends AppCompatActivity implements DatePickerD
         myFirebaseAuth = FirebaseAuth.getInstance();
         currentUser = myFirebaseAuth.getCurrentUser();
 
-        //Getting the projet name from ProJet page
+        //Getting the ProJet name from ProJet page
         Bundle extras = getIntent().getExtras();
         assert extras != null;
         projetName = extras.getString("projetName");

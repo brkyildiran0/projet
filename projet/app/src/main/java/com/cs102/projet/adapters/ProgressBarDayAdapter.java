@@ -41,7 +41,7 @@ public class ProgressBarDayAdapter extends FirestoreRecyclerAdapter<ProgressBarD
     {
         //Getting the needed two string from projet database root
         int currentDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-        int currentMonth = Calendar.getInstance().get(Calendar.MONTH + 1);
+        int currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
         String projetDueDate = model.getProjet_due_date();
         String creationDate = model.getProjet_created_date();
@@ -59,7 +59,7 @@ public class ProgressBarDayAdapter extends FirestoreRecyclerAdapter<ProgressBarD
             assert creationDayDate != null;
 
             long diffDays = dueDayDate.getTime() - currentDayDate.getTime();
-            String setter = (TimeUnit.DAYS.convert(diffDays, TimeUnit.MILLISECONDS) + 488) + " days remaining!";
+            String setter = (TimeUnit.DAYS.convert(diffDays, TimeUnit.MILLISECONDS) + " days remaining!");
 
             long diffTotalDays = (dueDayDate.getTime() - creationDayDate.getTime());
             String totalDaysSetter = TimeUnit.DAYS.convert(diffTotalDays, TimeUnit.MILLISECONDS) + "";

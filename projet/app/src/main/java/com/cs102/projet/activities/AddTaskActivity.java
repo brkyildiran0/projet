@@ -40,29 +40,25 @@ import java.util.Map;
 
 public class AddTaskActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener
 {
-    RadioGroup prioritiesGroup;
-    String selectedPriorityInteger;
+    private RadioGroup prioritiesGroup;
+
     private EditText taskName;
     private EditText taskDescription;
     private EditText editTextTaskDueHour;
     private EditText editTextTaskDueDate;
+    private String projetName;
+    private String day;
+    private String month;
+    private String year;
+    private String hour;
+    private String minute;
+    private String selectedPriorityInteger;
+    private String taskNameNotification;
     Button addTask;
     Button done;
-    private String projetName;
-
-    private String day ;
-    private String month ;
-    private String year ;
-
-    private String hour ;
-    private String minute ;
-
-    private String taskNameNotification;
-
     FirebaseFirestore database;
     FirebaseAuth myFirebaseAuth;
     FirebaseUser currentUser;
-
     Long currentAmountOfUncompletedTasks;
     int assigner;
 
@@ -91,11 +87,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         addTask = findViewById(R.id.buttonAddTask);
         done = findViewById(R.id.buttonDone);
 
-        //message for notification
-
-
-        // Using DatePicker in order to get valid dates
-        // Date ClickListener..
+        //On click listener for picking date
         editTextTaskDueDate.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -105,8 +97,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
             }
         });
 
-        // Using TimePicker in order to get valid times..
-        // Hour ClickListener...
+        //On click listener for picking time
         editTextTaskDueHour.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -118,18 +109,22 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
 
         //Radio Group input handling
         selectedPriorityInteger = "1";
-
         prioritiesGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId)
             {
-                // find which radio button is selected
-                if(checkedId == R.id.priorityOne) {
+                //Determine which radio button is selected
+                if(checkedId == R.id.priorityOne)
+                {
                     selectedPriorityInteger = "1";
-                } else if(checkedId == R.id.priorityTwo) {
+                }
+                else if(checkedId == R.id.priorityTwo)
+                {
                     selectedPriorityInteger = "2";
-                } else {
+                }
+                else
+                {
                     selectedPriorityInteger = "3";
                 }
             }
@@ -141,8 +136,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
             @Override
             public void onClick(View v)
             {
-
-                //For checking whether another task with the same name exists
+                //Creating a query to check whether another task with the same name exists
                 Query myQuery = database.collection("ProJets").document(projetName).collection("Tasks").whereEqualTo("task_name", taskName.getText().toString());
 
                 //Making sure all fields are filled in by if statement
@@ -153,10 +147,10 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots)
                         {
+
+                            //Now that we are certain such task does not exist, we can continue to initialize the task
                             if (queryDocumentSnapshots.isEmpty())
                             {
-                                //Now that we are certain such task does not exist, we can continue to initialize the task
-
                                 //Adding the given task properties to the current ProJet's Firebase Database
                                 Map<String, String> taskProperties = new HashMap<>();
                                 taskProperties.put("task_name", taskName.getText().toString());
@@ -172,8 +166,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                                 isTaskComplete.put("task_status", false);
                                 database.collection("ProJets").document(projetName).collection("Tasks").document(taskName.getText().toString()).set(isTaskComplete, SetOptions.merge());
 
-
-                                //Getting the current amount of uncompleted tasks at ProJet to increase it
+                                //Getting the current amount of uncompleted tasks at ProJet to increment it
                                 database.collection("ProJets").document(projetName).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>()
                                 {
                                     @Override
@@ -193,34 +186,30 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                                         database.collection("ProJets").document(projetName).set(increaser, SetOptions.merge());
                                     }
                                 });
+
                                 // Getting task date and task name separately for the 2 hours left notification..
                                 int indexForHour = editTextTaskDueHour.getText().toString().indexOf(':');
                                 int indexFirstDate = editTextTaskDueDate.getText().toString().indexOf('/');
                                 int indexSecondDate = editTextTaskDueDate.getText().toString().lastIndexOf('/');
 
+                                //Assigning the needed Strings for date/time pickers to work properly.
                                 day = editTextTaskDueDate.getText().toString().substring(0,indexFirstDate);
                                 month = editTextTaskDueDate.getText().toString().substring(indexFirstDate + 1, indexSecondDate);
                                 year = editTextTaskDueDate.getText().toString().substring(indexSecondDate + 1);
-
                                 hour = editTextTaskDueHour.getText().toString().substring(0,indexForHour);
                                 minute = editTextTaskDueHour.getText().toString().substring(indexForHour + 1);
-
                                 taskNameNotification = taskName.getText().toString();
 
+                                //Creating another set on integers to safely pass the values to the method plannedNotification (integers below are to assure there won't be any error).
                                 int monthN = Integer.parseInt(month);
                                 int dayN = Integer.parseInt(day);
                                 int hourN = Integer.parseInt(hour);
                                 int minuteN = Integer.parseInt(minute);
 
-                                Log.e("month", month);
-                                Log.e("day", day);
-                                Log.e("hour", hour);
-                                Log.e("minute", minute);
-
-                                // Sending notification to the current user when 2 hours left for the task...
+                                //Planning to send notification to the current user when 2 hours left for the given task
                                 plannedNotification("2 hour left for the task " + taskNameNotification, monthN, dayN, hourN, minuteN );
 
-                                //Emptying the EditTexts and other variables again so that user can add other tasks again
+                                //Emptying the EditTexts and other parts again so that user can add other tasks
                                 taskName.setText("");
                                 taskDescription.setText("");
                                 editTextTaskDueHour .setText("");
@@ -229,8 +218,10 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                                 selectedPriorityInteger = "1";
                                 assigner = 0;
 
+                                //Informing the user about the task add process is now complete.
                                 Toast.makeText(AddTaskActivity.this, "Task added!", Toast.LENGTH_SHORT).show();
                             }
+                            //If there is already a task with the desired name,
                             else
                             {
                                 Toast.makeText(AddTaskActivity.this, taskName.getText().toString() + " already exists!", Toast.LENGTH_SHORT).show();
@@ -246,7 +237,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
             }
         });
 
-        //Done button onClick()
+        //Done button onClick(), simply closes the add task page.
         done.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -257,6 +248,10 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         });
     }
 
+    /**
+     * This method is called whenever due date dialog is clicked
+     * Pops-up the dialog for user to pick the date
+     */
     public void showDatePickerDialog()
     {
         DatePickerDialog datePickerDialog = new DatePickerDialog(
@@ -271,6 +266,13 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
 
     }
 
+    /**
+     * Helper method for showDatePickerDialog() to work properly, and set the given input as a String.
+     * @param view the pop-up view for user to input the date
+     * @param year user input
+     * @param month user input
+     * @param dayOfMonth user input
+     */
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
     {
@@ -280,7 +282,10 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         editTextTaskDueDate.setText(date);
     }
 
-    // Method For Time Picker to get valid times from users..
+    /**
+     * This method is called whenever due time dialog is clicked
+     * Pops-up the dialog for user to pick the time
+     */
     public void showTimePickerDialog()
     {
         TimePickerDialog timePickerDialog = new TimePickerDialog(
@@ -292,58 +297,81 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         timePickerDialog.show();
     }
 
+    /**
+     * Helper method for showTimePickerDialog() to work properly, and set the given input as a String.
+     * @param view the pop-up view for user to input the time
+     * @param hourOfDay user input
+     * @param minute user input
+     */
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute)
     {
-        editTextTaskDueHour.setText(hourOfDay + ":" +minute);
+        String assigner = hourOfDay + ":" +minute;
+        editTextTaskDueHour.setText(assigner);
     }
 
-    public void plannedNotification(String message, int month, int day, int hour, int minute){
+    /**
+     * This method is responsible for plan & send notifications depending on the due date & time.
+     * @param message is the message that is going to sent with the notification
+     * @param month depends on user input
+     * @param day depends on user input
+     * @param hour depends on user input
+     * @param minute depends on user input
+     */
+    public void plannedNotification(String message, int month, int day, int hour, int minute)
+    {
+        //Initializing NotificationCompat Builder
         NotificationCompat.Builder builder;
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
+        //Intent handling
         Intent intent = new Intent(AddTaskActivity.this, ProjetMainPageActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 1,intent,PendingIntent.FLAG_UPDATE_CURRENT);
 
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            // For Oreo
+        //For Oreo level devices, declaring needed values.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        {
             String channelId = "channelId";
             String channelName = "channelName";
             String channelDef = "channelDef";
             int channelPriority = NotificationManager.IMPORTANCE_HIGH;
 
+            //Creating the NotificationChannel
+            assert notificationManager != null;
             NotificationChannel channel = notificationManager.getNotificationChannel(channelId);
 
-            if (channel == null){
+            //If the channel is not null, creating & setting the Notification Channel.
+            if (channel == null)
+            {
                 channel = new NotificationChannel(channelId, channelName, channelPriority);
                 channel.setDescription(channelDef);
 
                 notificationManager.createNotificationChannel(channel);
             }
 
+            //Now assigning the created channel and other necessary features to builder initialized at the beginning of the method.
             builder = new NotificationCompat.Builder(this, channelId);
             builder.setContentTitle("ProJet!!");
-            builder.setContentText(message); //TODO get some real times for all tasks
+            builder.setContentText(message);
             builder.setSmallIcon(R.drawable.app_logo);
             builder.setAutoCancel(true);
             builder.setContentIntent(pendingIntent);
-
         }
-        else{
-            // For Except Oreo
-
+        //Below Oreo level devices...
+        else
+        {
+            //Deprecation does not effects the code, just a warning.
             builder = new NotificationCompat.Builder(this);
 
-
             builder.setContentTitle("ProJet!!");
-            builder.setContentText(message); //TODO get some real times for all tasks
+            builder.setContentText(message);
             builder.setAutoCancel(true);
             builder.setSmallIcon(R.drawable.app_logo);
             builder.setPriority(Notification.PRIORITY_HIGH);
             builder.setContentIntent(pendingIntent);
         }
 
+        //Enabling the notification displaying at the device from now on
         Intent broadcastIntent = new Intent(AddTaskActivity.this, NotificationsReceiver.class);
         broadcastIntent.putExtra("object", builder.build());
 
@@ -351,8 +379,10 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                 broadcastIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
+        //By AlarmManager, now device can display the sent notifications from the app.
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
+        //Adjusting Java's Calendar class as needed to display the true information.
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.MONTH, month -1);
@@ -360,6 +390,8 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         calendar.set(Calendar.HOUR_OF_DAY, hour - 2);
         calendar.set(Calendar.MINUTE, minute);
 
+        //Finally, setting the alarm(notification).
+        assert alarmManager != null;
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), goBroadcast);
     }
 }

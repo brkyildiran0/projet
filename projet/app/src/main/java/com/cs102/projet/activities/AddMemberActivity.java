@@ -30,13 +30,14 @@ public class AddMemberActivity extends AppCompatActivity
     private String projetDueHour;
     private String addedUserName;
     private String addedUserMail;
-    private Button buttonAddMember;
-    private Button buttonDone;
     private EditText editTextEmail;
+    Button buttonAddMember;
+    Button buttonDone;
     FirebaseFirestore database;
     FirebaseAuth myFirebaseAuth;
     FirebaseUser currentUser;
     MyNotificationClass myNotificationClass;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

@@ -42,10 +42,9 @@ import java.util.Map;
 
 public class CreateProjectActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener
 {
-    EditText editTextProjetName;
-    EditText editTextProjetDesc;
-    EditText editTextProjetDueDate;
-    EditText editTextProjetDueHour;
+    int dayOfMonth;
+    int monthOfYear;
+    int year;
     String day;
     String month;
     String hour;
@@ -56,9 +55,10 @@ public class CreateProjectActivity extends AppCompatActivity implements DatePick
     String projetDesc;
     String projetDueDate;
     String projetDueHour;
-    int dayOfMonth;
-    int monthOfYear;
-    int year;
+    EditText editTextProjetName;
+    EditText editTextProjetDesc;
+    EditText editTextProjetDueDate;
+    EditText editTextProjetDueHour;
     FirebaseFirestore database;
     FirebaseAuth myFirebaseAuth;
     FirebaseUser currentUser;

@@ -18,10 +18,10 @@ import com.google.firebase.firestore.Query;
 public class CompletedTasksActivity extends AppCompatActivity
 {
     //Global Variables
+    String projetName;
     FirebaseFirestore database;
     FirebaseAuth myFirebaseAuth;
     FirebaseUser currentUser;
-    String projetName;
     CompletedTasksAdapter adapter;
 
     @Override

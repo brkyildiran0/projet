@@ -41,11 +41,7 @@ import java.util.Map;
 public class AddTaskActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener
 {
     //Global Variables
-    RadioGroup prioritiesGroup;
-    EditText taskName;
-    EditText taskDescription;
-    EditText editTextTaskDueHour;
-    EditText editTextTaskDueDate;
+    int assigner;
     String projetName;
     String day;
     String month;
@@ -56,11 +52,16 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
     String taskNameNotification;
     Button addTask;
     Button done;
+    RadioGroup prioritiesGroup;
+    EditText taskName;
+    EditText taskDescription;
+    EditText editTextTaskDueHour;
+    EditText editTextTaskDueDate;
     FirebaseFirestore database;
     FirebaseAuth myFirebaseAuth;
     FirebaseUser currentUser;
     Long currentAmountOfUncompletedTasks;
-    int assigner;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

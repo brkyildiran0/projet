@@ -43,22 +43,18 @@ import java.util.Map;
 
 public class ProjetGroupChatActivity extends AppCompatActivity
 {
-
-    private FirebaseFirestore database = FirebaseFirestore.getInstance();
-    FirebaseAuth myFirebaseAuth;
-    FirebaseUser currentUser;
-
+    //Global Variables
     String projetName;
     TextView groupChatname;
-
-    private EditText editTextMessageContent;
-    private ImageButton buttonSend;
-
-    private String currentUserMail;
-    private String currentUserName;
-
-    private MessageAdapter adapter;
-    private MyNotificationClass myNotification;
+    EditText editTextMessageContent;
+    ImageButton buttonSend;
+    String currentUserMail;
+    String currentUserName;
+    FirebaseFirestore database = FirebaseFirestore.getInstance();
+    FirebaseAuth myFirebaseAuth;
+    FirebaseUser currentUser;
+    MessageAdapter adapter;
+    MyNotificationClass myNotification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -71,52 +67,7 @@ public class ProjetGroupChatActivity extends AppCompatActivity
         assert extras != null;
         projetName = extras.getString("projetName");
 
-        //Moving the entire page up when text input occurs.
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-
-        groupChatname = findViewById(R.id.textView_groupchat);
-        groupChatname.setText(projetName + " Group Chat");
-
-        //Moving the entire page up when text input occurs.
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-
-        //Notification init
-        myNotification = new MyNotificationClass();
-
-        //setUpRecyclerView(projetName);
-        Query query = database.collection("ProJets").document(projetName).collection("Chat")
-                .orderBy("time", Query.Direction.ASCENDING);
-        FirestoreRecyclerOptions<Message> options = new FirestoreRecyclerOptions.Builder<Message>()
-                .setQuery(query, Message.class).build();
-
-        adapter = new MessageAdapter(options, projetName);
-
-        final RecyclerView recyclerView = findViewById(R.id.recycler_view_chat);
-        recyclerView.setHasFixedSize(true);
-        final LinearLayoutManager xx = new LinearLayoutManager(ProjetGroupChatActivity.this);
-        recyclerView.setLayoutManager(xx);
-        recyclerView.setAdapter(adapter);
-
-        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() 
-        {
-            @Override
-            public void onItemRangeInserted(int positionStart, int itemCount) 
-            {
-                super.onItemRangeInserted(positionStart, itemCount);
-                int friendlyMessageCount = adapter.getItemCount();
-                int lastVisiblePosition = xx.findLastCompletelyVisibleItemPosition();
-                // If the recycler view is initially being loaded or the
-                // user is at the bottom of the list, scroll to the bottom
-                // of the list to show the newly added message.
-                if (lastVisiblePosition == -1 || (positionStart >= (friendlyMessageCount - 1) && lastVisiblePosition == (positionStart - 1)))
-                {
-                    recyclerView.scrollToPosition(positionStart);
-                }
-
-            }
-        }
-    );
-
+        //Firebase init
         database = FirebaseFirestore.getInstance();
         myFirebaseAuth = FirebaseAuth.getInstance();
         currentUser = myFirebaseAuth.getCurrentUser();
@@ -129,24 +80,75 @@ public class ProjetGroupChatActivity extends AppCompatActivity
         buttonSend = findViewById(R.id.imageButtonSend_chat);
         editTextMessageContent = findViewById(R.id.editTextMessage_chat);
 
+        //Moving the entire page up when text input occurs.
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
+        //Setting the group's chat page name here
+        String setterForChatPage = projetName + " Group Chat";
+        groupChatname = findViewById(R.id.textView_groupchat);
+        groupChatname.setText(setterForChatPage);
+
+        //Moving the entire page up when text input occurs.
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
+        //Notification init
+        myNotification = new MyNotificationClass();
+
+        //Query to get messages from the database and move screen upwards as new ones come.
+        Query query = database.collection("ProJets").document(projetName).collection("Chat")
+                .orderBy("time", Query.Direction.ASCENDING);
+        FirestoreRecyclerOptions<Message> options = new FirestoreRecyclerOptions.Builder<Message>()
+                .setQuery(query, Message.class).build();
+
+        //Initializing the adapter
+        adapter = new MessageAdapter(options, projetName);
+
+        //Declaring the recyclerView variables here.
+        final RecyclerView recyclerView = findViewById(R.id.recycler_view_chat);
+        recyclerView.setHasFixedSize(true);
+        final LinearLayoutManager xx = new LinearLayoutManager(ProjetGroupChatActivity.this);
+        recyclerView.setLayoutManager(xx);
+        recyclerView.setAdapter(adapter);
+
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() 
+        {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) 
+            {
+                super.onItemRangeInserted(positionStart, itemCount);
+
+                //These variables are needed to automatically scroll page to the bottom as new messages come.
+                int friendlyMessageCount = adapter.getItemCount();
+                int lastVisiblePosition = xx.findLastCompletelyVisibleItemPosition();
+
+                //If the recycler view is initially being loaded or the user is at the bottom of the list, scroll to the bottom of the list to show the newly added message.
+                if (lastVisiblePosition == -1 || (positionStart >= (friendlyMessageCount - 1) && lastVisiblePosition == (positionStart - 1)))
+                {
+                    recyclerView.scrollToPosition(positionStart);
+                }
+            }
+        }
+    );
+
+        //Message send button onClick
         buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Getting the current date.
                 Date currentdate = Calendar.getInstance().getTime();
-                //these string will be sent to server
+
+                //These strings will be sent to server or used in the process.
                 final String messageContent = editTextMessageContent.getText().toString();
                 editTextMessageContent.setText("");
-                String messageSender = currentUserMail;
                 Timestamp messageDate = new Timestamp(currentdate);
 
-                //TODO : ADD date and time picker **** ADD MESSAGE SENDER
-
-                //checks whether user filled all the required info or not
+                //Handling empty input
                 if (messageContent.equals(""))
                 {
                     Toast.makeText(ProjetGroupChatActivity.this, "Please fill all fields!", Toast.LENGTH_SHORT).show();
                 }
-                else {
+                else
+                {
                     final Map<String, String> messageInfo = new HashMap<>();
                     messageInfo.put("message", messageContent);
                     messageInfo.put("coming_from", currentUserMail);
@@ -167,7 +169,7 @@ public class ProjetGroupChatActivity extends AppCompatActivity
                         }
                     });
 
-                    //To add date !!
+                    //To add the creation date.
                     final Map<String, Timestamp> messeageInfo2 = new HashMap<>();
                     messeageInfo2.put("time", messageDate);
                     final DocumentReference messageReference = database.collection("ProJets")
@@ -175,9 +177,9 @@ public class ProjetGroupChatActivity extends AppCompatActivity
                     messageReference.set(messeageInfo2, SetOptions.merge());
                 }
 
-                // To find projet members collection and get the e-mails.
-                // moveData function is used for find e-mails
-                // Function "useInfo" which is a part of" moveData" enables us to use these mails to send notification to all members.
+                //To find ProJet members collection and get the e-mails.
+                //moveData function is used to find e-mails (explained at the end of this page).
+                //Function "useInfo" which is a part of" moveData" enables us to use these mails to send notification to all members.
                 Query queryEmail = database.collection("ProJets").document(projetName).collection("Members");
                 moveData(new GetInformations() {
                     @Override
@@ -198,14 +200,22 @@ public class ProjetGroupChatActivity extends AppCompatActivity
 
     }
 
+    /**
+     * Necessary method for real-time(recycleView) view of page to work
+     */
     @Override
-    protected void onStart() {
+    protected void onStart()
+    {
         super.onStart();
         adapter.startListening();
     }
 
+    /**
+     * Necessary method for real-time(recycleView) view of page to work
+     */
     @Override
-    protected void onStop() {
+    protected void onStop()
+    {
         super.onStop();
         adapter.stopListening();
     }

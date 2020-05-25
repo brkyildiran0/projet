@@ -48,9 +48,6 @@
             android:name=".activities.AddTaskActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.PopUpExitActivity"
-            android:theme="@style/AppTheme.PopMe" />
-        <activity
             android:name=".loginpage.LoginActivity"
             android:clearTaskOnLaunch="true"
             android:theme="@style/AppTheme.NoActionBar">

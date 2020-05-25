@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cs102.projet.R;
 import com.cs102.projet.fragments.FragmentCurrentTasks;
@@ -31,13 +32,13 @@ import java.util.List;
 
 public class ProfilePageActivity extends AppCompatActivity
 {
+    //Global Variables
+    TextView userMail;
+    TextView userName;
+    String currentUserEmail;
     FirebaseFirestore database;
     FirebaseAuth myFirebaseAuth;
     FirebaseUser currentUser;
-    TextView userMail;
-    TextView userName;
-
-    String currentUserEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -50,9 +51,10 @@ public class ProfilePageActivity extends AppCompatActivity
         myFirebaseAuth = FirebaseAuth.getInstance();
         currentUser = myFirebaseAuth.getCurrentUser();
 
-        //View initialize
+        //View & more initialize
         userMail = findViewById(R.id.textMailAdress);
         userName = findViewById(R.id.textRealNameSurname);
+        currentUserEmail = currentUser.getEmail();
 
         //Setting the Name & Email of the current user
         assert currentUser != null;
@@ -66,13 +68,14 @@ public class ProfilePageActivity extends AppCompatActivity
             }
         });
 
-
+        //Initializing the fragment manager
         FragmentManager fm = getSupportFragmentManager();
         final FragmentTransaction ft = fm.beginTransaction();
 
-        currentUserEmail = currentUser.getEmail();
-
+        //Query to get the current user's tasks and display them at the profile page
         Query query = database.collection("Users").document(currentUserEmail).collection("Current Tasks");
+
+        //Using the moveData() method as described at the end of this page. (Method is at the very bottom of the page, explanation is there as well).
         moveData(new GetInformations() {
             @Override
             public void useInfo(List<String> eventList) {
@@ -86,7 +89,9 @@ public class ProfilePageActivity extends AppCompatActivity
         }, query);
     }
 
-    //Method for the AppBar Buttons & Icons
+    /**
+     * This method is responsible for showing the customized appbar at the top of the page.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
@@ -96,6 +101,9 @@ public class ProfilePageActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * This method is responsible for showing the customized appbar at the top of the page as well.
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item)
     {
@@ -111,48 +119,55 @@ public class ProfilePageActivity extends AppCompatActivity
                 startActivity(goToNotifications);
                 return true;
             case R.id.help_button_on_toolbar:
-                //write down lines to switch to the help page
-                //...
-                //...
+                finish();
+                Intent helpeGit = new Intent(ProfilePageActivity.this, SlideActivity.class);
+                startActivity(helpeGit);
                 return true;
             case R.id.setting_button_on_toolbar:
-                //write down lines to switch to the settings page
-                //...
-                //...
+                finish();
+                Intent settingseGit = new Intent(ProfilePageActivity.this, SettingsActivity.class);
+                startActivity(settingseGit);
                 return true;
             case R.id.logout_button_on_toolbar:
-                //write down lines to logout the user
-                //...
-                //...
+                Toast.makeText(this, "Please return to the main page to logout!", Toast.LENGTH_SHORT).show();
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    // The OnCompleteListener method is an asynchronous method. So, we cannot move the informations outside of the method.
+    // To do that, we create a new method that takes parameters an interface called "getInformations" and a query that we want to implement this method on.
+    // What does this method do? It is a normal method until the line "getInformations.useInfo(eventlist)".
+    // While this method is being used, the inner method is already completed. So, we can get the informations and we use them in "useInfo" method.
+    public void moveData(final GetInformations getInformations, Query query)
+    {
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+        {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task)
+            {
+                if (task.isSuccessful())
+                {
+                    List<String> eventList = new ArrayList<>();
 
-    public void moveData(final GetInformations getInformations, Query query) {
-        query.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            List<String> eventList = new ArrayList<>();
-
-                            for(DocumentSnapshot doc : task.getResult()) {
-                                String task_name = doc.getString("task_name");
-                                String projet_name = doc.getString("projet_name");
-                                String task_due_date = doc.getString("task_due_date");
-                                String task_priority = doc.getString("task_priority");
-                                eventList.add(task_name);
-                                eventList.add(projet_name);
-                                eventList.add(task_due_date);
-                                eventList.add(task_priority);
-                            }
-                            getInformations.useInfo(eventList);
-                        } else {
-                            Log.e("QuerySnapshot Error!", "There is a problem while getting documents!");
-                        }
+                    for(DocumentSnapshot doc : task.getResult())
+                    {
+                        String task_name = doc.getString("task_name");
+                        String projet_name = doc.getString("projet_name");
+                        String task_due_date = doc.getString("task_due_date");
+                        String task_priority = doc.getString("task_priority");
+                        eventList.add(task_name);
+                        eventList.add(projet_name);
+                        eventList.add(task_due_date);
+                        eventList.add(task_priority);
                     }
-                });
+                    getInformations.useInfo(eventList);
+                }
+                else
+                {
+                    Log.e("QuerySnapshot Error!", "There is a problem while getting documents!");
+                }
+            }
+        });
     }
 }

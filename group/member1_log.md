@@ -46,6 +46,27 @@ This week;
   ***11-12 May***
     -Completely re-designed and implemented the ProJet page, now functional as desired.
     -Drew a diagram to make our coding easier on the pages ProJet Main, ProJet Members, ProJet Tasks, ProJet Group Log (with Yüksel Berkay Erdem)
-    -Solved the group chat system, instead of a live-updated chat system, we decided to use a Group Log, which consists of various messages from users with desired Header, and attached the date the message was created.
+    -Solved the group chat system, with a live-updated chat system, which consists of various messages from users with desired Header, and attached the date the message was created.
+  ***13-14-15 May***
+    -Add member page crash bug fixed, now works fine.
+    -Tasks page is now functional
+    -Login page crash bug fixed
+  ***16-17 May***
+    -Add task page UI improvements
+    -Create new projet page improved
+    -ToolBars fixed(once again) for each page.
+  ***FINAL DAYS***
+    -Date picker adjusted so that it won't be able to pick past dates.
+    -Edit ProJet page is now functional
+    -Restriction for multiple ProJets with the same name is now enabled.
+    -Task progress and time left progress bars are adjusted/implemented (with Berkay)
+    -ProJet page final UI update for the progress bars mentioned just above.
+    -Adding/Completing tasks now updates/edits the information at database correctly.
+    -Dark mode bug is fixed and implemented it using database(no longer crashes the app)
+    -Settings page written from scratch to use features correctly(previous page had unsupported libraries for our API level)
+    
+    
+    
+    
     
   

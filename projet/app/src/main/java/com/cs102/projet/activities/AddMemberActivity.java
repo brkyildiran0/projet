@@ -38,7 +38,6 @@ public class AddMemberActivity extends AppCompatActivity
     FirebaseUser currentUser;
     MyNotificationClass myNotificationClass;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

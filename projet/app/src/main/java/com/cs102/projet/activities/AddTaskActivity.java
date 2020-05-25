@@ -41,7 +41,6 @@ import java.util.Map;
 public class AddTaskActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener
 {
     private RadioGroup prioritiesGroup;
-
     private EditText taskName;
     private EditText taskDescription;
     private EditText editTextTaskDueHour;

@@ -43,6 +43,7 @@ public class MembersPageActivity extends AppCompatActivity
         CollectionReference membersRef = projetRef.document(projetName).collection("Members");
         Query query = membersRef;
 
+        //Uses query above to get the members
         FirestoreRecyclerOptions<Member> options = new FirestoreRecyclerOptions.Builder<Member>().setQuery(query, Member.class).build();
 
         adapter = new MemberAdapter(options, projetName);

@@ -62,15 +62,14 @@ so there are no further tasks remains to be done (except for video conference fe
   *FragmentCurrentTasks
   *Interface: GetInformations
   
-  ***Deniz Berkant Demirörs***
-  --
-  --
-  --
-  --
-  --
-  --
-  --
-  
+***Deniz Berkant Demirörs***
+-Pop-Up dialog design & implementation (discarded later)
+-Help page design & implementation
+-First version of the settings page
+-Some of the layout files (.xml files)
+
+***Amir Aliyev***
+-Member did not contribute-
 
 ****Software & Libraries Used****
 

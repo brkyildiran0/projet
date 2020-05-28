@@ -21,6 +21,7 @@ so there are no further tasks remains to be done (except for video conference fe
 ***Ömer Burak Yıldıran***
 -Firebase design (Database internal structures) and implementation (as can be seen at: https://imgur.com/tgOjovV)
 -UI planning for each activity (page), supported with on-paper sketches
+-Creation of all paper works, sketches and planning the interactions with respect to top-down design
 -Design and implementation of following:
   *AddMemberActivity
   *AddTaskActivity

@@ -2,13 +2,12 @@
 
 **Useful Learning Experience**
 The journey of developing a complete program with little to no experience as a group sounded challenging or almost impossible at first.
-And it is true that we really had a hard time on certain points, but as the time passed, we realised we that we have learned so many
+And it is true that we really had a hard time on certain points, but as the time passed, we realised that we have learned so many
 things on our own, and as a group. The best part of this group project is that it pushes us to learn "independently", and
 we believe that this is one of the best lessons a human can learn.
 
 **Dislikes**
-It might have been a relief to have some provided guides or tutorials to know where to start, but this is also another part of the project
-to push us tolearn independently, probably.
+It might have been a relief to have some provided guides or tutorials to know where to start, but this is also another part of the project to push us tolearn independently, probably.
 
 **Most Difficult Aspect**
 The most difficult part of this project was to put in the time and effort to learn something from scratch in a short amount of time,
@@ -16,11 +15,9 @@ and distribute the tasks between group members fairly and in a plausible way so 
 
 **What Would We Do Differently?**
 GitHub is a lifesaver when it comes to working on a coding project as a group. It took us a time to learn and use it properly.
-Because we didn't pay enough attention to the importance of GitHub and its features, we lost some time on copying & cleaning code conflicts
-that has occured during the project. So if we were to start again, we would have spent a little bit more time on correct usage of GitHub.
+Because we didn't pay enough attention to the importance of GitHub and its features, we lost some time on copying & cleaning code conflicts that has occured during the project. So if we were to start again, we would have spent a little bit more time on correct usage of GitHub.
 
-Also, it might have been better if we searched for other old but common database systems rather than Firebase, but we are not regretful for
-using Firebase, it was just a little bit harder than the other alternatives since there were not so many tutorials about it.
+Also, it might have been better if we searched for other old but common database systems rather than Firebase, but we are not regretful for using Firebase, it was just a little bit harder than the other alternatives since there were not so many tutorials about it.
 
 **Spent Time**
 We are not sure about the overall spent time as a group, but almost all active members spent more than 4 hrs each day in the last month

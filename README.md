@@ -19,11 +19,11 @@ The information and code in this repository are submitted in partial fulfillment
 
 [Group Meetings Log](group/meetingslog.md)
 #### Group Members
-- [Ömer Burak Yıldıran] (group/member1_log.md)    
-- [Celal Berke Can] (group/member2_log.md)
-- [Deniz Berkant Demirörs] (group/member3_log.md)
-- [Yüksel Berkay Erdem] (group/member4_log.md)
-- [Amir Aliyev] (group/member5_log.md) (did not contribute)
+- [Ömer Burak Yıldıran]  (group/member1_log.md)    
+- [Celal Berke Can]  (group/member2_log.md)
+- [Deniz Berkant Demirörs]  (group/member3_log.md)
+- [Yüksel Berkay Erdem]  (group/member4_log.md)
+- [Amir Aliyev]  (group/member5_log.md) (did not contribute)
 
 ****
 **Instructor:** David Davenport   **TA:**  Atakan Serbes

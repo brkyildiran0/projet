@@ -96,5 +96,5 @@ Real-time data update is now complete (now we can implement it correctly & as we
 ### FROM 13/05/2020
 ****
 
-**INFORMATION:** From this day on, we have all have talked and worked together for more than 4+ hrs every day until the project deadline, each day the tasks were done according to each of ours personal logs.
+**INFORMATION:** From this day on, we all have talked and worked together for more than 4+ hrs every day until the project deadline, each day the tasks were done according to each of ours personal logs.
 

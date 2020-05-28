@@ -7,8 +7,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class Message {
-
+public class Message
+{
+    //Properties
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth myFirebaseAuth;
     private FirebaseUser currentUser;
@@ -17,16 +18,20 @@ public class Message {
     private Timestamp time;
     private int color;
 
-    public Message() {
+    //Constructors
+    public Message()
+    {
     }
 
-    public Message(String coming_from, String message, Timestamp time) {
+    public Message(String coming_from, String message, Timestamp time)
+    {
         this.coming_from = coming_from;
         this.message = message;
         this.time = time;
         this.color = Color.GREEN;
     }
 
+    //Methods
     public String getComing_from() {
         return coming_from;
     }

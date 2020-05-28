@@ -1,7 +1,8 @@
 package com.cs102.projet.classes;
 
-public class Task {
-
+public class Task
+{
+    //Properties
     private String task_description;
     private String task_due_date;
     private String task_name;
@@ -9,10 +10,11 @@ public class Task {
     private String task_due_hour;
     private String task_priority;
 
-    public Task() {
-    }
+    //Constructors
+    public Task() { }
 
-    public Task(String task_description, String task_due_date, String task_name, String task_owner, String task_due_hour, String task_priority) {
+    public Task(String task_description, String task_due_date, String task_name, String task_owner, String task_due_hour, String task_priority)
+    {
         this.task_description = task_description;
         this.task_due_date = task_due_date;
         this.task_name = task_name;
@@ -21,6 +23,7 @@ public class Task {
         this.task_priority = task_priority;
     }
 
+    //Methods
     public String getTask_description() {
         return task_description;
     }

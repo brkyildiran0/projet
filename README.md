@@ -9,14 +9,12 @@ The information and code in this repository are submitted in partial fulfillment
 ## Project Description
    ProJet! aims to help people/groups organize their works easily such as projects, meetings or even surprise birthday parties! The app can be used by anyone, there is no solid limitation to the scale of it. The app is planned to be on the Android platform only.
    
-**SCREENSHOTS WILL BE ADDED LATER!**
-   
 ## Project Status
-+ **Group/project Selection:** completed (...)
-+ **Requirements:** completed (...)
-+ **UI Design:** completed (15/04/2020)
-+ **Detailed Design:** in progress
-+ **Implementation:** not started!
++ **Group/project Selection:** completed!
++ **Requirements:** completed!
++ **UI Design:** completed!
++ **Detailed Design:** completed!
++ **Implementation:** completed!
 + **Reflections:** not yet!
 
 [Group Meetings Log](group/meetingslog.md)

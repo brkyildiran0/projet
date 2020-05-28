@@ -72,4 +72,24 @@ Now main page works correctly, lists all the ProJets a user has, and can refresh
 
 **ToDo:** Real-time data update is now active, but still struggling to implement it to the ProJet page, will fix this as soon as possible as well.
 
+****
+### Meeting ~ (12/05/2020, 2-3hrs)
+****
+**Present:** Ömer Burak Yıldıran, Celal Berke Can, Yüksel Berkay Erdem, Deniz Berkant Demirörs   _**Absent:**_  Amir Aliyev
+
+**Discussion:** 
+How to improve UIs in general and adding more features. Bad input handling in general is now complete. Real time data update is partially done.
+
+**ToDo:** Implementation of real-time data update to other pages.
+
+****
+### Meeting ~ (13/05/2020, 3-4hrs)
+****
+**Present:** Ömer Burak Yıldıran, Celal Berke Can, Yüksel Berkay Erdem, Deniz Berkant Demirörs   _**Absent:**_  Amir Aliyev
+
+**Discussion:** 
+Real-time data update is now complete (now we can implement it correctly & as we want). Tasks/Members page are now functional and we searched ways to improve the usage of them
+
+**ToDo:** ...
+
 

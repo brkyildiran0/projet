@@ -11,7 +11,7 @@ This week i learned recursion, had brainstorm for our project and learned some s
 ### ~ 11.5.2020 ~
 This week learned some firebase, worked for projects some pages and implemented it. Now working on recycler view to see if we can implement it into our project and creating some activities for newer users to learn how to use the app.
 
-### ~ date ~
-blah, blah, blah...
+### ~ 17.5.2020 ~
+This week I designed and implemented the Help page and settings page for our app. I helped other members for their shares of the project. Had some improvements on the layouts. 
 
 ****

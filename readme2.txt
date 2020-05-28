@@ -20,13 +20,14 @@ so there are no further tasks remains to be done (except for video conference fe
 
 ***Ömer Burak Yıldıran***
 -Firebase design (Database internal structures) and implementation (as can be seen at: https://imgur.com/tgOjovV)
--UI planning for each page
+-UI planning for each activity (page), supported with on-paper sketches
 -Design and implementation of following:
   *AddMemberActivity
   *AddTaskActivity
   *CreateProjectActivity
   *EditProjetActivity
   *SettingsActivity
+  *ProjetGroupChatActivity (with Berkay)
   *ProfilePageActivity (with Berkay)
   *ProjectPageActivity (with Berkay)
   *ProjetMainPageActivity (with Berkay)
@@ -47,8 +48,8 @@ so there are no further tasks remains to be done (except for video conference fe
 -Firebase Real-time Data Update Implementation (with RecyclerView)
 -OneSignal Notification System (with Berke)
 -Design and implementation of following:
-  -(Member, Message, NotificationPage, ProgressBarDay, ProgressBarTask, ProJet, Task) classes and interactions with pages
-  -(CompletedTasks, Member, Message, MyTasks, Notification, ProgressBars, Projet, Task) adapters and interactions with pages
+  -Classes and interactions with pages (whole package)
+  -Adapters and interactions with pages (whole package)
   *CompletedTasksActivity
   *MembersPageactivity
   *MyTasksActivity

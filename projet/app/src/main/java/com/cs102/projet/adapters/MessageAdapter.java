@@ -27,78 +27,93 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAdapter.MessageHolder> {
+public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAdapter.MessageHolder>
+{
+    //Global Variables
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     String projetName;
-
     FirebaseAuth myFirebaseAuth;
     FirebaseUser currentUser;
 
-    public MessageAdapter(@NonNull FirestoreRecyclerOptions<Message> options, String projetName) {
+    public MessageAdapter(@NonNull FirestoreRecyclerOptions<Message> options, String projetName)
+    {
         super(options);
         this.projetName = projetName;
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull final MessageHolder holder, int position, @NonNull final Message model) {
+    protected void onBindViewHolder(@NonNull final MessageHolder holder, int position, @NonNull final Message model)
+    {
         holder.textView_message.setText(model.getMessage());
 
-        //To know the message owner is me or not and colorization with this information.
+        //To find out who sent the message to the group chat and color the views accordingly
         myFirebaseAuth = FirebaseAuth.getInstance();
         currentUser = myFirebaseAuth.getCurrentUser();
-        if(currentUser.getEmail().equals(model.getComing_from())) {
+
+        if(currentUser.getEmail().equals(model.getComing_from()))
+        {
             holder.itemView.setBackgroundColor(Color.LTGRAY);
         }
-        else{
+        else
+        {
             holder.itemView.setBackgroundColor(Color.WHITE);
         }
 
-
         //To get user_name from field "coming_from". (E mail >>>> user name)
         Query query = db.collection("Users").whereEqualTo("user_email", model.getComing_from()).limit(1);
-        moveData(new GetInformations() {
-
+        moveData(new GetInformations()
+        {
             @Override
             // We use the informations coming from onCompleteListener in "useInfo" method.
-            public void useInfo(List<String> eventList) {
+            public void useInfo(List<String> eventList)
+            {
                 // To create a string for the user name.
                 String userName = "";
+
                 // Getting user name and prevent any error that cause application to stop!
-                for (int p = 0; p < eventList.size(); p++) {
+                for (int p = 0; p < eventList.size(); p++)
+                {
                     userName = userName + eventList.get(p);
                 }
 
-                if (userName == "" && userName == null) {
+                if (userName.equals(""))
+                {
                     userName = "Error: Username";
                 }
 
                 // To get time properly.
-
                 String stringDate = model.getTime().toDate().toString();
                 Log.e("stringDate: ", stringDate);
                 String[] arrOfDate = stringDate.split(" ");
                 String[] arrOfTime = arrOfDate[3].split(":");
                 String theTime = arrOfDate[2] + " " + arrOfDate[1] + " " + arrOfDate[5] + " " + arrOfTime[0] + ":" + arrOfTime[1];
-                holder.textView_messageInfo.setText( userName + " " + "[" + theTime + "]:");
+
+                String assigner = userName + " " + "[" + theTime + "]:";
+                holder.textView_messageInfo.setText( assigner );
             }
         }, query);
     }
 
     @NonNull
     @Override
-    public MessageHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MessageHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.message_item,parent,false);
         return new MessageHolder(v);
     }
 
-    class MessageHolder extends RecyclerView.ViewHolder{
-
-
+    /**
+     * Class for recycler view and view holder to work together
+     * Processes the information of each message and assigns them to the TextView to be seen
+     */
+    class MessageHolder extends RecyclerView.ViewHolder
+    {
         //TextView projetName;
         TextView textView_messageInfo;
         TextView textView_message;
 
-        public MessageHolder(@NonNull View itemView) {
+        public MessageHolder(@NonNull View itemView)
+        {
             super(itemView);
             textView_messageInfo = itemView.findViewById(R.id.textView_messageInfo_chat);
             textView_message = itemView.findViewById(R.id.textView_message_chat);
@@ -106,28 +121,34 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Message, MessageAda
         }
     }
 
-    // The OnCompleteListener method is an asynchronous method. So, we cannot move the informations outside of the method.
-    // To do that, we create a new method that takes parameters an interface called "getInformations" and a query that we want to implement this method on.
-    // What does this method do? It is a normal method until the line "getInformations.useInfo(eventlist)".
-    // While this method is being used, the inner method is already completed. So, we can get the informations and we use them in "useInfo" method.
-    public void moveData(final GetInformations getInformations, Query query) {
-        query.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            List<String> eventList = new ArrayList<>();
+    //The OnCompleteListener method is an asynchronous method. So, we cannot move the informations outside of the method.
+    //To do that, we create a new method that takes parameters an interface called "getInformations" and a query that we want to implement this method on.
+    //What does this method do? It is a normal method until the line "getInformations.useInfo(eventlist)".
+    //While this method is being used, the inner method is already completed. So, we can get the informations and we use them in "useInfo" method.
+    public void moveData(final GetInformations getInformations, Query query)
+    {
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+        {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task)
+            {
+                if (task.isSuccessful())
+                {
+                    List<String> eventList = new ArrayList<>();
 
-                            for(DocumentSnapshot doc : task.getResult()) {
-                                //Be careful about get() method. Modify this to whatever you need.
-                                String e = doc.get("user_name").toString();
-                                eventList.add(e);
-                            }
-                            getInformations.useInfo(eventList);
-                        } else {
-                            Log.e("QuerySnapshot Error!", "There is a problem while getting documents!");
-                        }
+                    for(DocumentSnapshot doc : task.getResult())
+                    {
+                        //Be careful about get() method. Modify this to whatever you need.
+                        String e = doc.get("user_name").toString();
+                        eventList.add(e);
                     }
-                });
+                    getInformations.useInfo(eventList);
+                }
+                else
+                {
+                    Log.e("QuerySnapshot Error!", "There is a problem while getting documents!");
+                }
+            }
+        });
     }
 }

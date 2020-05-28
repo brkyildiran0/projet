@@ -39,7 +39,7 @@ public class ProgressBarDayAdapter extends FirestoreRecyclerAdapter<ProgressBarD
     @Override
     protected void onBindViewHolder(@NonNull ProgressBarDayHolder holder, int position, @NonNull ProgressBarDay model)
     {
-        //Getting the needed two string from projet database root
+        //Getting the needed two string from ProJet database root
         int currentDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
         int currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
@@ -47,9 +47,10 @@ public class ProgressBarDayAdapter extends FirestoreRecyclerAdapter<ProgressBarD
         String creationDate = model.getProjet_created_date();
         String currentDate = currentDay + "/" + currentMonth + "/" + currentYear;
 
-        //Calculating the remaining days and more to compute needed values such as remaining days and past days until due date
+        //Calculating the remaining days and more to compute needed values such as remaining days and past days until due date AND handling any error (ParseException)
         @SuppressLint("SimpleDateFormat") SimpleDateFormat myFormat = new SimpleDateFormat("dd/MM/yyyy");
-        try {
+        try
+        {
             Date currentDayDate = myFormat.parse(currentDate);
             Date dueDayDate = myFormat.parse(projetDueDate);
             Date creationDayDate = myFormat.parse(creationDate);
@@ -68,29 +69,36 @@ public class ProgressBarDayAdapter extends FirestoreRecyclerAdapter<ProgressBarD
             String pastDaysSetter = (TimeUnit.DAYS.convert(pastDays, TimeUnit.MILLISECONDS) - 488) + "";
 
             holder.remainingDay.setText(setter);
-            Log.e("totaldays", Integer.parseInt(totalDaysSetter) + "");
-            Log.e("past days", Integer.parseInt(pastDaysSetter) + "");
             holder.progressBar_remain_day.setMax(Integer.parseInt(totalDaysSetter));
             holder.progressBar_remain_day.setProgress(Integer.parseInt(pastDaysSetter));
 
-        } catch (ParseException e) {
+        }
+        catch (ParseException e)
+        {
             e.printStackTrace();
         }
     }
 
     @NonNull
     @Override
-    public ProgressBarDayHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
+    public ProgressBarDayHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.progressbar_day_item, parent, false);
 
         return new ProgressBarDayHolder(v);
     }
 
-    class ProgressBarDayHolder extends RecyclerView.ViewHolder{
+    /**
+     * Class for recycler view and view holder to work together
+     * Processes the information for the remaining days of a ProJet and assigns it to the TextView to be seen
+     */
+    class ProgressBarDayHolder extends RecyclerView.ViewHolder
+    {
         TextView remainingDay;
         ProgressBar progressBar_remain_day;
-        public ProgressBarDayHolder(@NonNull View itemView) {
+
+        public ProgressBarDayHolder(@NonNull View itemView)
+        {
             super(itemView);
             remainingDay = itemView.findViewById(R.id.progressbar_remaining_day);
             progressBar_remain_day = itemView.findViewById(R.id.progressBar_day);

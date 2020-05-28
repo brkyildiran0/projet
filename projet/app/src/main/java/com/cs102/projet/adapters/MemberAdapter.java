@@ -24,76 +24,89 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MemberAdapter extends FirestoreRecyclerAdapter<Member, MemberAdapter.MemberHolder> {
+public class MemberAdapter extends FirestoreRecyclerAdapter<Member, MemberAdapter.MemberHolder>
+{
+    //Global Variables
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private String projetName;
+    String projetName;
 
-    public MemberAdapter(@NonNull FirestoreRecyclerOptions<Member> options, String projetName) {
+    //Adapter Declaration
+    public MemberAdapter(@NonNull FirestoreRecyclerOptions<Member> options, String projetName)
+    {
         super(options);
         this.projetName = projetName;
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull final MemberHolder holder, int position, @NonNull Member model) {
+    protected void onBindViewHolder(@NonNull final MemberHolder holder, int position, @NonNull Member model)
+    {
         holder.textView_member_name.setText(model.getUser_name());
 
-
-        // To get mail, we use document name.
+        //To get mail, we use document name.
         String mail = getSnapshots().getSnapshot(position).getReference().getId();
         holder.textView_member_email.setText(mail);
 
-        // To get tasks that members have. This is limited to 3.
+        //To get tasks that members have. This is limited to 3.
         Query query = db.collection("ProJets").document(projetName)
                 .collection("Tasks").whereEqualTo("task_owner", mail).whereEqualTo("task_status", false).limit(4);
 
-        moveData(new GetInformations() {
-
+        moveData(new GetInformations()
+        {
             @Override
             // We use the informations coming from onCompleteListener in "useInfo" method.
-            public void useInfo(List<String> eventList) {
+            public void useInfo(List<String> eventList)
+            {
                 // To create a string for the tasks..
                 String tasks = "";
                 int count = 1;
+
                 // Getting tasks from list one by one.
-                for ( int p = 0; p < eventList.size(); p++){
-                    if (p > 0) {
-                        tasks = tasks + "\n" + String.valueOf(count) + "- " + eventList.get(p) ;
+                for ( int p = 0; p < eventList.size(); p++ )
+                {
+                    if ( p > 0 )
+                    {
+                        tasks = tasks + "\n" + count + "- " + eventList.get(p) ;
                         count++;
                     }
-                    else{
-                        tasks = String.valueOf(count) + "- " + eventList.get(p);
+                    else
+                    {
+                        tasks = count + "- " + eventList.get(p);
                         count++;
                     }
                 }
 
-                // To set text where placed on Cardview.
-                if(tasks == ""){
+                // To set text where placed on CardView.
+                if(tasks.equals(""))
+                {
                     tasks = "There is no task!";
                 }
 
                 holder.textView_member_tasks.setText(tasks);
-
             }
         }, query);
     }
 
 
-
     @NonNull
     @Override
-    public MemberHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
+    public MemberHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.member_item,parent, false);
         return new MemberHolder(v);
     }
 
-    class MemberHolder extends RecyclerView.ViewHolder{
-
+    /**
+     * Class for recycler view and view holder to work together
+     * Processes the information of each member and assigns them to the TextView to be seen
+     */
+    class MemberHolder extends RecyclerView.ViewHolder
+    {
         TextView textView_member_name;
         TextView textView_member_email;
         TextView textView_member_tasks;
 
-        public MemberHolder(@NonNull View itemView) {
+        public MemberHolder(@NonNull View itemView)
+        {
             super(itemView);
             textView_member_name = itemView.findViewById(R.id.textView_member_name_members_page);
             textView_member_email = itemView.findViewById(R.id.textView_member_email_members_page);
@@ -101,27 +114,33 @@ public class MemberAdapter extends FirestoreRecyclerAdapter<Member, MemberAdapte
         }
     }
 
-    // The OnCompleteListener method is an asynchronous method. So, we cannot move the informations outside of the method.
-    // To do that, we create a new method that takes parameters an interface called "getInformations" and a query that we want to implement this method on.
-    // What does this method do? It is a normal method until the line "getInformations.useInfo(eventlist)".
-    // While this method is being used, the inner method is already completed. So, we can get the informations and we use them in "useInfo" method.
-    public void moveData(final GetInformations getInformations, Query query) {
-        query.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            List<String> eventList = new ArrayList<>();
+    //The OnCompleteListener method is an asynchronous method. So, we cannot move the informations outside of the method.
+    //To do that, we create a new method that takes parameters an interface called "getInformations" and a query that we want to implement this method on.
+    //What does this method do? It is a normal method until the line "getInformations.useInfo(eventlist)".
+    //While this method is being used, the inner method is already completed. So, we can get the informations and we use them in "useInfo" method.
+    public void moveData(final GetInformations getInformations, Query query)
+    {
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+        {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task)
+            {
+                if (task.isSuccessful())
+                {
+                    List<String> eventList = new ArrayList<>();
 
-                            for(DocumentSnapshot doc : task.getResult()) {
-                                String e = doc.get("task_name").toString();
-                                eventList.add(e);
-                            }
-                            getInformations.useInfo(eventList);
-                        } else {
-                            Log.e("QuerySnapshot Error!", "There is a problem while getting documents!");
-                        }
+                    for(DocumentSnapshot doc : task.getResult())
+                    {
+                        String e = doc.get("task_name").toString();
+                        eventList.add(e);
                     }
-                });
+                    getInformations.useInfo(eventList);
+                }
+                else
+                {
+                    Log.e("QuerySnapshot Error!", "There is a problem while getting documents!");
+                }
+            }
+        });
     }
 }

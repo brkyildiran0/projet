@@ -24,20 +24,22 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
-public class NotificationAdapter extends FirestoreRecyclerAdapter<NotificationPage, NotificationAdapter.NotificationHolder> {
-
-    private FirebaseFirestore database = FirebaseFirestore.getInstance();
+public class NotificationAdapter extends FirestoreRecyclerAdapter<NotificationPage, NotificationAdapter.NotificationHolder>
+{
+    //Global Variables
+    FirebaseFirestore database = FirebaseFirestore.getInstance();
     FirebaseAuth myFirebaseAuth;
     FirebaseUser currentUser;
     String currentUserEmail;
 
-    public NotificationAdapter(@NonNull FirestoreRecyclerOptions<NotificationPage> options) {
+    public NotificationAdapter(@NonNull FirestoreRecyclerOptions<NotificationPage> options)
+    {
         super(options);
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull NotificationHolder holder, int position, @NonNull final NotificationPage model) {
-
+    protected void onBindViewHolder(@NonNull NotificationHolder holder, int position, @NonNull final NotificationPage model)
+    {
         holder.textViewMessage.setText(model.getMessage());
         holder.textViewTitle.setText(model.getTitle());
 
@@ -48,10 +50,11 @@ public class NotificationAdapter extends FirestoreRecyclerAdapter<NotificationPa
         currentUserEmail= currentUser.getEmail();
 
         //onClicklistener for delete button.
-        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+        holder.deleteButton.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-
+            public void onClick(View v)
+            {
                 //To find exact notification, we look at the item's time, title and message AND find "the" notification.
                 Query deleteQuery = database.collection("Users").document(currentUserEmail)
                         .collection("Notifications")
@@ -65,20 +68,25 @@ public class NotificationAdapter extends FirestoreRecyclerAdapter<NotificationPa
 
     @NonNull
     @Override
-    public NotificationHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
+    public NotificationHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.notification_item, parent, false);
 
         return new NotificationHolder(v);
     }
 
-    class NotificationHolder extends RecyclerView.ViewHolder{
-
+    /**
+     * Class for recycler view and view holder to work together
+     * Processes the information of each notification and assigns them to the TextView to be seen
+     */
+    class NotificationHolder extends RecyclerView.ViewHolder
+    {
         TextView textViewTitle;
         TextView textViewMessage;
         ImageButton deleteButton;
 
-        public NotificationHolder(@NonNull View itemView) {
+        public NotificationHolder(@NonNull View itemView)
+        {
             super(itemView);
             textViewTitle = itemView.findViewById(R.id.notificationProjectName);
             textViewMessage = itemView.findViewById(R.id.notificationMessage);
@@ -86,21 +94,27 @@ public class NotificationAdapter extends FirestoreRecyclerAdapter<NotificationPa
         }
     }
 
-    public void updateNotification(Query query) {
-        query.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
 
-                            for(DocumentSnapshot doc : task.getResult()) {
-                                DocumentReference documentReference = doc.getReference();
-                                documentReference.update("delete", true);
-                            }
-                        } else {
-                            Log.e("QuerySnapshot Error!", "There is a problem while getting documents!");
-                        }
+    public void updateNotification(Query query)
+    {
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+        {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task)
+            {
+                if (task.isSuccessful())
+                {
+                    for(DocumentSnapshot doc : task.getResult())
+                    {
+                        DocumentReference documentReference = doc.getReference();
+                        documentReference.update("delete", true);
                     }
-                });
+                }
+                else
+                {
+                    Log.e("QuerySnapshot Error!", "There is a problem while getting documents!");
+                }
+            }
+        });
     }
 }

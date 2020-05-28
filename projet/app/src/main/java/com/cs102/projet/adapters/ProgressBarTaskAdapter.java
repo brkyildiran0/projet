@@ -18,10 +18,13 @@ import com.cs102.projet.classes.ProgressBarTask;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
-public class ProgressBarTaskAdapter extends FirestoreRecyclerAdapter<ProgressBarTask, ProgressBarTaskAdapter.ProgressBarTaskHolder> {
-
+public class ProgressBarTaskAdapter extends FirestoreRecyclerAdapter<ProgressBarTask, ProgressBarTaskAdapter.ProgressBarTaskHolder>
+{
+    //Global Variables
     private String projetName;
-    public ProgressBarTaskAdapter(@NonNull FirestoreRecyclerOptions<ProgressBarTask> options, String projetName) {
+
+    public ProgressBarTaskAdapter(@NonNull FirestoreRecyclerOptions<ProgressBarTask> options, String projetName)
+    {
         super(options);
         this.projetName = projetName;
     }
@@ -29,19 +32,22 @@ public class ProgressBarTaskAdapter extends FirestoreRecyclerAdapter<ProgressBar
     @Override
     protected void onBindViewHolder(@NonNull final ProgressBarTaskHolder holder, int position, @NonNull ProgressBarTask model)
     {
+        //Getting the amounts of complete/incomplete/total tasks
         int completed_task = model.getTotal_completed_tasks();
         int uncompleted_task = model.getTotal_uncompleted_tasks();
         int total_Task = completed_task + uncompleted_task;
 
+        //Sending those values to holder
         holder.completed_task.setText(String.valueOf(completed_task));
         holder.total_task.setText(String.valueOf(total_Task));
         holder.progressBar_task.setMax(total_Task);
         holder.progressBar_task.setProgress(completed_task);
 
-        //TODO : burayı kaldır profile page e koyacağız.
-        holder.progressBar_task.setOnClickListener(new View.OnClickListener() {
+        holder.progressBar_task.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 Intent intentK = new Intent(holder.itemView.getContext(), CompletedTasksActivity.class);
                 intentK.putExtra("projetName", projetName);
                 holder.itemView.getContext().startActivity(intentK);
@@ -57,13 +63,18 @@ public class ProgressBarTaskAdapter extends FirestoreRecyclerAdapter<ProgressBar
         return new ProgressBarTaskHolder(v);
     }
 
+    /**
+     * Class for recycler view and view holder to work together
+     * Processes the information for the remaining & completed tasks of a ProJet and assigns it to the TextView to be seen
+     */
     class ProgressBarTaskHolder extends RecyclerView.ViewHolder
     {
         TextView completed_task;
         TextView total_task;
         ProgressBar progressBar_task;
 
-        public ProgressBarTaskHolder(@NonNull View itemView) {
+        public ProgressBarTaskHolder(@NonNull View itemView)
+        {
             super(itemView);
             completed_task = itemView.findViewById(R.id.textView_task_completed);
             total_task = itemView.findViewById(R.id.textView_task_total);

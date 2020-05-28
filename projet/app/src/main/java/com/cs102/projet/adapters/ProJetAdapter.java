@@ -29,12 +29,13 @@ import java.util.List;
 
 public class ProJetAdapter extends FirestoreRecyclerAdapter<ProJet, ProJetAdapter.ProJetHolder>
 {
+    //Global Variables (pre-declared for error handling purposes)
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     Double completed_tasks = 0.0;
     Double uncompleted_tasks = 0.0;
     Double total_tasks = 0.0;
     GetInformations get;
-    private int percentage = 0;
+    int percentage = 0;
 
     public ProJetAdapter(@NonNull FirestoreRecyclerOptions<ProJet> options) {
         super(options);
@@ -43,6 +44,7 @@ public class ProJetAdapter extends FirestoreRecyclerAdapter<ProJet, ProJetAdapte
     @Override
     protected void onBindViewHolder(@NonNull final ProJetHolder holder, int position, @NonNull ProJet model)
     {
+        //Finding the ProJets at the database by creating a query
         Query query = db.collection("ProJets").whereEqualTo("projet_name", model.getProjet_name());
 
         moveData(new GetInformations()
@@ -52,6 +54,7 @@ public class ProJetAdapter extends FirestoreRecyclerAdapter<ProJet, ProJetAdapte
             {
                 if (eventList.size() != 0)
                 {
+                    //Handling the percentage operations (due etc.)
                     completed_tasks = Double.valueOf(eventList.get(0));
                     uncompleted_tasks = Double.valueOf(eventList.get(1));
                     total_tasks = completed_tasks + uncompleted_tasks;
@@ -61,7 +64,9 @@ public class ProJetAdapter extends FirestoreRecyclerAdapter<ProJet, ProJetAdapte
                 {
                     percentage = (int) ((completed_tasks / total_tasks) * 100);
                 }
-                holder.setprogress_text.setText("%" + percentage);
+
+               String assigner = "%" + percentage;
+                holder.setprogress_text.setText(assigner);
                 holder.progressBar.setProgress(percentage);
             }
         }, query);
@@ -70,67 +75,79 @@ public class ProJetAdapter extends FirestoreRecyclerAdapter<ProJet, ProJetAdapte
         holder.projet_due_date.setText(model.getProjet_due_date());
     }
 
-    // The OnCompleteListener method is an asynchronous method. So, we cannot move the informations outside of the method.
-    // To do that, we create a new method that takes parameters an interface called "getInformations" and a query that we want to implement this method on.
-    // What does this method do? It is a normal method until the line "getInformations.useInfo(eventlist)".
-    // While this method is being used, the inner method is already completed. So, we can get the informations and we use them in "useInfo" method.
-    public void moveData(GetInformations getInformations, Query query) {
-        get = getInformations;
-        query.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            List<String> eventList = new ArrayList<>();
-
-                            for(DocumentSnapshot doc : task.getResult()) {
-                                Log.e("giris: ", "for a girildi");
-                                String completed_tasks = String.valueOf((doc.getLong("total_completed_tasks")));
-                                Log.e("aradayiz: ", completed_tasks);
-                                String uncompleted_tasks = String.valueOf(doc.getLong("total_uncompleted_tasks"));
-                                eventList.add(completed_tasks);
-                                eventList.add(uncompleted_tasks);
-                                Log.e("cikis: ", "for dan cikildi");
-                            }
-                            get.useInfo(eventList);
-                        } else {
-                            Log.e("QuerySnapshot Error!", "There is a problem while getting documents!");
-                        }
-                    }
-                });
-    }
-
     @NonNull
     @Override
-    public ProJetHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
+    public ProJetHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.projet_info_item, parent, false);
 
         return new ProJetHolder(v);
     }
 
-    class ProJetHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
+    /**
+     * Class for recycler view and view holder to work together
+     * Processes the information for each ProJet and assigns it to the TextView to be seen
+     */
+    class ProJetHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    {
         TextView projet_due_date;
         TextView projet_name;
         TextView setprogress_text;
         ProgressBar progressBar;
 
-        public ProJetHolder(@NonNull View itemView) {
+        public ProJetHolder(@NonNull View itemView)
+        {
             super(itemView);
+
             projet_name = itemView.findViewById(R.id.projetName_fr);
             projet_due_date = itemView.findViewById(R.id.setDate_fr);
             setprogress_text = itemView.findViewById(R.id.progressText_fr);
             progressBar = itemView.findViewById(R.id.progressBar_fr);
+
+            //Making the views clickable so that users can access directly by touching the entire view
             itemView.setClickable(true);
             itemView.setOnClickListener(this);
         }
 
         @Override
-        public void onClick(View v) {
+        public void onClick(View v)
+        {
             Intent gecIntent = new Intent(v.getContext(), ProjectPageActivity.class);
             gecIntent.putExtra("projetName", projet_name.getText().toString());
             v.getContext().startActivity(gecIntent);
         }
+    }
+
+    //The OnCompleteListener method is an asynchronous method. So, we cannot move the informations outside of the method.
+    //To do that, we create a new method that takes parameters an interface called "getInformations" and a query that we want to implement this method on.
+    //What does this method do? It is a normal method until the line "getInformations.useInfo(eventlist)".
+    //While this method is being used, the inner method is already completed. So, we can get the informations and we use them in "useInfo" method.
+    public void moveData(GetInformations getInformations, Query query)
+    {
+        get = getInformations;
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+        {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task)
+            {
+                if (task.isSuccessful())
+                {
+                    List<String> eventList = new ArrayList<>();
+
+                    for(DocumentSnapshot doc : task.getResult())
+                    {
+                        String completed_tasks = String.valueOf((doc.getLong("total_completed_tasks")));
+                        String uncompleted_tasks = String.valueOf(doc.getLong("total_uncompleted_tasks"));
+                        eventList.add(completed_tasks);
+                        eventList.add(uncompleted_tasks);
+                    }
+                    get.useInfo(eventList);
+                }
+                else
+                {
+                    Log.e("QuerySnapshot Error!", "There is a problem while getting documents!");
+                }
+            }
+        });
     }
 }

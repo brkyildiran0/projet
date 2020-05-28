@@ -32,29 +32,31 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MyTasksAdapter extends FirestoreRecyclerAdapter<Task, MyTasksAdapter.MyTasksHolder> {
-
+public class MyTasksAdapter extends FirestoreRecyclerAdapter<Task, MyTasksAdapter.MyTasksHolder>
+{
+    //Global Variables
+    int assigner;
+    int assignerTwo;
+    Long currentAmountOfCompletedTasks;
+    Long currentAmountOfIncompletedTasks;
     FirebaseFirestore database = FirebaseFirestore.getInstance();
     FirebaseAuth myFirebaseAuth = FirebaseAuth.getInstance();;
     FirebaseUser currentUser = myFirebaseAuth.getCurrentUser();
     MyNotificationClass myNotification = new MyNotificationClass();
+    String currentUserMail = currentUser.getEmail();
+    String projetName;
+    String currentUserName;
 
-
-    private String currentUserMail = currentUser.getEmail();
-    private String projetName;
-    private String currentUserName;
-    Long currentAmountOfCompletedTasks;
-    int assigner;
-    Long currentAmountOfIncompletedTasks;
-    int assignerTwo;
-
-    public MyTasksAdapter(@NonNull FirestoreRecyclerOptions<Task> options, String projetName) {
+    //Adapter initialize
+    public MyTasksAdapter(@NonNull FirestoreRecyclerOptions<Task> options, String projetName)
+    {
         super(options);
         this.projetName = projetName;
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull final MyTasksHolder holder, int position, @NonNull final Task model) {
+    protected void onBindViewHolder(@NonNull final MyTasksHolder holder, int position, @NonNull final Task model)
+    {
         holder.taskName.setText(model.getTask_name());
         holder.taskDesc.setText(model.getTask_description());
         holder.taskDueDate.setText(model.getTask_due_date());
@@ -69,11 +71,14 @@ public class MyTasksAdapter extends FirestoreRecyclerAdapter<Task, MyTasksAdapte
             }
         });
 
-        holder.buttonFinish.setOnClickListener(new View.OnClickListener() {
+        holder.buttonFinish.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 DocumentReference theTask = database.collection("ProJets").document(projetName).collection("Tasks")
                         .document(model.getTask_name());
+
                 theTask.update("task_status", true);
 
                 //Incrementing total_completed_tasks attribute by 1 since the task is declared as completed above.
@@ -110,7 +115,7 @@ public class MyTasksAdapter extends FirestoreRecyclerAdapter<Task, MyTasksAdapte
                 });
 
                 //NOTIFICATION SENDING PART
-                // To find projet members collection and get the e-mails.
+                // To find ProJet members collection and get the e-mails.
                 // moveData function is used for find e-mails
                 // Function "useInfo" which is a part of" moveData" enables us to use these mails to send notification to all members.
                 Query queryEmail = database.collection("ProJets").document(projetName).collection("Members");
@@ -148,20 +153,26 @@ public class MyTasksAdapter extends FirestoreRecyclerAdapter<Task, MyTasksAdapte
 
     @NonNull
     @Override
-    public MyTasksHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
+    public MyTasksHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_task_item,parent,false);
         return new MyTasksHolder(v);
     }
 
-    class MyTasksHolder extends RecyclerView.ViewHolder{
+    /**
+     * Class for recycler view and view holder to work together
+     * Processes the information of each task of "mine" and assigns them to the TextView to be seen
+     */
+    class MyTasksHolder extends RecyclerView.ViewHolder
+    {
         TextView taskName;
         TextView taskDesc;
         TextView taskDueDate;
-
         ImageButton buttonFinish;
         ImageButton buttonLeave;
-        public MyTasksHolder(@NonNull View itemView) {
+
+        public MyTasksHolder(@NonNull View itemView)
+        {
             super(itemView);
             taskName = itemView.findViewById(R.id.textView_task_name_my_task_item);
             taskDesc = itemView.findViewById(R.id.textView_task_desc_my_task_item);
@@ -171,27 +182,33 @@ public class MyTasksAdapter extends FirestoreRecyclerAdapter<Task, MyTasksAdapte
         }
     }
 
-    // The OnCompleteListener method is an asynchronous method. So, we cannot move the informations outside of the method.
-    // To do that, we create a new method that takes parameters an interface called "getInformations" and a query that we want to implement this method on.
-    // What does this method do? It is a normal method until the line "getInformations.useInfo(eventlist)".
-    // While this method is being used, the inner method is already completed. So, we can get the informations and we use them in "useInfo" method.
-    public void moveData(final GetInformations getInformations, Query query) {
-        query.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull com.google.android.gms.tasks.Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            List<String> eventList = new ArrayList<>();
+    //The OnCompleteListener method is an asynchronous method. So, we cannot move the informations outside of the method.
+    //To do that, we create a new method that takes parameters an interface called "getInformations" and a query that we want to implement this method on.
+    //What does this method do? It is a normal method until the line "getInformations.useInfo(eventlist)".
+    //While this method is being used, the inner method is already completed. So, we can get the informations and we use them in "useInfo" method.
+    public void moveData(final GetInformations getInformations, Query query)
+    {
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+        {
+            @Override
+            public void onComplete(@NonNull com.google.android.gms.tasks.Task<QuerySnapshot> task)
+            {
+                if (task.isSuccessful())
+                {
+                    List<String> eventList = new ArrayList<>();
 
-                            for(DocumentSnapshot doc : task.getResult()) {
-                                String e = doc.getId().toString();
-                                eventList.add(e);
-                            }
-                            getInformations.useInfo(eventList);
-                        } else {
-                            Log.e("QuerySnapshot Error!", "There is a problem while getting documents!");
-                        }
+                    for(DocumentSnapshot doc : task.getResult())
+                    {
+                        String e = doc.getId();
+                        eventList.add(e);
                     }
-                });
+                    getInformations.useInfo(eventList);
+                }
+                else
+                {
+                    Log.e("QuerySnapshot Error!", "There is a problem while getting documents!");
+                }
+            }
+        });
     }
 }

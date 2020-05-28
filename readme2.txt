@@ -66,7 +66,10 @@ so there are no further tasks remains to be done (except for video conference fe
 -Pop-Up dialog design & implementation (discarded later)
 -Help page design & implementation
 -First version of the settings page
--Some of the layout files (.xml files)
+-Design and implementation of following:
+  *SlideActivity
+  *SlideViewPagerAdapter
+
 
 ***Amir Aliyev***
 -Member did not contribute-

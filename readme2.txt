@@ -47,11 +47,8 @@ so there are no further tasks remains to be done (except for video conference fe
 -Firebase Real-time Data Update Implementation (with RecyclerView)
 -OneSignal Notification System (with Berke)
 -Design and implementation of following:
-  -Nearly all of the projet.classes package
-  (Member, Message, NotificationPage, ProgressBarDay, ProgressBarTask, ProJet, Task) classes
-  -Nearly all of the projet.adapters package
-  (CompletedTasks, Member, Message, MyTasks, Notification, ProgressBars, Projet, Task) adapters
-  -Interactions of classes and the adapters with the activities(pages)
+  -(Member, Message, NotificationPage, ProgressBarDay, ProgressBarTask, ProJet, Task) classes and interactions with pages
+  -(CompletedTasks, Member, Message, MyTasks, Notification, ProgressBars, Projet, Task) adapters and interactions with pages
   *CompletedTasksActivity
   *MembersPageactivity
   *MyTasksActivity
@@ -60,7 +57,7 @@ so there are no further tasks remains to be done (except for video conference fe
   *ProjetMainPageActivity(with Burak)
   *ProjectPageActivity(with Burak)
   *FragmentCurrentTasks
-  *Interface: GetInformations
+  *GetInformations
   
 ***Deniz Berkant Demirörs***
 -Pop-Up dialog design & implementation (discarded later)

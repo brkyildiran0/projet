@@ -27,15 +27,15 @@ import java.util.Map;
 
 public class SettingsActivity extends AppCompatActivity
 {
+    //Global Variables
     String currentUserMail;
-    FirebaseFirestore database;
-    FirebaseAuth myFirebaseAuth;
-    FirebaseUser currentUser;
-
     EditText newNameInput;
     ImageButton buttonChangeName;
     ImageButton enableDarkMode;
     ImageButton disableDarkMode;
+    FirebaseFirestore database;
+    FirebaseAuth myFirebaseAuth;
+    FirebaseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

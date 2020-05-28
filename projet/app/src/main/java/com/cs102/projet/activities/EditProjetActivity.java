@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -15,17 +16,24 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cs102.projet.R;
+import com.cs102.projet.interfaces.GetInformations;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class EditProjetActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener
@@ -209,5 +217,34 @@ public class EditProjetActivity extends AppCompatActivity implements DatePickerD
     {
         String assigner = hourOfDay + ":" + minute;
         editTextProjetDueHour.setText(assigner);
+    }
+
+    //The OnCompleteListener method is an asynchronous method. So, we cannot move the informations outside of the method.
+    //To do that, we create a new method that takes parameters an interface called "getInformations" and a query that we want to implement this method on.
+    //What does this method do? It is a normal method until the line "getInformations.useInfo(eventlist)".
+    //While this method is being used, the inner method is already completed. So, we can get the informations and we use them in "useInfo" method.
+    public void moveData(final GetInformations getInformations, Query query)
+    {
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+        {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task)
+            {
+                if (task.isSuccessful())
+                {
+                    List<String> eventList = new ArrayList<>();
+                    for(DocumentSnapshot doc : task.getResult())
+                    {
+                        String e = doc.getId();
+                        eventList.add(e);
+                    }
+                    getInformations.useInfo(eventList);
+                }
+                else
+                {
+                    Log.e("QuerySnapshot Error!", "There is a problem while getting documents!");
+                }
+            }
+        });
     }
 }

@@ -22,12 +22,11 @@ import com.google.firebase.firestore.Query;
 
 public class TaskPageActivity extends AppCompatActivity
 {
-    public String projetName;
-
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference itemRef = db.collection("ProJets");
-
-    private TaskAdapter adapter;
+    //Global Variables
+    String projetName;
+    TaskAdapter adapter;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    CollectionReference itemRef = db.collection("ProJets");
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -43,31 +42,40 @@ public class TaskPageActivity extends AppCompatActivity
         setUpRecyclerView(projetName);
     }
 
-
-    private void setUpRecyclerView(String getProjetName){
-
+    private void setUpRecyclerView(String getProjetName)
+    {
         CollectionReference lastItemRef = itemRef.document(getProjetName).collection("Tasks");
+
+        //Initializing a query to find out tasks of ProJet
         Query query = lastItemRef.whereEqualTo("task_owner", "")
                 .whereEqualTo("task_status", false);
         FirestoreRecyclerOptions<Task> options = new FirestoreRecyclerOptions.Builder<Task>()
                 .setQuery(query, Task.class).build();
 
+        //Connecting adapters of recycler view to it
         adapter = new TaskAdapter(options, projetName);
         RecyclerView recyclerView = findViewById(R.id.recycler_view_task_page);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(TaskPageActivity.this));
         recyclerView.setAdapter(adapter);
-
     }
 
+    /**
+     * Necessary method for real-time(recycleView) view of page to work
+     */
     @Override
-    protected void onStart() {
+    protected void onStart()
+    {
         super.onStart();
         adapter.startListening();
     }
 
+    /**
+     * Necessary method for real-time(recycleView) view of page to work
+     */
     @Override
-    protected void onStop() {
+    protected void onStop()
+    {
         super.onStop();
         adapter.stopListening();
     }

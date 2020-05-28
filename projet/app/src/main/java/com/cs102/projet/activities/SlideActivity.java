@@ -8,8 +8,9 @@ import android.os.Bundle;
 import com.cs102.projet.R;
 import com.cs102.projet.adapters.SlideViewPagerAdapter;
 
-public class SlideActivity extends AppCompatActivity {
-
+public class SlideActivity extends AppCompatActivity
+{
+    //Global Variables
     public static ViewPager viewPager;
     SlideViewPagerAdapter adapter;
 
@@ -19,11 +20,10 @@ public class SlideActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_slide);
 
-        // adding activity slides
+        //Adding the slides to the activity by using the adapter
         viewPager = findViewById(R.id.viewpager);
         adapter = new SlideViewPagerAdapter(this);
         viewPager.setAdapter(adapter);
-
     }
 }
     

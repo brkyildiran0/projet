@@ -342,4 +342,32 @@ public class ProjectPageActivity extends AppCompatActivity
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    //The OnCompleteListener method is an asynchronous method. So, we cannot move the informations outside of the method.
+    //To do that, we create a new method that takes parameters an interface called "getInformations" and a query that we want to implement this method on.
+    //What does this method do? It is a normal method until the line "getInformations.useInfo(eventlist)".
+    //While this method is being used, the inner method is already completed. So, we can get the informations and we use them in "useInfo" method.
+    public void moveData(final GetInformations getInformations, Query query)
+    {
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+        {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task)
+            {
+                if (task.isSuccessful()) {
+                    List<String> eventList = new ArrayList<>();
+
+                    for(DocumentSnapshot doc : task.getResult())
+                    {
+                        doc.get("task_owner").toString();
+                    }
+                    getInformations.useInfo(eventList);
+                }
+                else
+                {
+                    Log.e("QuerySnapshot Error!", "There is a problem while getting documents!");
+                }
+            }
+        });
+    }
 }

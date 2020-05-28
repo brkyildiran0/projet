@@ -62,14 +62,13 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
     FirebaseUser currentUser;
     Long currentAmountOfUncompletedTasks;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
 
-        //Getting the projet name from ProJet page
+        //Getting the ProJet name from ProJet page
         Bundle extras = getIntent().getExtras();
         assert extras != null;
         projetName = extras.getString("projetName");

@@ -17,8 +17,9 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class ForgetPasswordActivity extends AppCompatActivity
 {
-    private Button resetPass;
-    private EditText editTextEmail;
+    //Global Variables
+    Button resetPass;
+    EditText editTextEmail;
     FirebaseAuth myFirebaseAuth;
 
     @Override

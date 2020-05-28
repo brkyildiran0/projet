@@ -30,6 +30,7 @@ import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity
 {
+    //Global Variables
     FirebaseFirestore database;
     FirebaseAuth myFirebaseAuth;
     EditText userNameInput;
@@ -63,9 +64,13 @@ public class RegisterActivity extends AppCompatActivity
 
                 //Handling Empty Input
                 if (emailInput.getText().toString().isEmpty())
+                {
                     emailInput.setError("Please enter your e-mail!");
+                }
                 else if (passwordInput.getText().toString().isEmpty())
+                {
                     passwordInput.setError("Please enter your password");
+                }
                 else if (emailInput.getText().toString().isEmpty() && passwordInput.getText().toString().isEmpty())
                 {
                     Toast.makeText(RegisterActivity.this, "Fill all gaps!", Toast.LENGTH_SHORT).show();

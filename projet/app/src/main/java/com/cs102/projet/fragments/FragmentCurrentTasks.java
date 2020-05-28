@@ -14,28 +14,32 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 
 import com.cs102.projet.R;
 
-public class FragmentCurrentTasks extends Fragment {
-
+public class FragmentCurrentTasks extends Fragment
+{
+    //Properties
     private TextView taskName;
     private TextView projetName;
     private TextView taskDueDate;
     private View dividerPriority;
-
     private String task_name;
     private String projet_name;
     private String task_due_date;
     private Long task_priority_fragment;
 
-    public FragmentCurrentTasks() {
+    //Constructors
+    public FragmentCurrentTasks()
+    {
     }
 
-    public FragmentCurrentTasks(String task_name, String projet_name, String task_due_date, Long task_priority_fragment) {
+    public FragmentCurrentTasks(String task_name, String projet_name, String task_due_date, Long task_priority_fragment)
+    {
         this.task_name = task_name;
         this.projet_name = projet_name;
         this.task_due_date = task_due_date;
         this.task_priority_fragment = task_priority_fragment;
     }
 
+    //Methods
     public String getTask_name() {
         return task_name;
     }
@@ -54,23 +58,30 @@ public class FragmentCurrentTasks extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    {
         View rootView = inflater.inflate(R.layout.fragment_current_tasks, container, false);
+
         taskDueDate = rootView.findViewById(R.id.taskDueDate_fragment);
         taskName = rootView.findViewById(R.id.taskName_fragment);
         projetName = rootView.findViewById(R.id.projetName_fragment);
         dividerPriority = rootView.findViewById(R.id.dividerPriority_fragment);
+
         taskName.setText(this.task_name);
         taskDueDate.setText(task_due_date);
         projetName.setText(projet_name);
-        if(this.task_priority_fragment == 1){
+
+        //Handling the different colors for properties with different properties
+        if(this.task_priority_fragment == 1)
+        {
             dividerPriority.setBackgroundColor(Color.GREEN);
         }
-        else if(this.task_priority_fragment == 2){
+        else if(this.task_priority_fragment == 2)
+        {
             dividerPriority.setBackgroundColor(Color.YELLOW);
         }
-        else{
+        else
+        {
             dividerPriority.setBackgroundColor(Color.RED);
         }
 

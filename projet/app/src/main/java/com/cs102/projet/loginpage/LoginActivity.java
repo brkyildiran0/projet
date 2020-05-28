@@ -26,6 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginActivity extends AppCompatActivity
 {
+    //Global Variables
     FirebaseAuth myFirebaseAuth;
     EditText email;
     EditText password;
@@ -79,8 +80,6 @@ public class LoginActivity extends AppCompatActivity
                     }
                 }
             });
-
-
 
             //If user already logged in, go to main page.
             Intent intent = new Intent(LoginActivity.this, ProjetMainPageActivity.class);

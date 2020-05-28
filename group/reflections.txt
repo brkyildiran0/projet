@@ -27,4 +27,4 @@ We are not sure about the overall spent time as a group, but almost all active m
 of the developement and coding process.
 
 **Finally**
-We are proud of what we have achieved: A fully working(almost!) and complete android app that can actually be used by people!
+We are proud of what we have achieved: A fully complete and working android app that can actually be used by people!

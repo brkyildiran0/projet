@@ -1,9 +1,5 @@
 # CS102 ~ Design Project ~ Spring 2019/20
-[Computer Engineering Department, Bilkent University](http://w3.cs.bilkent.edu.tr/en/).  
-The information and code in this repository are submitted in partial fulfillment of the CS102 Semester Design Project. Except where explicitly stated, the work is that of the group members listed below (who are expected to follow ethical academic & professional practice).
-****
-## g2J ~~ ProJet! ~~
-****
+[Computer Engineering Department, Bilkent University](http://w3.cs.bilkent.edu.tr/en/).
 ### ~ Team ProJet ~
 
 ## Project Description
@@ -23,8 +19,3 @@ The information and code in this repository are submitted in partial fulfillment
 - [Celal Berke Can](group/member2_log.md)
 - [Deniz Berkant Demirörs](group/member3_log.md)
 - [Yüksel Berkay Erdem](group/member4_log.md)
-- [Amir Aliyev](group/member5_log.md) (did not contribute)
-
-****
-**Instructor:** David Davenport   **TA:**  Atakan Serbes
-****

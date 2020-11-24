@@ -1,4 +1,4 @@
-# CS102 ~ Design Project ~ Spring 2019/20
+# ProJet!
 [Computer Engineering Department, Bilkent University](http://w3.cs.bilkent.edu.tr/en/).
 ### ~ Team ProJet ~
 
